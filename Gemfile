@@ -63,3 +63,7 @@ gem 'rails-i18n', '~> 5.1'
 gem 'omniauth'
 gem 'omniauth-facebook'
 gem 'omniauth-twitter'
+
+gem 'ransack'
+
+gem 'rakuten_web_service'
