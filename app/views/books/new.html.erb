@@ -1,7 +1,7 @@
 <div class="mb-5">
     <%= form_tag :book, method: :get do  %>
       <%= label_tag :title, 'タイトル検索' %>
-      <%= text_field_tag 'title', params[:title] %>
+      <%= text_field_tag 'title', params[:title], class: 'form-control mb-2'  %>
       <%= submit_tag "検索", class:'btn btn-primary' %>
     <% end %>
 </div>
