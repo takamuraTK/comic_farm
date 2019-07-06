@@ -6,10 +6,19 @@ Rails.application.routes.draw do
   end
   
   root to: 'toppages#index'
-  resources :users, :only => [:show]
   
-  get 'book', to: 'books#new'
+  resources :users, only: [:show] do
+    member do
+      get :subs
+    end
+  end
+  
+  resources :subscribes, only: [:create, :destroy]
+  
+  
+  get 'books', to: 'books#new'
   post 'books', to: 'books#create'
+  get 'books/:isbn',  to: 'books#show'
   
   
 end

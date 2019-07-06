@@ -67,3 +67,5 @@ gem 'omniauth-twitter'
 gem 'ransack'
 
 gem 'rakuten_web_service'
+
+gem 'friendly_id'
