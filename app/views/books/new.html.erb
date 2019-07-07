@@ -6,34 +6,29 @@
     <% end %>
 </div>
 
-    
-<% if @books.present? %>
+<div class="row">
+  <% if @books.present? %>
     <% @books.each do |book| %>
-    <div class="card mb-4" style="max-width: 1000px;">
+    
+    <div class="card mb-4 col-sm-6" >
+      <div class="row no-gutters">
+        <div class="p-1 col-md-5">
+          <img src="<%= book.image_url %>" alt="card-img-left">
+        </div>
         
-        <div class="row no-gutters">
-            
-            <div class="col-md-3 p-1">
-                <img src="<%= book.image_url %>">
-            </div>
-        
-            <div class="col-md-9">
-            <div class="card-body p-3">
-            
+            <div class="col-md-7">
+            <div class="card-body">
                 <p class="card-text"><%= book.publisherName %></p>
                 <h5 class="card-title"><%= link_to book.title, 'books/'+book.isbn %></h5>
                 <h6 class="card-subtitle mb-2 text-muted"><%= book.author %></h6>
-                
                 <p class="card-text">発売日　<%= book.salesDate %></p>
                 <p class="card-text"><%= book.url %></p>
-                
                 <a href="#" class="card-link">詳細</a>
             </div>
             </div>
+            
         </div>
-        
-    </div>
+      </div>
     <% end %>
-
-
 <% end %>
+</div>
