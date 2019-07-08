@@ -9,7 +9,7 @@ class User < ApplicationRecord
   
   
   def addsub(book)
-	  subscribes.find_or_create_by(book_id: book.id)
+	  subscribes.find_or_create_by!(book_id: book.id)
   end
   
   def removesub(book)
@@ -17,7 +17,8 @@ class User < ApplicationRecord
 	  subscribe.destroy if subscribe
   end
   
-  def checksub?(book)
+  def checksub?(comic)
+    book = Book.find_by(isbn: comic)
     self.books.include?(book)
   end
 end

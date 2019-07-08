@@ -17,8 +17,8 @@
                     <p class="card-text">@amazon <%= link_to amazonurl, amazonurl %></p>
                     <a href="#" class="card-link">詳細</a>
                     
-                    <%= render 'subscribes/sub_button', book: @book %>
-                    
+                    <%= render 'subscribes/sub_button', isbn: @book.isbn %>
+                    <!-- render追加しただけ -->
                     <br>
                     商品リンクなど
                 </div>

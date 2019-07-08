@@ -69,3 +69,5 @@ gem 'ransack'
 gem 'rakuten_web_service'
 
 gem 'friendly_id'
+
+gem 'pry-byebug', group: :development

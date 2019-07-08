@@ -37,7 +37,7 @@ class BooksController < ApplicationController
     end
   end
   
-  
+
 private
   
   def read(result)
