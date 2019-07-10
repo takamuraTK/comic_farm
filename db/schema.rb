@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_07_05_222821) do
+ActiveRecord::Schema.define(version: 2019_07_09_105808) do
 
   create_table "books", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "title"
@@ -22,6 +22,19 @@ ActiveRecord::Schema.define(version: 2019_07_05_222821) do
     t.string "image_url"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "reviews", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.bigint "user_id"
+    t.bigint "book_id"
+    t.text "content"
+    t.string "head"
+    t.float "point"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["book_id"], name: "index_reviews_on_book_id"
+    t.index ["user_id", "book_id"], name: "index_reviews_on_user_id_and_book_id", unique: true
+    t.index ["user_id"], name: "index_reviews_on_user_id"
   end
 
   create_table "subscribes", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
@@ -49,6 +62,8 @@ ActiveRecord::Schema.define(version: 2019_07_05_222821) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "reviews", "books"
+  add_foreign_key "reviews", "users"
   add_foreign_key "subscribes", "books"
   add_foreign_key "subscribes", "users"
 end

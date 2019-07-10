@@ -3,7 +3,6 @@ class SubscribesController < ApplicationController
     
     book = Book.find_or_initialize_by(isbn: params[:isbn_id])
     
-
     unless book.persisted?
         results = RakutenWebService::Books::Book.search(isbn: params[:isbn_id])
         book = Book.new(read(results.first))
@@ -43,8 +42,5 @@ private
       image_url: image_url,
     }
   end
-  
-  
-  
 end
 

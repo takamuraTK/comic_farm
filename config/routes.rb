@@ -21,4 +21,15 @@ Rails.application.routes.draw do
   get 'books/:isbn',  to: 'books#show'
   
   
+  # レビュールート
+  get 'reviews/show', to: 'reviews#show'
+  get 'reviews/new', to: 'reviews#new'
+  post 'review', to: 'reviews#create'
+  
+  resources :reviews
+  
+  # get 'books/:isbn/reviews/:id/edit', to: 'reviews#edit'
+  # post 'books/:isbn/reviews/:id/edit', to: 'reviews#update'
+  
+  
 end

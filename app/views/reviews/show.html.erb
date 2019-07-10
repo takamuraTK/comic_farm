@@ -1,0 +1,9 @@
+book_id:<%= @book_id %>
+
+review_head<%= @reviews.head %>
+review_content<%= @reviews.content %>
+review_point<%= @reviews.point %>
+
+<% @reviews.each do |review| %>
+  <%= review.head %>
+<% end %>

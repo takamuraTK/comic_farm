@@ -21,4 +21,8 @@ class User < ApplicationRecord
     book = Book.find_by(isbn: comic)
     self.books.include?(book)
   end
+  
+  
+  has_many :reviews
+  has_many :reviewbook, through: :reviews, source: :books
 end

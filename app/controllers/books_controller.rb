@@ -35,6 +35,8 @@ class BooksController < ApplicationController
       @book = Book.new(read(results.first))
       @book.save
     end
+    
+    
   end
   
 
