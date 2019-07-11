@@ -1,10 +1,11 @@
 class ReviewsController < ApplicationController
   def index
+    @book_id = params[:id]
+    @reviews = Review.where(book_id: @book_id)
   end
 
   def show
-    @book_id = params[:id]
-    @reviews = Review.find_by(book_id: params[:id])
+    
   end
 
   def new

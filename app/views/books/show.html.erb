@@ -11,16 +11,18 @@
                 <h6 class="card-subtitle mb-2 text-muted"><%= @book.author %></h6>
                 
                 <p class="card-text">発売日　<%= @book.salesDate %></p>
-                <p class="card-text"><%= @book.isbn %></p>
-                <p class="card-text"><%= link_to @book.url, @book.url, target:'_blank' %></p>
-                <% amazonurl = "http://www.amazon.co.jp/dp/#{@book.isbn}" %>
-                <p class="card-text">@amazon <%= link_to amazonurl, amazonurl %></p>
-                <a href="#" class="card-link">詳細</a>
+                <p class="card-text">isbn:<%= @book.isbn %></p>
                 
                 <%= render 'subscribes/sub_button', isbn: @book.isbn %>
+                <%= link_to 'レビューを書く', reviews_new_path(id: @book.id), class:"btn btn-info" %>
+                <%= link_to 'レビューをみる', reviews_path(id: @book.id), class:'btn btn-success' %>
+                <div class="mt-2 mb-2">
+                  <%= link_to '楽天', @book.url, class: 'card-link btn-sm btn-dark ml-1', target:'blank' %>
+                  <% amazonurl = "http://www.amazon.co.jp/dp/#{change_isbn(@book.isbn)}" %>
+                  <%= link_to 'Amazon', amazonurl, class: 'card-link btn-sm btn-dark ml-1', target:'blank' %>
+                </div>
                 
-                <br>
-            
+                
         </div>
       </div>
     </div>
@@ -31,5 +33,5 @@
 </div>
 
 <div>
-  <%= link_to 'レビューをみる', reviews_show_path(id: @book.id) %>
+  <%= link_to 'レビューをみる', reviews_path(id: @book.id) %>
 </div>

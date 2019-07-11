@@ -30,7 +30,9 @@
                 <%= render 'subscribes/sub_button', isbn: book.isbn %>
                 <div class="mt-2">
                   <a href="<%= book.url %>" class="card-link btn-sm btn-dark" target="_blank">楽天</a>
-                  <a href="#" class="card-link btn-sm btn-dark ml-1" target="_blank">Amazon</a>
+                  <% amazonurl = "http://www.amazon.co.jp/dp/#{change_isbn(book.isbn)}" %>
+                  <a href="<%= amazonurl %>" class="card-link btn-sm btn-dark ml-1" target="_blank">Amazon</a>
+                  
                 </div>
             </div>
           </div>
