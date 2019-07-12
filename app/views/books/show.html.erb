@@ -21,17 +21,8 @@
                   <% amazonurl = "http://www.amazon.co.jp/dp/#{change_isbn(@book.isbn)}" %>
                   <%= link_to 'Amazon', amazonurl, class: 'card-link btn-sm btn-dark ml-1', target:'blank' %>
                 </div>
-                
-                
         </div>
       </div>
     </div>
   </div>
   
-<div>
-  <%= link_to 'レビューを書く', reviews_new_path(id: @book.id) %>
-</div>
-
-<div>
-  <%= link_to 'レビューをみる', reviews_path(id: @book.id) %>
-</div>

@@ -20,16 +20,19 @@ Rails.application.routes.draw do
   post 'books', to: 'books#create'
   get 'books/:isbn',  to: 'books#show'
   
-  resources :books do
-    member do
-      get 'reviews/new'
-    end
-  end
+  
   
   # レビュールート
   get 'reviews', to: 'reviews#index'
   get 'reviews/new', to: 'reviews#new'
-  post 'review', to: 'reviews#create'
+  # get 'books/:isbn/reviews/new', to: 'reviews#new'
+  post 'reviews', to: 'reviews#create'
+  
+  get 'reviews/:id', to: 'reviews#show'
+  
+  # get 'reviews/:id/edit', to: 'reviews#edit'
+  
+  delete 'reviews/:id', to: 'reviews#destroy'
   
   resources :reviews
   

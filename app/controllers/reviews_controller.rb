@@ -5,7 +5,8 @@ class ReviewsController < ApplicationController
   end
 
   def show
-    
+    @review = Review.find(params[:id])
+    @review_book = Book.find(@review.book_id)
   end
 
   def new
@@ -35,9 +36,29 @@ class ReviewsController < ApplicationController
   end
 
   def edit
+    @review = Review.find(params[:id])
+    @book_id = Book.find(@review.book_id)
   end
 
   def update
+    @review = Review.find(params[:id])
+    
+  
+    if @review.update(review_params)
+      flash[:success] = 'レビューは正常に更新されました'
+      redirect_to @review
+    else
+      flash.now[:danger] = 'レビューは更新されませんでした'
+      render :edit
+    end
+  end
+  
+  def destroy
+    @review = Review.find(params[:id])
+    @review.destroy
+
+    flash[:success] = 'レビューは正常に削除されました'
+    redirect_to review_path(review.id)
   end
   
 private
