@@ -39,6 +39,13 @@ class BooksController < ApplicationController
     
   end
   
+  def ranking
+    @book_subs_count = Book.joins(:subscribes).group(:book_id).count
+    @book_subs_ids = Hash[@book_subs_count.sort_by{ |_, v| -v }].keys
+    @book_ranking = Book.where(id: @book_subs_ids)
+    
+  end
+  
 
 private
   

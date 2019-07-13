@@ -20,7 +20,7 @@ Rails.application.routes.draw do
   post 'books', to: 'books#create'
   get 'books/:isbn',  to: 'books#show'
   
-  
+  get 'subscribe-ranking', to: 'books#ranking'
   
   # レビュールート
   get 'reviews', to: 'reviews#index'
