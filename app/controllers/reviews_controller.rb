@@ -12,7 +12,7 @@ class ReviewsController < ApplicationController
   def new
     @review = Review.new
     @book_id = params[:id]
-    
+    @book = Book.find(@book_id)
   end
   
 
