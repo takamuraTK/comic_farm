@@ -15,7 +15,11 @@
             <h5 class="card-title"><%= link_to comic.title, books_path + '/'+comic.isbn %></h5>
             <h6 class="card-subtitle mb-2 text-muted"><%= comic.author %></h6>
             <p class="card-text">発売日　<%= comic.salesDate %></p>
-            <p class="card-text"><%= comic.url %></p>
+            <div class="mt-2 mb-2">
+              <%= link_to '楽天', comic.url, class: 'card-link btn-sm btn-dark ml-1', target:'blank' %>
+              <% amazonurl = "http://www.amazon.co.jp/dp/#{change_isbn(comic.isbn)}" %>
+              <%= link_to 'Amazon', amazonurl, class: 'card-link btn-sm btn-dark ml-1', target:'blank' %>
+            </div>
         </div>
         </div>
     </div>
