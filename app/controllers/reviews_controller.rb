@@ -1,15 +1,30 @@
 class ReviewsController < ApplicationController
+  before_action :correct_user, only: [:edit,:destroy]
+  
   def index
+    unless user_signed_in?
+      flash[:warning] = 'レビューをみるにはログインが必要です。'
+      redirect_to user_session_path
+    end
     @book_id = params[:id]
     @reviews = Review.where(book_id: @book_id)
   end
 
   def show
+    unless user_signed_in?
+      flash[:warning] = 'レビューをみるにはログインが必要です。'
+      redirect_to user_session_path
+    end
     @review = Review.find(params[:id])
     @review_book = Book.find(@review.book_id)
+    @user = User.find(@review.user_id)
   end
 
   def new
+    unless user_signed_in?
+      flash[:warning] = 'レビューを書くにはログインが必要です。'
+      redirect_to user_session_path
+    end
     @review = Review.new
     @book_id = params[:id]
     @book = Book.find(@book_id)
@@ -24,8 +39,6 @@ class ReviewsController < ApplicationController
       content: review_params["content"],
       point: review_params["point"],
       )
-    
-    
     if @review.save
       flash[:success] = 'レビュー が正常に投稿されました'
       redirect_to reviews_new_path
@@ -36,7 +49,7 @@ class ReviewsController < ApplicationController
   end
 
   def edit
-    @review = Review.find(params[:id])
+    # @review = Review.find(params[:id])
     @book_id = Book.find(@review.book_id)
   end
 
@@ -54,16 +67,26 @@ class ReviewsController < ApplicationController
   end
   
   def destroy
-    @review = Review.find(params[:id])
+    # @review = Review.find(params[:id])
+    
     @review.destroy
 
     flash[:success] = 'レビューは正常に削除されました'
-    redirect_to review_path(review.id)
+    # redirect_to review_path(review.id)
+    redirect_back(fallback_location: root_path)
   end
   
 private
   def review_params
     params.require(:review).permit(:head,:content,:point)
   end
-
+  
+  def correct_user
+    @review = current_user.reviews.find(params[:id])
+    if current_user.id != @review.user_id
+      flash[:warning] = "権限がありません"
+      redirect_to root_path
+    end
+  end
+  
 end

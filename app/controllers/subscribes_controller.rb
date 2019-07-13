@@ -1,6 +1,5 @@
 class SubscribesController < ApplicationController
   def create
-    
     book = Book.find_or_initialize_by(isbn: params[:isbn_id])
     
     unless book.persisted?

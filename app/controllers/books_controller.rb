@@ -1,9 +1,11 @@
 class BooksController < ApplicationController
   def new
+    unless user_signed_in?
+      flash[:warning] = '漫画を探すにはログインが必要です。'
+      redirect_to user_session_path
+    end
     @books = []
-    
     @title = params[:title]
-    
     if @title.present?
       results = RakutenWebService::Books::Book.search({
         title: @title,
@@ -29,21 +31,26 @@ class BooksController < ApplicationController
   
   
   def show
+    unless user_signed_in?
+      flash[:warning] = '漫画の詳細ページをみるにはログインが必要です。'
+      redirect_to user_session_path
+    end
     @book = Book.find_or_initialize_by(isbn: params[:isbn])
     unless @book.persisted?
       results = RakutenWebService::Books::Book.search(isbn: @book.isbn)
       @book = Book.new(read(results.first))
       @book.save
     end
-    
-    
   end
   
   def ranking
+    unless user_signed_in?
+      flash[:warning] = '登録数ランキングをみるにはログインが必要です。'
+      redirect_to user_session_path
+    end
     @book_subs_count = Book.joins(:subscribes).group(:book_id).count
     @book_subs_ids = Hash[@book_subs_count.sort_by{ |_, v| -v }].keys
     @book_ranking = Book.where(id: @book_subs_ids)
-    
   end
   
 
