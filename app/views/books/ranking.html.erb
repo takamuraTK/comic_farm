@@ -1,9 +1,9 @@
 <% rank = 1 %>
-
-  
-  
   <% @book_ranking.each do |comic| %>
-    <h4><%= rank %>位</h4>（登録数：<%= @book_subs_count[comic.id] %>）
+    <h4>
+      <%= @rank %>位
+      </h4>
+    （登録数：<%= @book_subs_count[comic.id] %>）
     <div class="card mb-4" style="max-width: 1000px;">
     <div class="row no-gutters">
         <div class="col-md-3 p-1">
@@ -24,5 +24,6 @@
         </div>
     </div>
   </div>
-  <% rank+=1 %>
+  <% @rank+=1 %>
 <% end %>
+<%= paginate @book_ranking %>

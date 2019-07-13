@@ -50,7 +50,14 @@ class BooksController < ApplicationController
     end
     @book_subs_count = Book.joins(:subscribes).group(:book_id).count
     @book_subs_ids = Hash[@book_subs_count.sort_by{ |_, v| -v }].keys
-    @book_ranking = Book.where(id: @book_subs_ids)
+    @book_ranking = Book.where(id: @book_subs_ids).page(params[:page]).per(10)
+    
+    if params[:page].nil?
+      @rank = 1
+    else
+      page = params[:page].to_i
+      @rank = (page -1)*10 + 1
+    end
   end
   
 
