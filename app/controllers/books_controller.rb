@@ -16,6 +16,7 @@ class BooksController < ApplicationController
         @books << book
       end
     end
+    @books = Kaminari.paginate_array(@books).page(params[:page]).per(15)
   end
   
   def monthly

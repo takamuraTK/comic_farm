@@ -17,8 +17,9 @@
   
   <div class="m-4">
     <%= f.label :point, '評価（0~5で評価、小数可）' %>
-    <%= f.number_field :point, class: 'form-control' %>
+    <%= f.number_field :point, step: 0.1, min: 0, max: 5, value: 5, class: 'form-control' %>
   </div>
   
   <%= f.submit '送信する', class: 'btn btn-primary m-4'%>
 <% end %>
+

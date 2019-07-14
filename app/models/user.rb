@@ -7,6 +7,9 @@ class User < ApplicationRecord
   has_many :subscribes
   has_many :books, through: :subscribes
   
+  has_many :favorites
+  has_many :favbooks, through: :favorites, source: :book
+  
   
   def addsub(book)
 	  subscribes.find_or_create_by!(book_id: book.id)
@@ -20,6 +23,19 @@ class User < ApplicationRecord
   def checksub?(comic)
     book = Book.find_by(isbn: comic)
     self.books.include?(book)
+  end
+  
+  def addfav(book)
+    favorites.find_or_create_by(book_id: book.id)
+  end
+  
+  def removefav(book)
+    favorite = favorites.find_by(book_id: book.id)
+    favorite.destroy if favorite
+  end
+  
+  def checkfav?(book)
+    self.favbooks.include?(book)
   end
   
   

@@ -1,0 +1,12 @@
+<% book = Book.find_by(isbn: isbn) %>
+<% if current_user.checkfav?(book) %>
+  <%= form_with(model: current_user.favorites.find_by(book_id: current_user.favbooks.find_by(isbn: book.isbn).id), local: true, method: :delete) do |f| %>
+    <%= hidden_field_tag :isbn_id, isbn %>
+    <%= f.submit 'お気に入り解除', class: 'btn btn-danger w-100 mt-1 mb-1' %>
+  <% end %>
+<% else %>
+  <%= form_with(model: current_user.favorites.build, local: true) do |f| %>
+    <%= hidden_field_tag :isbn_id, isbn %>
+    <%= f.submit 'お気に入り登録する', class: 'btn btn-warning w-100 mt-1 mb-1' %>
+  <% end %>
+<% end %>

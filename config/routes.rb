@@ -14,6 +14,7 @@ Rails.application.routes.draw do
   end
   
   resources :subscribes, only: [:create, :destroy]
+  resources :favorites, only: [:create, :destroy]
   
   
   get 'books', to: 'books#new'
