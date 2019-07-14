@@ -41,7 +41,7 @@ class ReviewsController < ApplicationController
       )
     if @review.save
       flash[:success] = 'レビュー が正常に投稿されました'
-      redirect_to reviews_new_path
+      redirect_to books_path(@reviews.book.isbn)
     else
       flash.now[:danger] = 'レビュー が投稿されませんでした'
       render reviews_new_path

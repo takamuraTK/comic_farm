@@ -22,6 +22,8 @@ Rails.application.routes.draw do
   
   get 'subscribe-ranking', to: 'books#ranking'
   
+  get 'monthly', to: 'books#monthly'
+  
   # レビュールート
   get 'reviews', to: 'reviews#index'
   get 'reviews/new', to: 'reviews#new'

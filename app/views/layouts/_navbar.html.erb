@@ -9,6 +9,7 @@
       <ul class="navbar-nav mr-auto">
         <li class="nav-item"><%= link_to '漫画を探す', books_path, class: 'nav-link' %></li>
         <li class="nav-item"><%= link_to '登録数ランキング', '/subscribe-ranking', class: 'nav-link' %></li>
+        <li class="nav-item"><%= link_to '新刊検索', '/monthly', class: 'nav-link' %></li>
       </ul>
       
       <% if user_signed_in? %>

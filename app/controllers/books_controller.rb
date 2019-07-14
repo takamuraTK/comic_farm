@@ -18,6 +18,25 @@ class BooksController < ApplicationController
     end
   end
   
+  def monthly
+    unless user_signed_in?
+      flash[:warning] = '漫画を探すにはログインが必要です。'
+      redirect_to user_session_path
+    end
+    @books = []
+    @date = params[:date]
+    if @date.present?
+      results = RakutenWebService::Books::Book.search({
+        salesDate: @date,
+        booksGenreId: '001001'
+      })
+      results.each do |result|
+        book = Book.new(read(result))
+        @books << book
+      end
+    end
+  end
+  
   
   def create
     @book = Book.find_or_initialize_by(isbn: params[:isbn])
