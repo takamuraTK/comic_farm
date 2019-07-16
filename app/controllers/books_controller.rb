@@ -62,7 +62,7 @@ class BooksController < ApplicationController
       @rank = 1
     else
       page = params[:page].to_i
-      @rank = (page -1)*10 + 1
+      @rank = (page - 1)*10 + 1
     end
   end
   

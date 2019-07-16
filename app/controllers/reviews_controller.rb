@@ -77,7 +77,17 @@ class ReviewsController < ApplicationController
   end
   
   def ranking
+    @book_review_average = Book.joins(:reviews).group(:book_id).average(:point)
+    book_review_ids = Hash[@book_review_average.sort_by{ |_, v| -v }].keys
+    @review_ranking = Book.where(id: book_review_ids).page(params[:page]).per(10)
     
+    
+    if params[:page].nil?
+      @rank = 1
+    else
+      page = params[:page].to_i
+      @rank = (page - 1)*10 + 1
+    end
   end
   
 private
