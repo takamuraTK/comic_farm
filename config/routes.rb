@@ -25,18 +25,8 @@ Rails.application.routes.draw do
   get 'review-ranking', to: 'books#review_ranking'
   
   get 'monthly', to: 'books#monthly'
-  
-  # レビュールート
-  # get 'reviews', to: 'reviews#index'
-  # get 'reviews/new', to: 'reviews#new'
-  # post 'reviews', to: 'reviews#create'
-  
-  # get 'reviews/:id', to: 'reviews#show'
 
-  
-  # delete 'reviews/:id', to: 'reviews#destroy'
-  
-  resources :reviews, only: [:index, :new, :create, :show, :destroy]
+  resources :reviews
   
   
   
