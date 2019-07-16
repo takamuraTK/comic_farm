@@ -76,6 +76,10 @@ class ReviewsController < ApplicationController
     redirect_back(fallback_location: root_path)
   end
   
+  def ranking
+    
+  end
+  
 private
   def review_params
     params.require(:review).permit(:head,:content,:point)

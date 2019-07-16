@@ -22,6 +22,7 @@ Rails.application.routes.draw do
   get 'books/:isbn',  to: 'books#show'
   
   get 'subscribe-ranking', to: 'books#ranking'
+  get 'review-ranking', to: 'reviews#ranking'
   
   get 'monthly', to: 'books#monthly'
   
@@ -32,15 +33,12 @@ Rails.application.routes.draw do
   post 'reviews', to: 'reviews#create'
   
   get 'reviews/:id', to: 'reviews#show'
-  
-  # get 'reviews/:id/edit', to: 'reviews#edit'
+
   
   delete 'reviews/:id', to: 'reviews#destroy'
   
   resources :reviews
   
-  # get 'books/:isbn/reviews/:id/edit', to: 'reviews#edit'
-  # post 'books/:isbn/reviews/:id/edit', to: 'reviews#update'
   
   
 end

@@ -9,7 +9,8 @@ class BooksController < ApplicationController
     if @title.present?
       results = RakutenWebService::Books::Book.search({
         title: @title,
-        booksGenreId: '001001'
+        booksGenreId: '001001',
+        sort: '+releaseDate',
       })
       results.each do |result|
         book = Book.new(read(result))
@@ -20,22 +21,7 @@ class BooksController < ApplicationController
   end
   
   def monthly
-    unless user_signed_in?
-      flash[:warning] = '漫画を探すにはログインが必要です。'
-      redirect_to user_session_path
-    end
-    @books = []
-    @date = params[:date]
-    if @date.present?
-      results = RakutenWebService::Books::Book.search({
-        salesDate: @date,
-        booksGenreId: '001001'
-      })
-      results.each do |result|
-        book = Book.new(read(result))
-        @books << book
-      end
-    end
+    @books = Book.where("salesDate LIKE ?", "%2019年07月%")
   end
   
   
