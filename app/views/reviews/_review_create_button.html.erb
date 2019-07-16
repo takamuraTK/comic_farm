@@ -1,0 +1,5 @@
+<% if Book.find(book.id).reviewuser.include?(current_user) %>
+  <btn class="btn btn-info disabled">既にレビューを書いています</btn>
+<% else %>
+  <%= link_to 'レビューを書く', new_review_path(id: book.id), class:"btn btn-info" %>
+<% end %>

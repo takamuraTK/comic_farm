@@ -22,22 +22,21 @@ Rails.application.routes.draw do
   get 'books/:isbn',  to: 'books#show'
   
   get 'subscribe-ranking', to: 'books#ranking'
-  get 'review-ranking', to: 'reviews#ranking'
+  get 'review-ranking', to: 'books#review_ranking'
   
   get 'monthly', to: 'books#monthly'
   
   # レビュールート
-  get 'reviews', to: 'reviews#index'
-  get 'reviews/new', to: 'reviews#new'
-  # get 'books/:isbn/reviews/new', to: 'reviews#new'
-  post 'reviews', to: 'reviews#create'
+  # get 'reviews', to: 'reviews#index'
+  # get 'reviews/new', to: 'reviews#new'
+  # post 'reviews', to: 'reviews#create'
   
-  get 'reviews/:id', to: 'reviews#show'
+  # get 'reviews/:id', to: 'reviews#show'
 
   
-  delete 'reviews/:id', to: 'reviews#destroy'
+  # delete 'reviews/:id', to: 'reviews#destroy'
   
-  resources :reviews
+  resources :reviews, only: [:index, :new, :create, :show, :destroy]
   
   
   

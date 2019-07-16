@@ -40,5 +40,5 @@ class User < ApplicationRecord
   
   
   has_many :reviews
-  has_many :reviewbook, through: :reviews, source: :books
+  has_many :reviewbook, through: :reviews, source: :book
 end
