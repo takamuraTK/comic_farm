@@ -6,4 +6,7 @@ class ToppagesController < ApplicationController
       redirect_to user_session_path
     end
   end
+  
+  def howto
+  end
 end

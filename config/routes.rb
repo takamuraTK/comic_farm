@@ -25,6 +25,7 @@ Rails.application.routes.draw do
   get 'review-ranking', to: 'books#review_ranking'
   
   get 'monthly', to: 'books#monthly'
+  get 'howto', to: 'toppages#howto'
 
   resources :reviews
   
