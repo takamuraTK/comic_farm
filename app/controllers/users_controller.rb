@@ -6,7 +6,7 @@ class UsersController < ApplicationController
     end
     
     @user = User.find(params[:id])
-    @subs = @user.books.page(params[:page]).per(10)
+    @subs = @user.books.page(params[:page]).per(15)
     @reviews = Review.where(user_id: params[:id])
     
     @favs = @user.favbooks.page(params[:page]).per(10)
