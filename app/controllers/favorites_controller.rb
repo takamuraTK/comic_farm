@@ -1,13 +1,11 @@
 class FavoritesController < ApplicationController
   def create
     book = Book.find_or_initialize_by(isbn: params[:isbn_id])
-    
     unless book.persisted?
         results = RakutenWebService::Books::Book.search(isbn: params[:isbn_id])
         book = Book.new(read(results.first))
         book.save
     end
-    
     current_user.addfav(book)
     flash[:success] = "お気に入り登録をしました！"
     redirect_back(fallback_location: root_url)

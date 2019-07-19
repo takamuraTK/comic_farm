@@ -28,7 +28,7 @@
   <div class="card m-4 border-info">
     <div class="card-header">あなたがこの漫画に投稿したレビュー</div>
     <div class="card-body">
-      <h5 class="card-title"><%= review.head %></h5>
+      <h5 class="card-title"><%= link_to review.head, review_path(review.id) %></h5>
       <% review_book = Book.find(review.book_id) %>
       <h6 class="card-subtitle mb-2 text-muted"><%= review.created_at %>に投稿</h6>
       <h6 class="card-subtitle mb-2 text-muted">評価:<%= review.point %></h6>

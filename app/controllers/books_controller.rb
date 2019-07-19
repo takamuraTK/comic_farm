@@ -21,13 +21,13 @@ class BooksController < ApplicationController
   end
   
   def monthly
-    @books = Book.where("salesDate LIKE ?", "%2019年07月%")
+    @d = Date.today
+    @books = Book.where("salesDate LIKE ?", "%#{@d.year.to_s}年0#{@d.mon.to_s}月%")
   end
   
   
   def create
     @book = Book.find_or_initialize_by(isbn: params[:isbn])
-    
     unless @book.persisted?
       results = RakutenWebService::Books::Book.search(isbn: @book.isbn)
       @book = Book.new(read(results.first))
@@ -57,9 +57,6 @@ class BooksController < ApplicationController
     @book_subs_count = Book.joins(:subscribes).group(:book_id).count
     @book_subs_ids = Hash[@book_subs_count.sort_by{ |_, v| -v }].keys
     @book_ranking = Book.where(id: @book_subs_ids).page(params[:page]).per(10)
-    
-    
-    
     if params[:page].nil?
       @rank = 1
     else
@@ -72,8 +69,6 @@ class BooksController < ApplicationController
     @book_review_average = Book.joins(:reviews).group(:book_id).average(:point)
     book_review_ids = Hash[@book_review_average.sort_by{ |_, v| -v }].keys
     @review_ranking = Book.where(id: book_review_ids).order("FIELD(id, #{book_review_ids.join(',')})").page(params[:page]).per(10)
-    
-    
     if params[:page].nil?
       @rank = 1
     else

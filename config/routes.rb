@@ -19,7 +19,7 @@ Rails.application.routes.draw do
   
   get 'books', to: 'books#new'
   post 'books', to: 'books#create'
-  get 'books/:isbn',  to: 'books#show'
+  get 'books/:isbn',  to: 'books#show', as:'book'
   
   get 'subscribe-ranking', to: 'books#ranking'
   get 'review-ranking', to: 'books#review_ranking'
