@@ -71,6 +71,8 @@ class BooksController < ApplicationController
     # myspl
     @review_ranking = Book.where(id: book_review_ids).order("FIELD(id, #{book_review_ids.join(',')})").page(params[:page]).per(10)
     
+    
+    
     # def self.order_by_ids(ids)
     #   order_by = ["case"]
     #   ids.each_with_index.map do |id, index|

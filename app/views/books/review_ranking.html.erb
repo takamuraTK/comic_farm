@@ -2,8 +2,10 @@
   <% @review_ranking.each do |comic| %>
     <h4>
       <%= @rank %>位
-      </h4>
-    （平均評価：<%= @book_review_average[comic.id] %>）
+    </h4>
+    
+    <% point = BigDecimal(@book_review_average[comic.id].to_s).floor(2).to_f %>
+    （平均評価：<%= point %>）
     <div class="card mb-4" style="max-width: 1000px;">
     <div class="row no-gutters">
         <div class="col-md-3 p-1">
