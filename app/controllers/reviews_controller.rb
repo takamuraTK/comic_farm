@@ -45,8 +45,10 @@ class ReviewsController < ApplicationController
       flash[:success] = 'レビュー が正常に投稿されました'
       redirect_to book_path(@book.isbn)
     else
+      
       flash.now[:danger] = 'レビュー が投稿されませんでした'
-      render reviews_new_path
+      render reviews_error_path
+      
     end
   end
 
@@ -71,6 +73,9 @@ class ReviewsController < ApplicationController
     @review.destroy
     flash[:success] = 'レビューは正常に削除されました'
     redirect_to book_path(@book.isbn)
+  end
+  
+  def error
   end
   
 private
