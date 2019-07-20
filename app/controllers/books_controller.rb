@@ -22,7 +22,7 @@ class BooksController < ApplicationController
   
   def monthly
     @d = Date.today
-    @books = Book.where('sales"Date" LIKE ?', "%#{@d.year.to_s}年0#{@d.mon.to_s}月%")
+    @books = Book.where('salesDate LIKE ?', "%#{@d.year.to_s}年0#{@d.mon.to_s}月%")
   end
   
   
