@@ -43,10 +43,10 @@ class ReviewsController < ApplicationController
     @book = Book.find(params[:book_id])
     isbn = @book.isbn
     if @review.save
-      flash[:success] = 'レビュー が正常に投稿されました'
+      flash[:success] = 'レビューが正常に投稿されました'
       redirect_to book_path(isbn)
     else
-      flash.now[:danger] = 'レビュー が投稿されませんでした'
+      flash.now[:danger] = 'レビューが投稿されませんでした'
       # redirect_to review_new_path(isbn)
       render new_review_path
       

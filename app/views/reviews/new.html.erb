@@ -13,9 +13,7 @@
 
 <%= link_to @book.title, book_path(@book.isbn) %>のレビューを書きます。
 <%= form_with(model: @review, local: true) do |f| %>
-
-
-  <%= hidden_field_tag :book_id, @book_id %>
+  <%= hidden_field_tag :book_id, @book.id %>
   
   <div class="m-4">
     <%= f.label :head, 'レビュー名' %>
