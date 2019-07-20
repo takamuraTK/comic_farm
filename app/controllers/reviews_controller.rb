@@ -26,8 +26,9 @@ class ReviewsController < ApplicationController
       redirect_to user_session_path
     end
     @review = Review.new
-    @book_id = params[:id]
-    @book = Book.find(@book_id)
+    @book = Book.find_by(isbn: params[:isbn])
+    @book_id = @book.id
+    
   end
   
 

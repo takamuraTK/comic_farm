@@ -26,7 +26,9 @@ Rails.application.routes.draw do
   
   get 'monthly', to: 'books#monthly'
   get 'howto', to: 'toppages#howto'
-
+  
+  get 'books/:isbn/reviews/new', to: 'reviews#new', as:'review_new'
+  get 'reviews/index/:id', to: 'reviews#index', as:'review_index'
   resources :reviews
   
   

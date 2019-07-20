@@ -13,7 +13,7 @@
         <%= render 'subscribes/sub_button', isbn: @book.isbn %>
         <%= render 'favorites/fav_button', isbn: @book.isbn %>
         <%= render 'reviews/review_create_button', book: @book %>
-        <%= link_to 'レビューをみる', reviews_path(id: @book.id), class:'btn btn-success' %>
+        <%= link_to 'レビューをみる', review_index_path(@book.id), class:'btn btn-success' %>
         <div class="mt-2 mb-2">
           <%= link_to '楽天', @book.url, class: 'card-link btn-sm btn-dark ml-1', target:'blank' %>
           <% amazonurl = "http://www.amazon.co.jp/dp/#{change_isbn(@book.isbn)}" %>
