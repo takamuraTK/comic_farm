@@ -72,4 +72,4 @@ gem 'friendly_id'
 
 gem 'pry-byebug', group: :development
 
-gem 'pg', '>= 0.18', '< 2.0'
+gem 'therubyracer'
