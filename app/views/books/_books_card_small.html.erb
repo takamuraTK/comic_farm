@@ -1,15 +1,12 @@
 <div class="row">
   <% if books.present? %>
     <% books.each do |book| %>
-    
-    
     <div class="col-lg-4">
       <div class="card text-center bg-dark rounded-0 " style="height: 350px; ">
         <div class="p-0">
           <img src="<%= book.image_url %>" style="width:auto; height:350px;">
         </div>
       </div>
-    
       <div class="card mb-4 rounded-0" style="height:350px;">
         <div class="row no-gutters">
           <div class="card-body w-100" style="height:350px;">
@@ -25,11 +22,10 @@
                 <a href="<%= book.url %>" class="card-link btn-sm btn-dark" target="_blank">楽天</a>
                 <% amazonurl = "http://www.amazon.co.jp/dp/#{change_isbn(book.isbn)}" %>
                 <a href="<%= amazonurl %>" class="card-link btn-sm btn-dark ml-1" target="_blank">Amazon</a>
-              </div>
+            </div>
           </div>
         </div>
       </div>
-      
     </div>
     
     <% end %>
