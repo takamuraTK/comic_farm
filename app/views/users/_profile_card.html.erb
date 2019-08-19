@@ -1,7 +1,9 @@
 <div class="card">
 <div class="row no-gutters">
     <div class="col-md-4">
-      <%= image_tag @user.image.url, height: '200' %>
+      <% if @user.image? %>
+        <%= image_tag user.image.url, height: '200' %>
+      <% end %>
     </div>
     <div class="col-md-8">
       <div class="card-body">

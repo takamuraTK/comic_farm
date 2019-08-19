@@ -1,7 +1,8 @@
 <div class="mb-4"><h2><%= @user.name %>さんのページです</h2></div>
 <%= render 'profile_card', user: @user %>
+<% if @current_user.id == @user.id %>
 <%= link_to '編集する', edit_user_path %>
-
+<% end %>
 
 
 <!--タブボタン部分-->
