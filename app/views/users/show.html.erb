@@ -1,6 +1,11 @@
 <div class="mb-4"><h2><%= @user.name %>さんのページです</h2></div>
+<%= render 'profile_card', user: @user %>
+<%= link_to '編集する', edit_user_path %>
+
+
+
 <!--タブボタン部分-->
-<ul class="nav nav-tabs">
+<ul class="nav nav-tabs mt-3">
   <li class="nav-item">
     <a class="nav-link active" href="#tab1" data-toggle="tab">登録した漫画</a>
   </li>

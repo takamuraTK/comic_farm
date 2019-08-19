@@ -73,3 +73,5 @@ gem 'friendly_id'
 gem 'pry-byebug', group: :development
 
 gem 'therubyracer'
+
+gem 'carrierwave'

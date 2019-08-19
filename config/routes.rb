@@ -7,7 +7,7 @@ Rails.application.routes.draw do
   
   root to: 'toppages#index'
   
-  resources :users, only: [:show] do
+  resources :users, only: [:show, :edit, :update] do
     member do
       get :subs
     end

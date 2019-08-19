@@ -41,4 +41,6 @@ class User < ApplicationRecord
   
   has_many :reviews
   has_many :reviewbook, through: :reviews, source: :book
+
+  mount_uploader :image, ImageUploader
 end
