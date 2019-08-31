@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_08_15_063211) do
+ActiveRecord::Schema.define(version: 2019_08_31_015251) do
 
   create_table "books", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "title"
@@ -69,6 +69,7 @@ ActiveRecord::Schema.define(version: 2019_08_15_063211) do
     t.string "provider"
     t.string "name", default: "", null: false
     t.string "image"
+    t.string "profile"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end

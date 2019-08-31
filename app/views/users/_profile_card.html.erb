@@ -11,6 +11,11 @@
           <li class="list-group-item">ユーザー名:<%= user.name %></li>
           <li class="list-group-item">登録日:<%= user.created_at %></li>
         </ul>
+        <div>
+        <p class="card-text">
+          <%= simple_format(user.profile) %>
+        </p>
+        </div>
       </div>
     </div>
   </div>

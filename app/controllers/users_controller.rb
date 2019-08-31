@@ -33,6 +33,6 @@ class UsersController < ApplicationController
 
   # Strong Parameter
   def user_params
-    params.require(:user).permit(:name, :image)
+    params.require(:user).permit(:name, :image, :profile)
   end
 end
