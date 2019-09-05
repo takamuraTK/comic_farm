@@ -8,6 +8,8 @@
     <h6 class="card-subtitle mb-2 text-muted">評価:<%= @review.point %></h6>
     <% if @current_user.id == @user.id %>
     <%= link_to '編集する', edit_review_path(@review) %>
+    <% end %>
+    <% if @current_user.id == @user.id || @current_user.admin? %>
     <%= link_to '削除する', @review, method: :delete, data: { confirm: '本当に削除してよろしいですか？' } %>
     <% end %>
     <p class="card-text"><%= @review.content %></p>
