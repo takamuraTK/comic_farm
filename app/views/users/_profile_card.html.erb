@@ -8,6 +8,9 @@
     <div class="col-md-8">
       <div class="card-body">
         <ul class="list-group list-group-flush">
+          <% if @user.admin? %>
+            <b>管理者ユーザー</b>
+          <% end %>
           <li class="list-group-item">ユーザー名:<%= user.name %></li>
           <li class="list-group-item">登録日:<%= user.created_at %></li>
         </ul>
