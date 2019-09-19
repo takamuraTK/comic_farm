@@ -24,14 +24,10 @@ Rails.application.routes.draw do
   get 'subscribe-ranking', to: 'books#ranking'
   get 'review-ranking', to: 'books#review_ranking'
   
-  get 'monthly', to: 'books#monthly'
   get 'howto', to: 'toppages#howto'
   
   get 'books/:isbn/reviews/new', to: 'reviews#new', as:'review_new'
   get 'reviews/index/:id', to: 'reviews#index', as:'review_index'
   resources :reviews
   get 'reviews/error', to: 'reviews#error'
-  
-  
-  
 end

@@ -19,13 +19,7 @@ class BooksController < ApplicationController
     end
     @books = Kaminari.paginate_array(@books).page(params[:page]).per(15)
   end
-  
-  def monthly
-    @d = Date.today
-    @books = Book.where('salesDate LIKE ?', "%#{@d.year.to_s}年0#{@d.mon.to_s}月%")
-  end
-  
-  
+
   def create
     @book = Book.find_or_initialize_by(isbn: params[:isbn])
     unless @book.persisted?
@@ -34,8 +28,7 @@ class BooksController < ApplicationController
       @book.save
     end
   end
-  
-  
+
   def show
     unless user_signed_in?
       flash[:warning] = '漫画の詳細ページをみるにはログインが必要です。'
@@ -48,7 +41,7 @@ class BooksController < ApplicationController
       @book.save
     end
   end
-  
+
   def ranking
     unless user_signed_in?
       flash[:warning] = '登録数ランキングをみるにはログインが必要です。'
@@ -64,15 +57,15 @@ class BooksController < ApplicationController
       @rank = (page - 1)*10 + 1
     end
   end
-  
+
   def review_ranking
     @book_review_average = Book.joins(:reviews).group(:book_id).average(:point)
     book_review_ids = Hash[@book_review_average.sort_by{ |_, v| -v }].keys
     # myspl
     @review_ranking = Book.where(id: book_review_ids).order("FIELD(id, #{book_review_ids.join(',')})").page(params[:page]).per(10)
-    
-    
-    
+
+
+
     # def self.order_by_ids(ids)
     #   order_by = ["case"]
     #   ids.each_with_index.map do |id, index|
@@ -82,8 +75,8 @@ class BooksController < ApplicationController
     #   order(order_by.join(" "))
     # end
     # @review_ranking = Book.where(:id => book_review_ids).order_by_ids(book_review_ids).map(&:id).page(params[:page]).per(10)
-    
-    
+
+
     if params[:page].nil?
       @rank = 1
     else
@@ -93,7 +86,7 @@ class BooksController < ApplicationController
   end
 
 private
-  
+
   def read(result)
     title = result['title']
     author = result['author']
