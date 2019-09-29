@@ -11,6 +11,7 @@ class BooksController < ApplicationController
         title: @title,
         booksGenreId: '001001',
         sort: '+releaseDate',
+        outOfStockFlag: '1'
       })
       results.each do |result|
         book = Book.new(read(result))
@@ -34,9 +35,13 @@ class BooksController < ApplicationController
       flash[:warning] = '漫画の詳細ページをみるにはログインが必要です。'
       redirect_to user_session_path
     end
+
     @book = Book.find_or_initialize_by(isbn: params[:isbn])
     unless @book.persisted?
-      results = RakutenWebService::Books::Book.search(isbn: @book.isbn)
+      results = RakutenWebService::Books::Book.search({
+        isbn: @book.isbn,
+        outOfStockFlag: '1',
+    })
       @book = Book.new(read(results.first))
       @book.save
     end
@@ -88,6 +93,7 @@ class BooksController < ApplicationController
 private
 
   def read(result)
+    
     title = result['title']
     author = result['author']
     publisherName = result['publisherName']
