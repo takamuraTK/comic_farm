@@ -15,7 +15,10 @@ class BooksController < ApplicationController
       })
       results.each do |result|
         book = Book.new(read(result))
-        @books << book
+        excluded_title = []
+        unless book.title =~ /コミックカレンダー|(巻|冊|BOX)セット/
+          @books << book
+        end
       end
     end
     @books = Kaminari.paginate_array(@books).page(params[:page]).per(15)
