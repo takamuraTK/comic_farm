@@ -8,5 +8,7 @@ class Book < ApplicationRecord
   
   has_many :favorites, foreign_key: 'book_id', dependent: :destroy
   has_many :favusers, through: :favorites, source: :user
+
+  belongs_to :bookseries, optional: true
   
 end

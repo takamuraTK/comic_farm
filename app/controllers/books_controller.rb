@@ -26,7 +26,10 @@ class BooksController < ApplicationController
   def create
     @book = Book.find_or_initialize_by(isbn: params[:isbn])
     unless @book.persisted?
-      results = RakutenWebService::Books::Book.search(isbn: @book.isbn)
+      results = RakutenWebService::Books::Book.search({
+        isbn: @book.isbn,
+        outOfStockFlag: '1',
+      })
       @book = Book.new(read(results.first))
       @book.save
     end
@@ -43,9 +46,13 @@ class BooksController < ApplicationController
       results = RakutenWebService::Books::Book.search({
         isbn: @book.isbn,
         outOfStockFlag: '1',
-    })
+      })
       @book = Book.new(read(results.first))
       @book.save
+    end
+    if Bookseries.find_by(title: @book.series).nil?
+      @bookseries = Bookseries.new(title: @book.series)
+      @bookseries.save
     end
   end
 
@@ -95,7 +102,6 @@ class BooksController < ApplicationController
 private
 
   def read(result)
-    
     title = result['title']
     author = result['author']
     publisherName = result['publisherName']
@@ -103,7 +109,7 @@ private
     salesDate = result['salesDate']
     isbn = result['isbn']
     image_url = result['mediumImageUrl'].gsub('?_ex=120x120', '?_ex=350x350')
-
+    series = result['title'].sub(/\（.*|\(.*|\s.*|公式ファンブック.*/,"")
     {
       title: title,
       author: author,
@@ -112,6 +118,7 @@ private
       salesDate: salesDate,
       isbn: isbn,
       image_url: image_url,
+      series: series,
     }
   end
 end
