@@ -31,7 +31,7 @@ private
     salesDate = result['salesDate']
     isbn = result['isbn']
     image_url = result['mediumImageUrl'].gsub('?_ex=120x120', '?_ex=350x350')
-
+    series = result['title'].sub(/\（.*|\(.*|\s.*|公式ファンブック.*/,"")
     {
       title: title,
       author: author,
@@ -40,6 +40,7 @@ private
       salesDate: salesDate,
       isbn: isbn,
       image_url: image_url,
+      series: series,
     }
   end
 end
