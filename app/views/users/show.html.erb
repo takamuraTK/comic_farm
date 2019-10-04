@@ -32,9 +32,8 @@
   <div class="collapse" id="collapsesubs">
     <% recently_subs_id = @user.subscribes.order("id DESC").limit(6).select("book_id") %>
     <div class="row">
-    <% recently_subs_id.each do |ids| %>
-      <% sub_book = ids.book %>
-      <%= render 'books/book_card_small', book: sub_book %>
+    <% recently_subs_id.each do |id| %>
+      <%= render 'books/book_card_small', book: id.book %>
     <% end %>
     </div>
   </div>
@@ -56,9 +55,38 @@
     </div>
   </div>
     
+
   <div id="tab2" class="tab-pane pt-2">
-    <%= render 'books/books_card_small', books: @favs %>
-    <%= paginate @favs %>
+  <div>
+    <a class="btn btn-info btn-block text-left d-flex justify-content-between align-items-center" data-toggle="collapse" href="#collapsesubs" role="button" aria-expanded="false" aria-controls="collapsesubs">
+      最近お気に入り登録した漫画（新しくお気に入り登録した漫画を6件まで表示します）
+    </a>
+    <br>
+  </div>
+  <div class="collapse" id="collapsesubs">
+    <% recently_favs_id = @user.favorites.order("id DESC").limit(6).select("book_id") %>
+    <div class="row">
+      <% recently_favs_id.each do |id| %>
+        <%= render 'books/book_card_small', book: id.book %>
+      <% end %>
+    </div>
+  </div>
+
+<div class="row">
+<% @favs_series.each do |comic,count| %>
+  <div class="col-md-6">
+    <a class="btn btn-dark btn-block text-left d-flex justify-content-between align-items-center" data-toggle="collapse" href="#collapse<%= comic %>" role="button" aria-expanded="false" aria-controls="collapse<%= comic %>">
+      <%= comic %><span class="badge badge-light badge-pill pull-right"><%= count %></span>
+    </a>
+    <br>
+  </div>
+
+  <div class="collapse col-md-12" id="collapse<%= comic %>">
+    <% series_books = @user.favbooks.where(series: comic).order("salesint") %>
+      <%= render 'books/books_card_small', books: series_books %>
+  </div>
+<% end %>
+</div>
   </div>
     
   <div id="tab3" class="tab-pane">
