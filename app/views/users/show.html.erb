@@ -21,22 +21,37 @@
 
 <!--タブコンテンツ部分-->
 <div class="tab-content">
-
   <div id="tab1" class="tab-pane active pt-2">
+
+    <div class="col-md-6">
+      <a class="btn btn-dark btn-block text-left d-flex justify-content-between align-items-center" data-toggle="collapse" href="#collapsesubs" role="button" aria-expanded="false" aria-controls="collapsesubs">
+        最近登録した漫画
+      </a>
+      <br>
+    </div>
+  <div class="collapse" id="collapsesubs">
+    <% recently_subs_id = @user.subscribes.order("id DESC").limit(6).select("book_id") %>
+    <div class="row">
+    <% recently_subs_id.each do |ids| %>
+      <% sub_book = ids.book %>
+      <%= render 'books/book_card_small', book: sub_book %>
+    <% end %>
+    </div>
+  </div>
 
     <% @subs_series.each do |comic,count| %>
       <div class="col-md-6">
-        <a class="btn btn-dark btn-block text-left" data-toggle="collapse" href="#collapse<%= comic %>" role="button" aria-expanded="false" aria-controls="collapse<%= comic %>">
-          <%= comic %>
-        </a><br>
+        <a class="btn btn-dark btn-block text-left d-flex justify-content-between align-items-center" data-toggle="collapse" href="#collapse<%= comic %>" role="button" aria-expanded="false" aria-controls="collapse<%= comic %>">
+          <%= comic %><span class="badge badge-light badge-pill pull-right"><%= count %></span>
+        </a>
+        <br>
       </div>
 
       <div class="collapse" id="collapse<%= comic %>">
-        <% series_books = @user.books.where(series: comic) %>
+        <% series_books = @user.books.where(series: comic).order("salesint") %>
         <%= render 'books/books_card_small', books: series_books %>
       </div>
     <% end %>
-    <%= paginate @subs %>
   </div>
     
   <div id="tab2" class="tab-pane pt-2">
