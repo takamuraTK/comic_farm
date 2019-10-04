@@ -49,6 +49,8 @@ class BooksController < ApplicationController
       })
       @book = Book.new(read(results.first))
       @book.save
+    else
+      
     end
     if Bookseries.find_by(title: @book.series).nil?
       @bookseries = Bookseries.new(title: @book.series)

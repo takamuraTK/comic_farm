@@ -2,7 +2,10 @@ class SubscribesController < ApplicationController
   def create
     book = Book.find_or_initialize_by(isbn: params[:isbn_id])
     unless book.persisted?
-        results = RakutenWebService::Books::Book.search(isbn: params[:isbn_id])
+        results = RakutenWebService::Books::Book.search({
+          isbn: params[:isbn_id],
+          outOfStockFlag: '1',
+        })
         book = Book.new(read(results.first))
         book.save
     end
