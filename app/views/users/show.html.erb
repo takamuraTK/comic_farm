@@ -1,4 +1,5 @@
 <div class="mb-4"><h2><%= @user.name %>さんのページです</h2></div>
+
 <%= render 'profile_card', user: @user %>
 <% if @current_user.id == @user.id %>
 <%= link_to '編集する', edit_user_path %>
@@ -20,8 +21,21 @@
 
 <!--タブコンテンツ部分-->
 <div class="tab-content">
+
   <div id="tab1" class="tab-pane active pt-2">
-    <%= render 'books/books_card_small', books: @subs %>
+
+    <% @subs_series.each do |comic,count| %>
+      <div class="col-md-6">
+        <a class="btn btn-dark btn-block text-left" data-toggle="collapse" href="#collapse<%= comic %>" role="button" aria-expanded="false" aria-controls="collapse<%= comic %>">
+          <%= comic %>
+        </a><br>
+      </div>
+
+      <div class="collapse" id="collapse<%= comic %>">
+        <% series_books = @user.books.where(series: comic) %>
+        <%= render 'books/books_card_small', books: series_books %>
+      </div>
+    <% end %>
     <%= paginate @subs %>
   </div>
     

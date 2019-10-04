@@ -11,6 +11,8 @@ class UsersController < ApplicationController
       @subs = @user.books.page(params[:page]).per(15)
       @reviews = Review.where(user_id: params[:id])
       @favs = @user.favbooks.page(params[:page]).per(10)
+      @user.books
+      @subs_series = @user.books.group(:series).count
     end
   end
 
