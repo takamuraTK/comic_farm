@@ -4,7 +4,7 @@
     <div class="col-lg-3">
       <div class="card text-center rounded-0 border-bottom-0" style="height: 350px; ">
         <div class="p-0">
-          <img src="<%= book.image_url %>" style="width:auto; height:350px; max-width:348px;">
+          <img src="<%= book.image_url %>" style="width:auto; height:350px; max-width:250px;">
         </div>
       </div>
       <div class="card mb-4 rounded-0 border-top-0" style="height:350px;">
@@ -22,6 +22,9 @@
                 <a href="<%= book.url %>" class="card-link btn-sm btn-dark" target="_blank">楽天</a>
                 <% amazonurl = "http://www.amazon.co.jp/dp/#{change_isbn(book.isbn)}" %>
                 <a href="<%= amazonurl %>" class="card-link btn-sm btn-dark ml-1" target="_blank">Amazon</a>
+                <% unless book.series.nil? %>
+                  <%= link_to "検索", books_path + '?utf8=✓&title=' + book.series + "&commit=検索", class: "card-link btn-sm btn-warning ml-1" %>
+                <% end %>
               </div>
           </div>
         </div>

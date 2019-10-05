@@ -18,6 +18,9 @@
           <%= link_to '楽天', @book.url, class: 'card-link btn-sm btn-dark ml-1', target:'blank' %>
           <% amazonurl = "http://www.amazon.co.jp/dp/#{change_isbn(@book.isbn)}" %>
           <%= link_to 'Amazon', amazonurl, class: 'card-link btn-sm btn-dark ml-1', target:'blank' %>
+          <% unless @book.series.nil? %>
+            <%= link_to "検索", books_path + '?utf8=✓&title=' + @book.series + "&commit=検索", class: "card-link btn-sm btn-warning ml-1" %>
+          <% end %>
         </div>
       </div>
     </div>
