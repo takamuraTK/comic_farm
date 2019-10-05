@@ -42,5 +42,22 @@ class User < ApplicationRecord
   has_many :reviews
   has_many :reviewbook, through: :reviews, source: :book
 
+  has_many :reviewfavorites
+  has_many :favreviews, through: :reviewfavorites, source: :review
+  
+  def addreviewfav(review)
+    reviewfavorites.find_or_create_by(review_id: review.id)
+  end
+
+  def removereviewfav(review)
+    reviewfavorite = reviewfavorites.find_by(review_id: review.id)
+    reviewfavorite.destroy if reviewfavorite
+  end
+
+  def checkreviewfav?(review)
+    self.favreviews.include?(review)
+  end
+
+
   mount_uploader :image, ImageUploader
 end

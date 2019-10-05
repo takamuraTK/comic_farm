@@ -91,15 +91,7 @@
     
   <div id="tab3" class="tab-pane">
     <% @reviews.each do |review| %>
-      <div class="card w-80 m-4">
-        
-        <div class="card-body">
-          <h5 class="card-title"><%= link_to review.head, review_path(review.id) %></h5>
-          <h6 class="card-subtitle mb-2 text-muted"><%= link_to review.book.title, books_path + '/'+ review.book.isbn %></h6>
-          <h6 class="card-subtitle mb-2 text-muted"><%= review.created_at %></h6>
-          <p class="card-text"><%= review.content %></p>
-        </div>
-      </div>
+      <%= render 'reviews/review_card', review: review %>
     <% end %>
   </div>
 </div>

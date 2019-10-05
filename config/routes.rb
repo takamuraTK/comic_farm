@@ -30,4 +30,6 @@ Rails.application.routes.draw do
   get 'reviews/index/:id', to: 'reviews#index', as:'review_index'
   resources :reviews
   get 'reviews/error', to: 'reviews#error'
+
+  resources :reviewfavorites, only: [:create, :destroy]
 end
