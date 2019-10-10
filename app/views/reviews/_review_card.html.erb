@@ -1,8 +1,8 @@
   <div class="card w-80 m-4">
     <div class="card-body">
-      <h5 class="card-title"><%= link_to review.head, review_path(review.id) %></h5>
+      <h5 class="card-title mark"><%= link_to review.head, review_path(review.id), class: "text-decoration-none text-dark" %></h5>
       <% review_book = Book.find(review.book_id) %>
-      <h6 class="card-subtitle mb-2 text-muted"><%= review_book.title %></h6>
+      <h6><%= link_to review_book.title, book_path(review_book.isbn), class: "card-subtitle mb-2 text-muted" %></h6>
       <h6 class="card-subtitle mb-2 text-muted"><%= review.created_at %></h6>
       <h6 class="card-subtitle mb-2 text-muted">投稿者:<%= link_to User.find(review.user_id).name, user_path(review.user_id) %></h6>
       <h6 class="card-subtitle mb-2 text-muted">評価:<%= review.point %></h6>
