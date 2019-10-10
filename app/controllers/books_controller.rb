@@ -4,14 +4,26 @@ class BooksController < ApplicationController
       flash[:warning] = '漫画を探すにはログインが必要です。'
       redirect_to user_session_path
     end
+
     @books = []
     @title = params[:title]
+
     if @title.present?
+      case params[:sortselect]
+        when "1" then
+          @sort_type = '+releaseDate'
+        when "2" then
+          @sort_type = '-releaseDate'
+        when "3" then
+          @sort_type = 'sales'
+        else
+          @sort_type = 'standard'
+      end
       results = RakutenWebService::Books::Book.search({
         title: @title,
         booksGenreId: '001001',
-        sort: '+releaseDate',
-        outOfStockFlag: '1'
+        outOfStockFlag: '1',
+        sort: @sort_type
       })
       results.each do |result|
         book = Book.new(read(result))
