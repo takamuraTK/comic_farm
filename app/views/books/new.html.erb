@@ -1,16 +1,19 @@
 <div class="mb-5">
-    <%= form_tag :books, method: :get do  %>
-    <div class="form-group row">
-      <%= label_tag :title, 'タイトル', class: "col-md-3 pt-1" %>
-      <%= text_field_tag 'title', params[:title], class: 'form-control mb-2 col-md-9' %>
-    </div>
-    <div class="form-group row">
-      <%= label_tag :sortselect, 'ソート設定', class: "col-md-3 pt-1" %>
-      <%= select_tag :sortselect, options_for_select({'古い順': 1, '新しい順': 2, '売れている順': 3}), class: 'form-control mb-2 col-md-9' %>
-      <%= submit_tag "検索", class:'btn btn-success btn-block mt-4' %>
-    </div>
-    <% end %>
+  <%= form_tag :books, method: :get do  %>
+  <div class="form-group row">
+    <%= label_tag :title, 'タイトル', class: "col-lg-2 pt-1" %>
+    <%= text_field_tag 'title', params[:title], class: 'form-control mb-2 col-lg-10' %>
+  </div>
+  <div class="form-group row">
+    <%= label_tag :sortselect, 'ソート設定', class: "col-lg-2 pt-1" %>
+    <%= select_tag :sortselect, options_for_select(['古い順', '新しい順', '売れている順']), class: 'form-control mb-2 col-lg-10' %>
+    <%= submit_tag "検索", class:'btn btn-success btn-block mt-4' %>
+  </div>
+  <% end %>
 </div>
-
+<% if @books.present? %>
+  <div class="pb-5"><%= @search_result %></div>
+<% end %>
+<%= paginate @books %>
 <%= render 'books_card_small', books: @books %>
 <%= paginate @books %>

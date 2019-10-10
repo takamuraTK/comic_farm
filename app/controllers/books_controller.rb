@@ -7,14 +7,15 @@ class BooksController < ApplicationController
 
     @books = []
     @title = params[:title]
+    @sort_name = params[:sortselect]
 
     if @title.present?
       case params[:sortselect]
-        when "1" then
+        when "古い順" then
           @sort_type = '+releaseDate'
-        when "2" then
+        when "新しい順" then
           @sort_type = '-releaseDate'
-        when "3" then
+        when "売れている順" then
           @sort_type = 'sales'
         else
           @sort_type = 'standard'
@@ -32,7 +33,8 @@ class BooksController < ApplicationController
         end
       end
     end
-    @books = Kaminari.paginate_array(@books).page(params[:page]).per(15)
+    @search_result = "検索結果：「#{@title}」を#{@sort_name}で表示しています。（該当件数#{@books.count}冊）"
+    @books = Kaminari.paginate_array(@books).page(params[:page]).per(24)
   end
 
   def create
