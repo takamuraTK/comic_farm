@@ -17,6 +17,9 @@
   <li class="nav-item">
     <a class="nav-link" href="#tab3" data-toggle="tab">投稿済みのレビュー</a>
   </li>
+  <li class="nav-item">
+    <a class="nav-link" href="#tab4" data-toggle="tab">いいねしたレビュー</a>
+  </li>
 </ul>
 
 <!--タブコンテンツ部分-->
@@ -80,7 +83,6 @@
     </a>
     <br>
   </div>
-
   <div class="collapse col-md-12" id="collapse<%= comic %>">
     <% series_books = @user.favbooks.where(series: comic).order("salesint") %>
       <%= render 'books/books_card_small', books: series_books %>
@@ -94,5 +96,12 @@
       <%= render 'reviews/review_card', review: review %>
     <% end %>
   </div>
+
+  <div id="tab4" class="tab-pane">
+    <% @user.favreviews.each do |review| %>
+      <%= render 'reviews/review_card', review: review %>
+    <% end %>
+  </div>
+
 </div>
 
