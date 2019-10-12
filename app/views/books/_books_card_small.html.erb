@@ -19,7 +19,9 @@
               <div id="subscribe_book_zone_<%= book.isbn %>">
                 <%= render 'subscribes/sub_button', isbn: book.isbn %>
               </div>
-              <%= render 'favorites/fav_button', isbn: book.isbn %>
+              <div id="favorite_book_zone_<%= book.isbn %>">
+                <%= render 'favorites/fav_button', isbn: book.isbn %>
+              </div>
               <div class="mt-2">
                 <a href="<%= book.url %>" class="card-link btn-sm btn-dark" target="_blank">楽天</a>
                 <% amazonurl = "http://www.amazon.co.jp/dp/#{change_isbn(book.isbn)}" %>

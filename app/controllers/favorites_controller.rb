@@ -1,24 +1,20 @@
 class FavoritesController < ApplicationController
   def create
-    book = Book.find_or_initialize_by(isbn: params[:isbn_id])
-    unless book.persisted?
+    @book = Book.find_or_initialize_by(isbn: params[:isbn_id])
+    unless @book.persisted?
         results = RakutenWebService::Books::Book.search({
           isbn: params[:isbn_id],
           outOfStockFlag: '1',
         })
-        book = Book.new(read(results.first))
-        book.save
+        @book = Book.new(read(results.first))
+        @book.save
     end
-    current_user.addfav(book)
-    flash[:success] = "お気に入り登録をしました！"
-    redirect_back(fallback_location: root_url)
+    current_user.addfav(@book)
   end
   
   def destroy
-    book = Book.find_or_initialize_by(isbn: params[:isbn_id])
-    current_user.removefav(book)
-    flash[:success] = "お気に入りを解除しました！"
-    redirect_back(fallback_location: root_url)
+    @book = Book.find_or_initialize_by(isbn: params[:isbn_id])
+    current_user.removefav(@book)
   end
   
 private
