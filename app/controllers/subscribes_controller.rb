@@ -1,24 +1,24 @@
 class SubscribesController < ApplicationController
   def create
-    book = Book.find_or_initialize_by(isbn: params[:isbn_id])
-    unless book.persisted?
+    @book = Book.find_or_initialize_by(isbn: params[:isbn_id])
+    unless @book.persisted?
         results = RakutenWebService::Books::Book.search({
           isbn: params[:isbn_id],
           outOfStockFlag: '1',
         })
-        book = Book.new(read(results.first))
-        book.save
+        @book = Book.new(read(results.first))
+        @book.save
     end
-    current_user.addsub(book)
-    flash[:success] = "登録完了しました！"
-    redirect_back(fallback_location: root_url)
+    current_user.addsub(@book)
+    # flash[:success] = "登録完了しました！"
+    
   end
   
   def destroy
-    book = Book.find_or_initialize_by(isbn: params[:isbn_id])
-    current_user.removesub(book)
-    flash[:success] = "登録解除しました！"
-    redirect_back(fallback_location: root_url)
+    @book = Book.find_or_initialize_by(isbn: params[:isbn_id])
+    current_user.removesub(@book)
+    # flash[:success] = "登録解除しました！"
+    # redirect_back(fallback_location: root_url)
   end
   
 private
