@@ -11,10 +11,12 @@
         <p class="card-text m-0"><b>発売日</b> <%= @book.salesDate %></p>
         <p class="card-text m-0"><b>作品シリーズ</b> <%= @book.series %></p>
         <p class="card-text m-0"><b>ISBN</b> <%= @book.isbn %></p>
-        <%= render 'subscribes/sub_button', isbn: @book.isbn %>
-        <%= render 'favorites/fav_button', isbn: @book.isbn %>
-        
-        
+        <div id="subscribe_book_zone_<%= @book.isbn %>">
+          <%= render 'subscribes/sub_button', isbn: @book.isbn %>
+        </div>
+        <div id="favorite_book_zone_<%= @book.isbn %>">
+          <%= render 'favorites/fav_button', isbn: @book.isbn %>
+        </div>
         <div class="mt-2 mb-2">
           <%= link_to '楽天', @book.url, class: 'card-link btn-sm btn-dark ml-1', target:'blank' %>
           <% amazonurl = "http://www.amazon.co.jp/dp/#{change_isbn(@book.isbn)}" %>
