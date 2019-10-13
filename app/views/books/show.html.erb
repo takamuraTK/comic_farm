@@ -40,14 +40,7 @@
   <% review = current_user.reviews.find_by(book_id: @book.id) %>
   <div class="card m-4 border-info">
     <div class="card-header">あなたがこの漫画に投稿したレビュー</div>
-    <div class="card-body">
-      <h5 class="card-title"><%= link_to review.head, review_path(review.id) %></h5>
-      <% review_book = Book.find(review.book_id) %>
-      <h6 class="card-subtitle mb-2 text-muted"><%= review.created_at %>に投稿</h6>
-      <h6 class="card-subtitle mb-2 text-muted">評価:<%= review.point %></h6>
-      <p class="card-text"><%= review.content %></p>
-      <%= render 'reviewfavorites/review_fav_button', review: review %>
-    </div>
+    <%= render 'reviews/review_card', review: review %>
   </div>
 <% end %>
 

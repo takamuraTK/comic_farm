@@ -1,0 +1,2 @@
+
+$(".reviewfavorite_zone_<%= @review.id %>").html("<%= j(render partial: 'review_fav_button', locals: { review: @review }) %>");
