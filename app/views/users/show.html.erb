@@ -33,9 +33,9 @@
       <br>
     </div>
   <div class="collapse" id="collapsesubs">
-    <% recently_subs_id = @user.subscribes.order("id DESC").limit(4).select("book_id") %>
+    
     <div class="row">
-    <% recently_subs_id.each do |id| %>
+    <% @recently_subs_id.each do |id| %>
       <%= render 'books/book_card_small', book: id.book %>
     <% end %>
     </div>
@@ -44,13 +44,15 @@
     <div class="row">
     <% @subs_series.each do |comic,count| %>
       <div class="col-md-6">
-        <a class="btn btn-dark btn-block text-left d-flex justify-content-between align-items-center" data-toggle="collapse" href="#collapse<%= comic %>" role="button" aria-expanded="false" aria-controls="collapse<%= comic %>">
+        <% escape_comic = comic.sub(/\./,"") %>
+        <a class="btn btn-dark btn-block text-left d-flex justify-content-between align-items-center" data-toggle="collapse" href="#collapse<%= escape_comic %>" role="button" aria-expanded="false" aria-controls="collapse<%= escape_comic %>">
+          
           <%= comic %><span class="badge badge-light badge-pill pull-right"><%= count %></span>
         </a>
         <br>
       </div>
 
-      <div class="collapse col-md-12" id="collapse<%= comic %>">
+      <div class="collapse col-md-12" id="collapse<%= escape_comic %>">
         <% series_books = @user.books.where(series: comic).order("salesint") %>
           <%= render 'books/books_card_small', books: series_books %>
       </div>
