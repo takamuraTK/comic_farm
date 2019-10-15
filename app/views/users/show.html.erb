@@ -26,20 +26,24 @@
 <div class="tab-content">
   <div id="tab1" class="tab-pane active pt-2">
 
+  <% unless @user.books.empty? %>
     <div>
       <a class="btn btn-info btn-block text-left d-flex justify-content-between align-items-center" data-toggle="collapse" href="#collapsesubs" role="button" aria-expanded="false" aria-controls="collapsesubs">
         <span>最近登録した漫画<span class="text-black-50 text-left">（4件まで表示）</span></span>
       </a>
       <br>
     </div>
-  <div class="collapse" id="collapsesubs">
-    
-    <div class="row">
-    <% @recently_subs_id.each do |id| %>
-      <%= render 'books/book_card_small', book: id.book %>
-    <% end %>
+    <div class="collapse" id="collapsesubs">
+      <div class="row">
+      <% @recently_subs_id.each do |id| %>
+        <%= render 'books/book_card_small', book: id.book %>
+      <% end %>
+      </div>
     </div>
-  </div>
+  <% else %>
+    <p>所持登録している漫画はありません。</p>
+  <% end %>
+
 
     <div class="row">
     <% @subs_series.each do |comic,count| %>
@@ -62,30 +66,35 @@
     
 
   <div id="tab2" class="tab-pane pt-2">
-  <div>
-    <a class="btn btn-info btn-block text-left d-flex justify-content-between align-items-center" data-toggle="collapse" href="#collapsesubs" role="button" aria-expanded="false" aria-controls="collapsesubs">
-      <span>最近お気に入り登録した漫画<span class="text-black-50 text-left">（4件まで表示）</span></span>
-    </a>
-    <br>
-  </div>
-  <div class="collapse" id="collapsesubs">
-    <% recently_favs_id = @user.favorites.order("id DESC").limit(4).select("book_id") %>
-    <div class="row">
-      <% recently_favs_id.each do |id| %>
-        <%= render 'books/book_card_small', book: id.book %>
-      <% end %>
+  <% unless @user.books.empty? %>
+    <div>
+      <a class="btn btn-info btn-block text-left d-flex justify-content-between align-items-center" data-toggle="collapse" href="#collapsesubs" role="button" aria-expanded="false" aria-controls="collapsesubs">
+        <span>最近お気に入り登録した漫画<span class="text-black-50 text-left">（4件まで表示）</span></span>
+      </a>
+      <br>
     </div>
-  </div>
+    <div class="collapse" id="collapsesubs">
+      <% recently_favs_id = @user.favorites.order("id DESC").limit(4).select("book_id") %>
+      <div class="row">
+        <% recently_favs_id.each do |id| %>
+          <%= render 'books/book_card_small', book: id.book %>
+        <% end %>
+      </div>
+    </div>
+  <% else %>
+    <p>お気に入り登録している漫画はありません。</p>
+  <% end %>
 
 <div class="row">
 <% @favs_series.each do |comic,count| %>
   <div class="col-md-6">
-    <a class="btn btn-dark btn-block text-left d-flex justify-content-between align-items-center" data-toggle="collapse" href="#collapse<%= comic %>" role="button" aria-expanded="false" aria-controls="collapse<%= comic %>">
+  <% escape_comic = comic.sub(/\./,"") %>
+    <a class="btn btn-dark btn-block text-left d-flex justify-content-between align-items-center" data-toggle="collapse" href="#collapse<%= escape_comic %>" role="button" aria-expanded="false" aria-controls="collapse<%= escape_comic %>">
       <%= comic %><span class="badge badge-light badge-pill pull-right"><%= count %></span>
     </a>
     <br>
   </div>
-  <div class="collapse col-md-12" id="collapse<%= comic %>">
+  <div class="collapse col-md-12" id="collapse<%= escape_comic %>">
     <% series_books = @user.favbooks.where(series: comic).order("salesint") %>
       <%= render 'books/books_card_small', books: series_books %>
   </div>
@@ -93,15 +102,23 @@
 </div>
   </div>
     
-  <div id="tab3" class="tab-pane">
-    <% @reviews.each do |review| %>
-      <%= render 'reviews/review_card', review: review %>
+  <div id="tab3" class="tab-pane pt-2">
+    <% unless @reviews.empty? %>
+      <% @reviews.each do |review| %>
+        <%= render 'reviews/review_card', review: review %>
+      <% end %>
+    <% else %>
+      <p>まだレビューを書いていません。</p>
     <% end %>
   </div>
 
-  <div id="tab4" class="tab-pane">
-    <% @user.favreviews.each do |review| %>
-      <%= render 'reviews/review_card', review: review %>
+  <div id="tab4" class="tab-pane pt-2">
+    <% unless @user.favreviews.empty? %>
+      <% @user.favreviews.each do |review| %>
+        <%= render 'reviews/review_card', review: review %>
+      <% end %>
+      <% else %>
+      <p>いいねしたレビューはありません。</p>
     <% end %>
   </div>
 
