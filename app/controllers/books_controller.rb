@@ -56,6 +56,17 @@ class BooksController < ApplicationController
     end
 
     @book = Book.find_or_initialize_by(isbn: params[:isbn])
+
+    @book_subs_count = Book.joins(:subscribes).group(:book_id).count[@book.id]
+    if @book_subs_count.nil?
+      @book_subs_count = 0
+    end
+
+    @book_favs_count = Book.joins(:favorites).group(:book_id).count[@book.id]
+    if @book_favs_count.nil?
+      @book_favs_count = 0
+    end
+
     unless @book.persisted?
       results = RakutenWebService::Books::Book.search({
         isbn: @book.isbn,
