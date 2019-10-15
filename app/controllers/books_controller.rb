@@ -32,6 +32,9 @@ class BooksController < ApplicationController
           @books << book
         end
       end
+      if @books.blank?
+        @no_results = "漫画は見つかりませんでした。"
+      end
     end
     @search_result = "検索結果：「#{@title}」を#{@sort_name}で表示しています。（該当件数#{@books.count}冊）"
     @books = Kaminari.paginate_array(@books).page(params[:page]).per(24)
@@ -56,7 +59,7 @@ class BooksController < ApplicationController
     end
 
     @book = Book.find_or_initialize_by(isbn: params[:isbn])
-
+    
     @book_subs_count = Book.joins(:subscribes).group(:book_id).count[@book.id]
     if @book_subs_count.nil?
       @book_subs_count = 0
@@ -81,6 +84,7 @@ class BooksController < ApplicationController
       @bookseries = Bookseries.new(title: @book.series)
       @bookseries.save
     end
+    
   end
 
   def ranking
