@@ -1,0 +1,11 @@
+<%= form_with url: newlys, method: :get, local: true do |f| %>
+  <div class="form-group row">
+    <%= f.label_tag :publisher_select, '出版社選択', class: "col-lg-2 pt-1" %>
+    <%= f.select_tag :publisher_select, options_for_select(['古い順', '新しい順', '売れている順']), class: 'form-control mb-2 col-lg-10' %>
+    <%= f.submit_tag "検索", class:'btn btn-success btn-block mt-4' %>
+  </div>
+<% end %>
+
+
+
+<%= render 'books/books_list', books: @books %>
