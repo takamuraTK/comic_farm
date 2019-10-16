@@ -30,6 +30,29 @@ class NewlysController < ApplicationController
 
   end
 
+  def newfav
+    @books = []
+    @month = '10'
+    @favbooks = current_user.favbooks.group(:series).count.keys
+    @favbooks.each do |favbook|
+    results = RakutenWebService::Books::Book.search({
+        title: favbook,
+        booksGenreId: '001001',
+        outOfStockFlag: '1',
+        sort: '-releaseDate',
+        page: '1'
+      })
+      results.each do |result|
+        book = Book.new(read(result))
+        unless book.title =~ /コミックカレンダー|(巻|冊|BOX)セット/
+          if book.salesDate =~ /2019年#{@month}月/
+            @books << book
+          end
+        end
+      end
+    end
+  end
+
   def create
     @book = Book.find_or_initialize_by(isbn: params[:isbn])
     unless @book.persisted?

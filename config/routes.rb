@@ -36,4 +36,5 @@ Rails.application.routes.draw do
   resources :reviewfavorites, only: [:create, :destroy]
   get 'newlys/download', to: 'newlys#download'
   get 'newlys', to: 'newlys#search'
+  get 'favnews', to: 'newlys#newfav'
 end
