@@ -1,18 +1,33 @@
 class NewlysController < ApplicationController
-  def shuei
-    @page = '1'
-    @month = '10'
-    @publisherName = '集英社'
-    @books = []
-    books_search
+  def search
+    @month = params[:month]
+    @publisherName = params[:publisher_select]
+    if @publisherName.present? && @month.present?
+      @books = Book.where("salesDate LIKE ?", "%2019年#{@month}月%").where(publisherName: @publisherName)
 
-      while @books.blank?
-          @page = @page.to_i + 1
-          @page.to_s
-          books_search
+    end
+  end
+
+  def download
+    @page = '1'
+    @month = params[:month]
+    if @month == '01'
+      @month = '13'
+    end
+    @pre_month = @month.to_i - 1
+    @check_page = 0
+    @publisherName = params[:publisher_select]
+    @books = []
+
+    if @publisherName.present?
+      books_search
+      while @check_page == 0
+        @page = @page.to_i + 1
+        @page.to_s
+        books_search
       end
-    
-    
+    end
+
   end
 
   def create
@@ -39,9 +54,15 @@ class NewlysController < ApplicationController
     })
     results.each do |result|
       book = Book.new(read(result))
+      if book.salesDate =~ /#{@pre_month.to_s}月/
+        @check_page = 1
+      end
       unless book.title =~ /コミックカレンダー|(巻|冊|BOX)セット/
-        if book.salesDate =~ /#{@month}/
-          @books << book
+        if book.salesDate =~ /#{@month}月/
+          comic = Book.find_or_initialize_by(isbn: book.isbn)
+          unless comic.persisted?
+            book.save
+          end
         end
       end
     end

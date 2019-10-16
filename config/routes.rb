@@ -34,5 +34,6 @@ Rails.application.routes.draw do
   get 'reviews/error', to: 'reviews#error'
 
   resources :reviewfavorites, only: [:create, :destroy]
-  get 'newlys', to: 'newlys#shuei'
+  get 'newlys/download', to: 'newlys#download'
+  get 'newlys', to: 'newlys#search'
 end

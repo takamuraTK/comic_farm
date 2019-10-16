@@ -1,0 +1,18 @@
+<h2 class="mb-5">新刊ダウンロード</h2>
+<div class="mark mb-3">
+<p>これは管理者用の機能です</p>
+<p>楽天APIから新刊をいちいち検索するのは時間がかかるので、予めここから新刊漫画のデータをDBに登録します。</p>
+</div>
+<%= form_with url: newlys_download_path, method: :get, local: true do |f| %>
+  <div class="form-group row">
+    <%= f.label :publisher_select, '出版社選択', class: "col-lg-2 pt-1" %>
+    <%= f.select :publisher_select, options_for_select(['集英社', '小学館', '講談社']),{}, class: 'form-control mb-2 col-lg-10' %>
+  </div>
+  <div class="form-group row">
+    <%= f.label :month, '月選択', class: "col-lg-2 pt-1" %>
+    <%= f.select :month, options_for_select(['10', '11', '12']),{}, class: 'form-control mb-2 col-lg-10' %>
+
+    <%= f.submit "DBに登録", class:'btn btn-success btn-block mt-4' %>
+  </div>
+<% end %>
+
