@@ -1,2 +1,8 @@
-<h2 class="mb-5">あなたが買うかもしれない<%= @month %>月の新刊</h2>
-<%= render 'books/books_card_small', books: @books %>
+<h2 class="mb-5">あなたが買うかもしれない今月の新刊！</h2>
+<% if @books.present? %>
+    <%= render 'books/books_card_small', books: @books %>
+<% else %>
+    <p>あなたが買うかもしれない今月の新刊はありません。</p>
+    <p>気になる漫画や、持っている漫画があれば登録してみましょう</p>
+    <%= link_to '漫画を探す', books_path, class:'btn btn-primary' %>
+<% end %>
