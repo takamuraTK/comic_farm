@@ -32,24 +32,16 @@ class NewlysController < ApplicationController
 
   def newfav
     @books = []
-    @year = Date.today.year.to_s
-    @month = Date.today.mon.to_s
+    now = Time.now
+    @year = now.year.to_s
+    @month = now.month.to_s
+    @next_month = now.prev_month.mon.to_s
+    @after_next_month = now.since(2.month).mon.to_s
     @subbooks = current_user.books.group(:series).count.keys
-    @subbooks.each do |favbook|
-    results = RakutenWebService::Books::Book.search({
-        title: favbook,
-        booksGenreId: '001001',
-        outOfStockFlag: '1',
-        sort: '-releaseDate',
-        page: '1'
-      })
-      results.each do |result|
-        book = Book.new(read(result))
-        unless book.title =~ /コミックカレンダー|(巻|冊|BOX)セット/
-          if book.salesDate =~ /#{@year}年#{@month}月/
-            @books << book
-          end
-        end
+    @subbooks.each do |book|
+      comics = Book.where("title LIKE ?", "%#{book}%").where("salesDate LIKE ?", "%#{@year}年#{@month}月%")
+      comics.each do |comic|
+        @books << comic
       end
     end
   end
