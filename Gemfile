@@ -80,6 +80,6 @@ gem 'jquery-rails'
 
 group :development, :test do
   gem 'rspec-rails', '~> 3.6.0'
-  # Railsで元から追加されているgemは省略
   gem 'spring-commands-rspec'
+  gem 'factory_bot_rails'
 end

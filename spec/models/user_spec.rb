@@ -1,79 +1,56 @@
 require 'rails_helper'
 
 RSpec.describe User, type: :model do
-  describe "ユーザー登録" do
-    context "名前、メール、パスワードがある場合" do
-      before do
-        @user = User.new(
-          name: "test_taro",
-          email: "test@example.com",
-          password: "testpass",
-        )
-      end
-      it "有効な状態であること" do
-        expect(@user).to be_valid
-      end
-    end
+  it "名前がないときは無効であること" do
+    user = FactoryBot.build(:user, name: nil)
+    user.valid?
+    expect(user.errors[:name]).to include("を入力してください")
+  end
 
-    context "何かしらが欠けているとき" do
-      context "名前がない場合" do
-        before do
-          @user = User.new(name: nil)
-          @user.valid?
-        end
-        it "無効な状態であること" do
-          expect(@user.errors[:name]).to include("を入力してください")
-        end
-      end
-      context "メールアドレスがない場合" do
-        before do
-          @user = User.new(email: nil)
-          @user.valid?
-        end
-        it "無効な状態であること" do
-          expect(@user.errors[:email]).to include("を入力してください")
-        end
-      end
-      context "パスワードがない場合" do
-        before do
-          @user = User.new(password: nil)
-          @user.valid?
-        end
-        it "無効な状態であること" do
-          expect(@user.errors[:password]).to include("を入力してください")
-        end
-      end
-    end
-    
-    context "メールアドレスが他と重複している場合" do
-      before do
-        User.create(
-          name: "test_taro",
-          email: "test@example.com",
-          password: "testpass",
-          confirmed_at: Time.zone.now,
-        )
-        @user = User.new(
-          name: "test_hanako",
-          email: "test@example.com",
-          password: "testpass",
-          confirmed_at: Time.zone.now,
-        )
-        @user.valid?
-      end
-      it "無効な状態であること" do
-        expect(@user.errors[:email]).to include("はすでに存在します")
-      end
-    end
+  it "名前があるときは有効であること" do
+    user = FactoryBot.build(:user, name: "taro")
+    user.valid?
+    expect(user).to be_valid
+  end
 
-    context "メールアドレスが6文字未満の場合" do
-      before do
-        @user = User.new(password: "abcde")
-        @user.valid?
-      end
-      it "無効な状態であること" do
-        expect(@user.errors[:password]).to include("は6文字以上で入力してください")
-      end
-    end
+  it "メールアドレスがないときは無効であること" do
+    user = FactoryBot.build(:user, email: nil)
+    user.valid?
+    expect(user.errors[:email]).to include("を入力してください")
+  end
+  
+  it "メールアドレスの形式が不正のときは無効であること" do
+    user = FactoryBot.build(:user, email: "abc")
+    user.valid?
+    expect(user.errors[:email]).to include("は不正な値です")
+  end
+
+  it "メールアドレスの形式が正しいときは有効であること" do
+    user = FactoryBot.build(:user, email: "aiueo@example.com")
+    user.valid?
+    expect(user).to be_valid
+  end
+
+  it "メールアドレスが他のユーザーと重複しているときは無効であること" do
+    FactoryBot.create(:user, email: "hoge@example.com")
+    user = FactoryBot.build(:user,email: "hoge@example.com")
+    user.valid?
+    expect(user.errors[:email]).to include('はすでに存在します')
+  end
+
+  it "パスワードがないときは無効であること" do
+    user = FactoryBot.build(:user, password: nil)
+    user.valid?
+    expect(user.errors[:password]).to include('を入力してください')
+  end
+
+  it "パスワードが6文字未満のときは無効であること" do
+    user = FactoryBot.build(:user, password: 'abcde')
+    expect(user).to_not be_valid
+  end
+
+  it "パスワードが6文字以上のときは有効であること" do
+    user = FactoryBot.build(:user, password: 'abcdef')
+    expect(user).to be_valid
   end
 end
