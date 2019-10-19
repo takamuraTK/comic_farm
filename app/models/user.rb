@@ -30,6 +30,7 @@ class User < ApplicationRecord
   has_many :favorites
   has_many :favbooks, through: :favorites, source: :book
   validates :profile, length: { maximum: 1000 }
+  validates :name, presence: true
   
   def addsub(book)
 	  subscribes.find_or_create_by!(book_id: book.id)
