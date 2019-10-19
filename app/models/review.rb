@@ -1,8 +1,10 @@
 class Review < ApplicationRecord
   belongs_to :user
   belongs_to :book
-  validates :head, presence: true
-  validates :content, presence: true
+  validates :user_id, presence: true
+  validates :book_id, presence: true
+  validates :head, presence: true, length: {in: 1..20}
+  validates :content, presence: true, length: {in: 1..2000}
   validates :point, presence: true, numericality: {
     greater_than_or_equal_to: 0,
     less_than_or_equal_to: 5,
