@@ -47,4 +47,21 @@ RSpec.describe Review, type: :model do
     expect(FactoryBot.build(:review, point: 5.1)).to be_invalid
   end
 
+  it "user_idとbook_idの組み合わせが重複しているときは無効であること" do
+    user = FactoryBot.create(:user)
+    book = FactoryBot.create(:book)
+    FactoryBot.create(
+      :review,
+      user: user,
+      book: book
+    )
+    other_review = FactoryBot.build(
+      :review,
+      user: user,
+      book: book
+    )
+    other_review.valid?
+    expect(other_review.errors[:user_id]).to include 'はすでに存在します'
+  end
+
 end
