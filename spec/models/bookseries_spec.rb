@@ -6,4 +6,11 @@ RSpec.describe Bookseries, type: :model do
     bookseries.valid?
     expect(bookseries.errors[:title]).to include("を入力してください")
   end
+
+  it "titleが重複したときは無効であること" do
+    FactoryBot.create(:bookseries, title: "hogehoge")
+    bookseries = FactoryBot.build(:bookseries, title: "hogehoge")
+    bookseries.valid?
+    expect(bookseries.errors[:title]).to include('はすでに存在します')
+  end
 end
