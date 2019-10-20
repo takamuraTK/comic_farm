@@ -14,10 +14,10 @@
           <p class="col-lg-3 m-0">所持登録数</p>  <p class="col-lg-9 m-0"><%= @book_subs_count %>人</p>
           <p class="col-lg-3 m-0">お気に入り登録数</p>  <p class="col-lg-9 m-0"><%= @book_favs_count %>人</p>
         </div>
-        <div id="subscribe_book_zone_<%= @book.isbn %>">
+        <div class="subscribe_book_zone_<%= @book.isbn %>">
           <%= render 'subscribes/sub_button', isbn: @book.isbn %>
         </div>
-        <div id="favorite_book_zone_<%= @book.isbn %>">
+        <div class="favorite_book_zone_<%= @book.isbn %>">
           <%= render 'favorites/fav_button', isbn: @book.isbn %>
         </div>
         <div class="mt-2 mb-2">
