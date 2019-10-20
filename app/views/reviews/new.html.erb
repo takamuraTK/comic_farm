@@ -23,6 +23,16 @@
   <div class="m-4">
     <%= f.label :content, 'レビュー本文（2000文字以内）' %>
     <%= f.text_area :content, class: 'form-control', size: '20x10' %>
+    現在の文字数：<span class="count">0</span>文字
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script type="text/javascript">
+    $(function(){
+        $('textarea').bind('keydown keyup keypress change',function(){
+            var thisValueLength = $(this).val().length;
+            $('.count').html(thisValueLength);
+        });
+    });
+    </script>
   </div class="m-2">
   
   <div class="m-4">
