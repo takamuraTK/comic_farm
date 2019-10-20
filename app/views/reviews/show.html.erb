@@ -18,7 +18,7 @@
         <% if @current_user.id == @user.id || @current_user.admin? %>
         <%= link_to '削除する', @review, method: :delete, data: { confirm: '本当に削除してよろしいですか？' } %>
         <% end %>
-        <p class="card-text"><%= @review.content %></p>
+        <p class="card-text"><%= simple_format(h(@review.content)) %></p>
       </div>
     </div>
   </div>

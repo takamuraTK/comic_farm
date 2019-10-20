@@ -54,6 +54,7 @@ class ReviewsController < ApplicationController
   end
 
   def edit
+    @review = Review.find(params[:id])
     @book_id = Book.find(@review.book_id)
   end
 

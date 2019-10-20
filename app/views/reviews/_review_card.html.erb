@@ -12,7 +12,7 @@
           <h6 class="card-subtitle mb-2 text-muted"><%= review.created_at %></h6>
           <h6 class="card-subtitle mb-2 text-muted">投稿者:<%= link_to User.find(review.user_id).name, user_path(review.user_id) %></h6>
           <h6 class="card-subtitle mb-2 text-muted">評価:<%= review.point %></h6>
-          <p class="card-text"><%= review.content %></p>
+          <p class="card-text"><%= simple_format(h(review.content)) %></p>
         </div>
       </div>
       <div class="reviewfavorite_zone_<%= review.id %>">
