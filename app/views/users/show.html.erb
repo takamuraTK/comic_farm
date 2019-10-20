@@ -85,7 +85,7 @@
     <p>お気に入り登録している漫画はありません。</p>
   <% end %>
 
-<div class="row">
+<div class="row" id="favzone">
 <% @favs_series.each do |comic,count| %>
   <div class="col-md-6">
   <% escape_comic = comic.sub(/\./,"") %>
