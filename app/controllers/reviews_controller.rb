@@ -7,7 +7,7 @@ class ReviewsController < ApplicationController
       redirect_to user_session_path
     end
     @book_id = params[:id]
-    @reviews = Review.where(book_id: @book_id)
+    @reviews = Review.where(book_id: @book_id).page(params[:page]).per(10)
   end
 
   def show
