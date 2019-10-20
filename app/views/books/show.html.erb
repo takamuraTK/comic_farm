@@ -48,14 +48,14 @@
 <% end %>
 
 <div class="collapse" id="collapseReview">
-  <% @reviews = Review.where(book_id: @book.id) %>
+  <% @reviews = Review.where(book_id: @book.id).order(created_at: "DESC").limit(10) %>
   <% unless @reviews.empty? %>
     <% @reviews.each do |review| %>
       <%= render 'reviews/review_card', review:review %>
     <% end %>
     <p><%= link_to '全てのレビューをみる', review_index_path(@book.id) %></p>
     <% else %>
-    <p>この作品にはまだレビューはありません。</p>
+      <p>この作品にはまだレビューはありません。</p>
   <% end %>
 </div>
 
