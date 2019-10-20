@@ -1,6 +1,10 @@
 require 'rails_helper'
 
 RSpec.describe Bookseries, type: :model do
+  it "有効なBookseriesレコードが登録できること" do
+    expect(FactoryBot.build(:bookseries)).to be_valid
+  end
+
   it "titleがないときは無効であること" do
     bookseries = FactoryBot.build(:bookseries, title: nil)
     bookseries.valid?
