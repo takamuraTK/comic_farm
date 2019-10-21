@@ -114,12 +114,14 @@
 
   <div id="tab4" class="tab-pane pt-2">
     <% unless @user.favreviews.empty? %>
-      <% @user.favreviews.each do |review| %>
+    <% favreviews = @user.favreviews.page(params[:page]).per(10) %>
+      <% favreviews.each do |review| %>
         <%= render 'reviews/review_card', review: review %>
       <% end %>
       <% else %>
       <p>いいねしたレビューはありません。</p>
     <% end %>
+    <%= paginate favreviews %>
   </div>
 
 </div>
