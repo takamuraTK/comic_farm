@@ -28,7 +28,6 @@ class ReviewsController < ApplicationController
     @review = Review.new
     @book = Book.find_by(isbn: params[:isbn])
     @book_id = @book.id
-    
   end
   
 

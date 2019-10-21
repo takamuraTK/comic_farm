@@ -6,7 +6,7 @@
 
 
   <div class="form-group">
-      <%= f.label :name%><br />
+      <%= f.label :name%>（あとからでも変更可能です）<br />
       <%= f.text_field :name, autofocus: true, class: 'form-control' %>
     </div>
   
@@ -30,7 +30,7 @@
     </div>
   
     <div class="actions">
-      <%= f.submit "Sign up", class: 'btn btn-primary btn-block'  %>
+      <%= button_tag sanitize('<i class="fa fa-sign-in"></i> 登録する'), type: 'submit', class: 'btn btn-dark btn-block' %>
     </div>
 <% end %>
 
