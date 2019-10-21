@@ -21,17 +21,26 @@
   <% end %>
 
   <div class="form-group">
-    <%= f.submit "ログイン", class: 'btn btn-primary btn-block'  %>
+    <%= button_tag sanitize('<i class="fa fa-sign-in"></i> ログイン'), type: 'submit', class: 'btn btn-primary btn-block' %>
   </div>
 <% end %>
 
 <%= form_for(User.new, url:user_session_path) do |f| %>
   <%= f.hidden_field :email, value: "xxx@example.com" %>
   <%= f.hidden_field :password, value: "password" %>
-  <%= f.submit "かんたんログイン", class:"btn btn-success btn-block mb-3"%> 
+  <%= button_tag sanitize('<i class="fa fa-sign-in"></i> かんたんログイン'), type: 'submit', class: 'btn btn-success btn-block mb-3' %>
 <% end %>
 <%= link_to fa_icon("twitter", text: "Twitterでログイン"), user_twitter_omniauth_authorize_path, class: "btn btn-info btn-block mb-3" %>
 <%= render "devise/shared/links" %>
-  </div>
+<div class="center mt-4">
+　 　○⌒＼<br>
+　　(二二二)<br>
+（⌒(　･∀･) ﾒﾘｰｸﾘｽﾏｽ!<br>
+(　　ｏ　　つ<br>
+(＿＿し―Ｊ<br>
 </div>
+  </div>
+  
+</div>
+
 </div>

@@ -118,10 +118,10 @@
       <% favreviews.each do |review| %>
         <%= render 'reviews/review_card', review: review %>
       <% end %>
+      <%= paginate favreviews %>
       <% else %>
       <p>いいねしたレビューはありません。</p>
     <% end %>
-    <%= paginate favreviews %>
   </div>
 
 </div>
