@@ -1,14 +1,28 @@
 <div class="mb-5">
-  <%= form_tag :books, method: :get do  %>
-  <div class="form-group row">
-    <%= label_tag :title, 'タイトル', class: "col-lg-2 pt-1" %>
-    <%= text_field_tag 'title', params[:title], class: 'form-control mb-2 col-lg-10' %>
-  </div>
-  <div class="form-group row">
-    <%= label_tag :sortselect, 'ソート設定', class: "col-lg-2 pt-1" %>
-    <%= select_tag :sortselect, options_for_select(['古い順', '新しい順', '売れている順']), class: 'form-control mb-2 col-lg-10' %>
-    <%= submit_tag "検索", class:'btn btn-success btn-block mt-4' %>
-  </div>
+  <%= form_with url: books_path, method: :get, local: true do |f| %>
+    <div class="form-group row">
+      <%= f.label :title, 'タイトル', class: "col-lg-2 pt-1" %>
+      <%= f.text_field "title", value: params[:title], class: 'form-control mb-2 col-lg-10' %>
+      <%= f.label :sortselect, 'ソート設定', class: "col-lg-2 pt-1" %>
+      <%= f.select :sortselect, options_for_select(['古い順', '新しい順', '売れている順'].map{|c|[c, {'data-sample'=>c}]},params[:sortselect]), {}, class: 'form-control mb-2 col-lg-10' %>
+      <%= f.label :pageselect, 'ページ指定', class: "col-lg-2 pt-1" do %>
+        <span id="hoge" class="" data-toggle="popover" title="ページ指定とは？" data-content="この検索は楽天APIを用いているので、1ページあたり30冊までしか表示できません。なので数の多い漫画を検索するときはページ数を指定することができます。">
+        ページ指定
+        </span>
+      <% end %>
+      
+      <%= f.number_field :pageselect, step: 1, min: 1, max: 100, value: @page, class: 'form-control mb-2 col-lg-10' %>
+    </div>
+    <div class="form-group row">
+      <%= f.submit "検索", class:'btn btn-success btn-block mt-4' %>
+    </div>
+    <script>
+      $(function() {
+        $('#hoge').popover({
+          trigger: 'hover', // click,hover,focus,manualを選択出来る
+        });
+      });
+    </script>
   <% end %>
 </div>
 <% if @books.present? %>

@@ -8,6 +8,11 @@ class BooksController < ApplicationController
     @books = []
     @title = params[:title]
     @sort_name = params[:sortselect]
+    if params[:pageselect].present?
+      @page = params[:pageselect]
+    else
+      @page = 1
+    end
 
     if @title.present?
       case params[:sortselect]
@@ -24,7 +29,8 @@ class BooksController < ApplicationController
         title: @title,
         booksGenreId: '001001',
         outOfStockFlag: '1',
-        sort: @sort_type
+        sort: @sort_type,
+        page: @page
       })
       results.each do |result|
         book = Book.new(read(result))
@@ -36,8 +42,8 @@ class BooksController < ApplicationController
         @no_results = "漫画は見つかりませんでした。"
       end
     end
-    @search_result = "検索結果：「#{@title}」を#{@sort_name}で表示しています。（該当件数#{@books.count}冊）"
-    @books = Kaminari.paginate_array(@books).page(params[:page]).per(24)
+    @search_result = "検索結果：「#{@title}」を#{@sort_name}で表示しています。"
+    @books = Kaminari.paginate_array(@books).page(params[:page]).per(30)
   end
 
   def create
@@ -59,7 +65,7 @@ class BooksController < ApplicationController
     end
 
     @book = Book.find_or_initialize_by(isbn: params[:isbn])
-    
+
     @book_subs_count = Book.joins(:subscribes).group(:book_id).count[@book.id]
     if @book_subs_count.nil?
       @book_subs_count = 0

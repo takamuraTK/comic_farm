@@ -36,7 +36,7 @@
 <%= render 'reviews/review_create_button', book: @book %>
 
 <button type="button" class="btn btn-dark" data-toggle="collapse" data-target="#collapseReview" aria-expanded="false" aria-controls="collapseReview">
-  レビューをみる
+  レビューをみる（下に表示されます）
 </button>
 
 <% if Book.find(@book.id).reviewuser.include?(current_user) %>
