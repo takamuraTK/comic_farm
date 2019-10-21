@@ -7,18 +7,29 @@
     </div>
     <div class="col-md-8">
       <div class="card-body">
-        <ul class="list-group list-group-flush">
+        
           <% if @user.admin? %>
             <b>管理者ユーザー</b>
           <% end %>
-          <li class="list-group-item">ユーザー名:<%= user.name %></li>
-          <li class="list-group-item">登録日:<%= user.created_at %></li>
-        </ul>
-        <div>
-        <p class="card-text">
-          <%= simple_format(user.profile) %>
-        </p>
-        </div>
+          
+          <div class="row">
+            <span class="col-lg-3 mb-1">名前</span><span class="col-lg-7"><%= user.name %></span>
+          </div>
+          <div class="row">
+            <span class="col-lg-3 mb-1">登録日</span><span class="col-lg-7"><%= user.created_at %></span>
+          </div>
+          <div class="row">
+            <span class="col-lg-3 mb-1">所持登録数</span><span class="col-lg-7"><%= user.books.count %></span>
+          </div>
+          <div class="row">
+            <span class="col-lg-3 mb-1">お気に入り登録数</span><span class="col-lg-7"><%= user.favbooks.count %></span>
+          </div>
+          <div class="row">
+            <span class="col-lg-3 mb-1">レビュー投稿数</span><span class="col-lg-7"><%= user.reviews.count %></span>
+          </div>
+          <div class="row">
+            <span class="col-lg-3 mb-1">プロフィール文</span><span class="col-lg-7"><%= simple_format(h(@user.profile)) %></span>
+          </div>
       </div>
     </div>
   </div>
