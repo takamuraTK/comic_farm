@@ -4,7 +4,7 @@
       <%= f.label :title, 'タイトル', class: "col-lg-2 pt-1" %>
       <%= f.text_field "title", value: params[:title], class: 'form-control mb-2 col-lg-10' %>
       <%= f.label :sortselect, 'ソート設定', class: "col-lg-2 pt-1" %>
-      <%= f.select :sortselect, options_for_select(['古い順', '新しい順', '売れている順'].map{|c|[c, {'data-sample'=>c}]},params[:sortselect]), {}, class: 'form-control mb-2 col-lg-10' %>
+      <%= f.select :sortselect, options_for_select(['古い順', '新しい順', '売れている順'].map{|c|[c, {}]},params[:sortselect]), {}, class: 'form-control mb-2 col-lg-10' %>
       <%= f.label :pageselect, 'ページ指定', class: "col-lg-2 pt-1" do %>
         <span id="hoge" class="" data-toggle="popover" title="ページ指定とは？" data-content="この検索は楽天APIを用いているので、1ページあたり30冊までしか表示できません。なので数の多い漫画を検索するときはページ数を指定することができます。">
         ページ指定

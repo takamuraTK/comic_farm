@@ -78,6 +78,8 @@ gem 'carrierwave'
 
 gem 'jquery-rails'
 
+gem 'font-awesome-rails'
+
 group :development, :test do
   gem 'rspec-rails', '~> 3.6.0'
   gem 'spring-commands-rspec'
