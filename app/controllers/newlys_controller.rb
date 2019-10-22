@@ -1,5 +1,9 @@
 class NewlysController < ApplicationController
   def search
+    unless user_signed_in?
+      flash[:warning] = '新刊検索をするにはログインが必要です。'
+      redirect_to user_session_path
+    end
     @month = params[:month]
     @publisherName = params[:publisher_select]
     if @publisherName.present? && @month.present?
@@ -44,16 +48,21 @@ class NewlysController < ApplicationController
   end
 
   def newfav
-    @books = []
-    now = Time.now
-    @month = now.mon.to_s
-    @year = now.year.to_s
-    @subbooks = current_user.books.group(:series).count.keys
-    @subbooks.each do |book|
-      comics = Book.where("title LIKE ?", "%#{book}%").where("salesDate LIKE ?", "%#{@year}年#{@month}月%")
-      comics.each do |comic|
-        @books << comic
+    if user_signed_in?
+      @books = []
+      now = Time.now
+      @month = now.mon.to_s
+      @year = now.year.to_s
+      @subbooks = current_user.books.group(:series).count.keys
+      @subbooks.each do |book|
+        comics = Book.where("title LIKE ?", "%#{book}%").where("salesDate LIKE ?", "%#{@year}年#{@month}月%")
+        comics.each do |comic|
+          @books << comic
+        end
       end
+    else
+      flash[:warning] = '買うかもしれない機能を使うにはログインが必要です。'
+      redirect_to user_session_path
     end
   end
 

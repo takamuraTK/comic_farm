@@ -46,15 +46,18 @@ class ReviewsController < ApplicationController
       redirect_to book_path(isbn)
     else
       flash.now[:danger] = 'レビューが投稿されませんでした'
-      # redirect_to review_new_path(isbn)
       render new_review_path
-      
     end
   end
 
   def edit
-    @review = Review.find(params[:id])
-    @book_id = Book.find(@review.book_id)
+    if user_signed_in? && current_user.id == Review.find(params[:id]).user
+      @review = Review.find(params[:id])
+      @book_id = Book.find(@review.book_id)
+    else
+      flash[:warning] = 'ログインが必要です。'
+      redirect_to user_session_path
+    end
   end
 
   def update
@@ -85,11 +88,13 @@ private
   end
   
   def correct_user
-    if current_user.admin == false
-      @review = current_user.reviews.find(params[:id])
-      if current_user.id != @review.user_id
-        flash[:warning] = "権限がありません"
-        redirect_to root_path
+    if user_signed_in? && current_user == Review.find(params[:id]).user
+      if current_user.admin == false
+        @review = current_user.reviews.find(params[:id])
+        if current_user.id != @review.user_id
+          flash[:warning] = "権限がありません"
+          redirect_to root_path
+        end
       end
     end
   end

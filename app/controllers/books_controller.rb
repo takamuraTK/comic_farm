@@ -111,7 +111,7 @@ class BooksController < ApplicationController
 
   def review_ranking
     unless user_signed_in?
-      flash[:warning] = 'レビューランキングをみるにはログインが必要です。'
+      flash[:warning] = '高評価ランキングをみるにはログインが必要です。'
       redirect_to user_session_path
     end
     @book_review_average = Book.joins(:reviews).group(:book_id).average(:point)
