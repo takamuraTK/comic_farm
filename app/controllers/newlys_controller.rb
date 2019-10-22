@@ -9,25 +9,29 @@ class NewlysController < ApplicationController
   end
 
   def download
-    @page = '1'
-    @month = params[:month]
-    if @month == '01'
-      @month = '13'
-    end
-    @pre_month = @month.to_i - 1
-    @check_page = 0
-    @publisherName = params[:publisher_select]
-    @books = []
-
-    if @publisherName.present?
-      books_search
-      while @check_page == 0
-        @page = @page.to_i + 1
-        @page.to_s
-        books_search
+    if current_user.admin == true
+      @page = '1'
+      @month = params[:month]
+      if @month == '01'
+        @month = '13'
       end
-    end
+      @pre_month = @month.to_i - 1
+      @check_page = 0
+      @publisherName = params[:publisher_select]
+      @books = []
 
+      if @publisherName.present?
+        books_search
+        while @check_page == 0
+          @page = @page.to_i + 1
+          @page.to_s
+          books_search
+        end
+      end
+    else
+      flash[:warning] = "権限がありません"
+      redirect_to root_path
+    end
   end
 
   def newfav

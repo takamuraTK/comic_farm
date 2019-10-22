@@ -19,7 +19,11 @@
         </li>
         <li class="nav-item"><%= link_to fa_icon("search", text: "新刊検索"), newlys_path, class: 'nav-link' %></li>
         <li class="nav-item"><%= link_to fa_icon("bell", text: "買うかもしれない新刊"), favnews_path, class: 'nav-link' %></li>
-        <li class="nav-item"><%= link_to fa_icon("download", text: "新刊ダウンロード"), newlys_download_path, class: 'nav-link' %></li>
+        <% if user_signed_in? %>
+          <% if current_user.admin == true %>
+            <li class="nav-item"><%= link_to fa_icon("download", text: "新刊ダウンロード"), newlys_download_path, class: 'nav-link' %></li>
+          <% end %>
+        <% end %>
         <li class="nav-item"><%= link_to fa_icon("question-circle", text: "使い方"), '/howto', class: 'nav-link' %></li>
       </ul>
       <% if user_signed_in? %>
