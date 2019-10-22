@@ -1,6 +1,7 @@
 FactoryBot.define do
   factory :newly do
-    publisherName { "MyString" }
-    counter { 1 }
+    publisherName { "集英社" }
+    counter { 123 }
+    month { "10" }
   end
 end
