@@ -110,24 +110,13 @@ class BooksController < ApplicationController
   end
 
   def review_ranking
+    unless user_signed_in?
+      flash[:warning] = 'レビューランキングをみるにはログインが必要です。'
+      redirect_to user_session_path
+    end
     @book_review_average = Book.joins(:reviews).group(:book_id).average(:point)
     book_review_ids = Hash[@book_review_average.sort_by{ |_, v| -v }].keys
-    # myspl
     @review_ranking = Book.where(id: book_review_ids).order("FIELD(id, #{book_review_ids.join(',')})").page(params[:page]).per(10)
-
-
-
-    # def self.order_by_ids(ids)
-    #   order_by = ["case"]
-    #   ids.each_with_index.map do |id, index|
-    #     order_by << "WHEN id='#{id}' THEN #{index}"
-    #   end
-    #   order_by << "end"
-    #   order(order_by.join(" "))
-    # end
-    # @review_ranking = Book.where(:id => book_review_ids).order_by_ids(book_review_ids).map(&:id).page(params[:page]).per(10)
-
-
     if params[:page].nil?
       @rank = 1
     else
