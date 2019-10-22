@@ -6,7 +6,7 @@
 <%= form_with url: newlys_download_path, method: :get, local: true do |f| %>
   <div class="form-group row">
     <%= f.label :publisher_select, '出版社選択', class: "col-lg-2 pt-1" %>
-    <%= f.select :publisher_select, options_for_select(['集英社', '小学館', '講談社']),{}, class: 'form-control mb-2 col-lg-10' %>
+    <%= f.select :publisher_select, options_for_select(publisher_name_array),{}, class: 'form-control mb-2 col-lg-10' %>
   </div>
   <div class="form-group row">
     <%= f.label :month, '月選択', class: "col-lg-2 pt-1" %>
@@ -16,3 +16,19 @@
   </div>
 <% end %>
 
+<h3>ダウンロード履歴</h3>
+<% if @downloads.present? %>
+  <ul class="list-group mb-2" >
+  <li class="list-group-item row" style="width:max"></li>
+  <% @downloads.each do |download| %>
+      <li class="list-group-item row" style="width:max">
+        <div class="row">
+          <div class="col-lg-5"><%= download.publisherName %></div>
+          <div class="col-lg-1"><%= download.month %>月</div>
+          <div class="col-lg-2"><%= download.counter %>冊</div>
+          <div class="col-lg-4"><%= download.created_at %></div>
+        </div>
+      </li>
+  <% end %>
+  </ul>
+<% end %>

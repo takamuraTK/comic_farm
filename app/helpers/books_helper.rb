@@ -19,12 +19,16 @@ def change_isbn(isbn13)
   "#{body}#{digit}"
 end
 
-  def series_create(title)
-    title.sub(
-      /\（.*|\(.*|\p{blank}\d.*|公式ファンブック.*|外伝.*|\p{blank}巻ノ.*/,""
-      )
-    .gsub(
-      /\p{blank}/,""
-      )
-  end
+def series_create(title)
+  title.sub(
+    /\（.*|\(.*|\p{blank}\d.*|公式ファンブック.*|外伝.*|\p{blank}巻ノ.*/,""
+    )
+  .gsub(
+    /\p{blank}/,""
+    )
+end
+
+def publisher_name_array
+  return ['集英社', '小学館', '講談社', '竹書房', '白泉社', '新潮社', '双葉社', '宙出版','秋田書店','少年画報社', 'ＫＡＤＯＫＡＷＡ', 'ハーパーコリンズ・ジャパン']
+end
 end

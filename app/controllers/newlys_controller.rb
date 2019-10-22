@@ -4,11 +4,14 @@ class NewlysController < ApplicationController
     @publisherName = params[:publisher_select]
     if @publisherName.present? && @month.present?
       @books = Book.where("salesDate LIKE ?", "%2019年#{@month}月%").where(publisherName: @publisherName)
-
+      if @books.blank?
+        @no_results = "漫画は見つかりませんでした。"
+      end
     end
   end
 
   def download
+    @downloads = Newly.order("created_at DESC")
     if current_user.admin == true
       @page = '1'
       @month = params[:month]
@@ -19,6 +22,7 @@ class NewlysController < ApplicationController
       @check_page = 0
       @publisherName = params[:publisher_select]
       @books = []
+      @counter = 0
 
       if @publisherName.present?
         books_search
@@ -27,6 +31,11 @@ class NewlysController < ApplicationController
           @page.to_s
           books_search
         end
+        Newly.create(
+          publisherName: @publisherName,
+          counter: @counter,
+          month: @month,
+        )
       end
     else
       flash[:warning] = "権限がありません"
@@ -79,6 +88,7 @@ class NewlysController < ApplicationController
         if book.salesDate =~ /#{@month}月/
           comic = Book.find_or_initialize_by(isbn: book.isbn)
           unless comic.persisted?
+            @counter += 1
             book.save
           end
         end

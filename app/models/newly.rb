@@ -1,0 +1,2 @@
+class Newly < ApplicationRecord
+end
