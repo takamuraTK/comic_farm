@@ -19,4 +19,12 @@ def change_isbn(isbn13)
   "#{body}#{digit}"
 end
 
+  def series_create(title)
+    title.sub(
+      /\（.*|\(.*|\p{blank}\d.*|公式ファンブック.*|外伝.*|\p{blank}巻ノ.*/,""
+      )
+    .gsub(
+      /\p{blank}/,""
+      )
+  end
 end

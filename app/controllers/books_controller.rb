@@ -146,7 +146,7 @@ private
     salesDate = result['salesDate']
     isbn = result['isbn']
     image_url = result['mediumImageUrl'].gsub('?_ex=120x120', '?_ex=350x350')
-    series = result['title'].sub(/\（.*|\(.*|\p{blank}\d.*|公式ファンブック.*|外伝.*|\p{blank}巻ノ.*/,"").gsub(/\p{blank}/,"")
+    series = view_context.series_create(result['title'])
     salesint = result['salesDate'].gsub(/年|月|日/,"").to_i
     {
       title: title,
