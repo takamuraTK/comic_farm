@@ -1,4 +1,4 @@
-<h2 class="mb-5">新刊ダウンロード</h2>
+<h2 class="mb-5">新刊情報登録</h2>
 <div class="mark mb-3">
 <p>これは管理者用の機能です</p>
 <p>楽天APIから新刊をいちいち検索するのは時間がかかるので、予めここから新刊漫画のデータをDBに登録します。</p>
@@ -19,7 +19,14 @@
 <h3>ダウンロード履歴</h3>
 <% if @downloads.present? %>
   <ul class="list-group mb-2" >
-  <li class="list-group-item row" style="width:max"></li>
+  <li class="list-group-item row list-group-item-success" style="width:max">
+    <div class="row">
+      <div class="col-lg-5">出版社名</div>
+      <div class="col-lg-1">月</div>
+      <div class="col-lg-2">冊数</div>
+      <div class="col-lg-4">登録日</div>
+    </div>
+  </li>
   <% @downloads.each do |download| %>
       <li class="list-group-item row" style="width:max">
         <div class="row">
