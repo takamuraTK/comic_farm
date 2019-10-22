@@ -85,7 +85,7 @@ private
   end
   
   def correct_user
-    if current_user.admin = false
+    if current_user.admin == false
       @review = current_user.reviews.find(params[:id])
       if current_user.id != @review.user_id
         flash[:warning] = "権限がありません"

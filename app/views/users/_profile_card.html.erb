@@ -16,7 +16,7 @@
             <span class="col-lg-3 mb-1">名前</span><span class="col-lg-7"><%= user.name %></span>
           </div>
           <div class="row">
-            <span class="col-lg-3 mb-1">登録日</span><span class="col-lg-7"><%= user.created_at %></span>
+            <span class="col-lg-3 mb-1">登録日</span><span class="col-lg-7"><%= user.created_at.strftime('%Y年%m月%d日') %></span>
           </div>
           <div class="row">
             <span class="col-lg-3 mb-1">所持登録数</span><span class="col-lg-7"><%= user.books.count %></span>

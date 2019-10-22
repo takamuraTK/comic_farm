@@ -19,16 +19,25 @@ class UsersController < ApplicationController
   end
 
   def edit
-    @user = User.find(params[:id])
+    if user_signed_in?
+      if current_user.id.to_s == params[:id]
+        @user = User.find(params[:id])
+      else
+        redirect_to root_path
+        flash[:danger] = '編集する権限がありません。'
+      end
+    else
+      redirect_to user_session_path
+    end
   end
 
   def update
     @user = User.find(params[:id])
     if @user.update(user_params)
-      flash[:success] = '設定完了'
+      flash[:success] = '編集が完了しました。'
       redirect_to @user
     else
-      flash.now[:danger] = '失敗しました'
+      flash.now[:danger] = '編集が失敗しました。'
       render :edit
     end
   end
@@ -39,4 +48,5 @@ class UsersController < ApplicationController
   def user_params
     params.require(:user).permit(:name, :image, :profile)
   end
+  
 end
