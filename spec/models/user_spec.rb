@@ -57,4 +57,16 @@ RSpec.describe User, type: :model do
     user = FactoryBot.build(:user, password: 'abcdef')
     expect(user).to be_valid
   end
+
+  it "プロフィール文が空でも有効であること" do
+    user = FactoryBot.build(:user, profile: nil)
+    user.valid?
+    expect(user).to be_valid
+  end
+
+  it "プロフィール文が1000文字より多い場合は無効であること" do
+    user = FactoryBot.build(:user, profile: "a"*1001)
+    user.valid?
+    expect(user).to_not be_valid
+  end
 end
