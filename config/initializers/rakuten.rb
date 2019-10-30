@@ -1,4 +1,4 @@
 RakutenWebService.configure do |c|
-    c.application_id = ENV['RAKUTEN_APP_ID']
-    c.affiliate_id = ENV['RAKUTEN_AFI_ID']
+    c.application_id = Rails.application.credentials.rakuten_app_id.to_s
+    c.affiliate_id = Rails.application.credentials.rakuten_afi_id
 end

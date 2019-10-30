@@ -80,6 +80,10 @@ gem 'jquery-rails'
 
 gem 'font-awesome-rails'
 
+group :production, :staging do
+  gem "unicorn", "5.3.1"
+end
+
 group :development, :test do
   gem 'rspec-rails', '~> 3.6.0'
   gem 'spring-commands-rspec'
