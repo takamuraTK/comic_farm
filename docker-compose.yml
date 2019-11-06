@@ -1,0 +1,44 @@
+version: '3'
+
+services:
+  web:
+    build: .
+    environment:
+      RAILS_ENV: development
+    volumes:
+      - .:/app
+      - publics:/app/public
+      - tmps:/app/tmp
+      - logs:/app/log
+    ports:
+      - "3000:3000"
+
+    #開発環境のみで使用
+    depends_on:
+      - db
+  
+  nginx:
+    build: containers/nginx
+    volumes:
+      - publics:/app/public
+      - tmps:/app/tmp
+      - logs:/app/log
+    ports:
+      - 80:80
+    depends_on:
+      - web
+
+  #開発環境のみで使用
+  db:
+    image: mysql:5.7
+    environment:
+      MYSQL_ROOT_PASSWORD: 
+    ports:
+      - '3306:3306'
+    volumes:
+      - mysql_data:/var/lib/mysql
+volumes:
+  mysql_data:
+  tmps:
+  logs:
+  publics:
