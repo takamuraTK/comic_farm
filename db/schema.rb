@@ -34,14 +34,6 @@ ActiveRecord::Schema.define(version: 2019_10_22_115901) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "comics", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
-    t.string "title"
-    t.string "image_url"
-    t.string "url"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
   create_table "favorites", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.bigint "user_id"
     t.bigint "book_id"
@@ -104,9 +96,6 @@ ActiveRecord::Schema.define(version: 2019_10_22_115901) do
     t.string "uid"
     t.string "provider"
     t.string "name", default: "", null: false
-    t.integer "sign_in_count", default: 0, null: false
-    t.datetime "current_sign_in_at"
-    t.datetime "last_sign_in_at"
     t.string "image"
     t.string "profile"
     t.boolean "admin", default: false

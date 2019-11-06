@@ -72,17 +72,13 @@ gem 'friendly_id'
 
 gem 'pry-byebug', group: :development
 
-gem 'therubyracer'
+# gem 'therubyracer'
 
 gem 'carrierwave'
 
 gem 'jquery-rails'
 
 gem 'font-awesome-rails'
-
-group :production, :staging do
-  gem "unicorn", "5.3.1"
-end
 
 group :development, :test do
   gem 'rspec-rails', '~> 3.6.0'
