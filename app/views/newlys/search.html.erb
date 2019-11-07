@@ -6,7 +6,13 @@
   </div>
   <div class="form-group row">
     <%= f.label :month, '月選択', class: "col-lg-2 pt-1" %>
-    <%= f.select :month, options_for_select({'2019年10月': '10', '2019年11月': '11', '2019年12月': '12'}),{}, class: "form-control mb-2 col-lg-10" %>
+    <% now = Time.current %>
+    <%= f.select :month, options_for_select([
+      now.year.to_s + "年" + now.month.to_s + "月",
+      now.next_month.year.to_s + "年" + now.next_month.month.to_s + "月",
+      now.since(2.month).year.to_s + "年" + now.since(2.month).month.to_s + "月",
+    ]
+    .map{|c|[c, {}]},params[:month]),{}, class: "form-control mb-2 col-lg-10" %>
   </div>
     <%= f.submit "新刊を探す", class:'btn btn-success btn-block mt-4' %>
 <% end %>

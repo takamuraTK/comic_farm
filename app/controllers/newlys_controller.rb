@@ -7,7 +7,7 @@ class NewlysController < ApplicationController
     @month = params[:month]
     @publisherName = params[:publisher_select]
     if @publisherName.present? && @month.present?
-      @books = Book.where("salesDate LIKE ?", "%2019年#{@month}月%").where(publisherName: @publisherName)
+      @books = Book.where("salesDate LIKE ?", "%#{@month}%").where(publisherName: @publisherName)
       if @books.blank?
         @no_results = "漫画は見つかりませんでした。"
       end
