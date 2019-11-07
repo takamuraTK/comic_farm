@@ -6,12 +6,17 @@
 <%= form_with url: newlys_download_path, method: :get, local: true do |f| %>
   <div class="form-group row">
     <%= f.label :publisher_select, '出版社選択', class: "col-lg-2 pt-1" %>
-    <%= f.select :publisher_select, options_for_select(publisher_name_array),{}, class: 'form-control mb-2 col-lg-10' %>
+    <%= f.select :publisher_select, options_for_select(publisher_name_array.map{|c|[c, {}]},params[:publisher_select]),{}, class: 'form-control mb-2 col-lg-10' %>
   </div>
   <div class="form-group row">
     <%= f.label :month, '月選択', class: "col-lg-2 pt-1" %>
-    <%= f.select :month, options_for_select(['10', '11', '12']),{}, class: 'form-control mb-2 col-lg-10' %>
-
+    <% now = Time.current %>
+    <%= f.select :month, options_for_select([
+      now.strftime("%Y年%m月"),
+      now.next_month.strftime("%Y年%m月"),
+      now.since(2.month).strftime("%Y年%m月"),
+      ]
+    .map{|c|[c, {}]},params[:month]),{}, class: 'form-control mb-2 col-lg-10' %>
     <%= f.submit "DBに登録", class:'btn btn-success btn-block mt-4' %>
   </div>
 <% end %>

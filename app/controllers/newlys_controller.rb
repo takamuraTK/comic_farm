@@ -7,7 +7,7 @@ class NewlysController < ApplicationController
     @month = params[:month]
     @publisherName = params[:publisher_select]
     if @publisherName.present? && @month.present?
-      @books = Book.where("salesDate LIKE ?", "%2019年#{@month}月%").where(publisherName: @publisherName)
+      @books = Book.where("salesDate LIKE ?", "%#{@month}%").where(publisherName: @publisherName)
       if @books.blank?
         @no_results = "漫画は見つかりませんでした。"
       end
@@ -18,17 +18,31 @@ class NewlysController < ApplicationController
     @downloads = Newly.order("created_at DESC")
     if current_user.admin == true
       @page = '1'
-      @month = params[:month]
-      if @month == '01'
-        @month = '13'
-      end
-      @pre_month = @month.to_i - 1
+      @select_month = params[:month]
+      now = Time.current
       @check_page = 0
       @publisherName = params[:publisher_select]
       @books = []
       @counter = 0
 
-      if @publisherName.present?
+      case @select_month
+      when now.strftime("%Y年%m月") then
+        @month = now.strftime("%m")
+        @pre_month = now.prev_month.strftime("%m")
+      
+      when now.next_month.strftime("%Y年%m月") then
+        @month = now.next_month.strftime("%m")
+        @pre_month = now.strftime("%m")
+      
+      when now.since(2.month).strftime("%Y年%m月") then
+        @month = now.since(2.month).strftime("%m")
+        @pre_month = now.next_month.strftime("%m")
+      
+      end
+
+     
+
+      if @publisherName.present? && @month.present? && @pre_month.present?
         books_search
         while @check_page == 0
           @page = @page.to_i + 1
@@ -90,7 +104,7 @@ class NewlysController < ApplicationController
     })
     results.each do |result|
       book = Book.new(read(result))
-      if book.salesDate =~ /#{@pre_month.to_s}月/
+      if book.salesDate =~ /#{@pre_month}月/
         @check_page = 1
       end
       unless book.title =~ /コミックカレンダー|(巻|冊|BOX)セット/
