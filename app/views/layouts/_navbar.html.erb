@@ -13,8 +13,8 @@
           <i class="fa fa-star"></i> ランキング
           </a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <%= link_to '登録数ランキング', '/subscribe-ranking', class: 'dropdown-item' %>
-            <%= link_to '高評価ランキング', '/review-ranking', class: 'dropdown-item' %>
+            <%= link_to fa_icon("plus", text: "登録数ランキング"), '/subscribe-ranking', class: 'dropdown-item' %>
+            <%= link_to fa_icon("thumbs-up", text: "高評価ランキング"), '/review-ranking', class: 'dropdown-item' %>
           </div>
         </li>
         <li class="nav-item"><%= link_to fa_icon("search", text: "新刊検索"), newlys_path, class: 'nav-link' %></li>
