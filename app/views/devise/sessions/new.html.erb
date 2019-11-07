@@ -1,5 +1,5 @@
-<div class="top">
-<div class="text-center mb-4"><h2>ログイン</h2></div>
+<div class="top mb-4">
+<div class="text-center"><h2>ログイン</h2></div>
 <div class="row">
   <div class="col-sm-6 offset-sm-3">
   <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
@@ -32,15 +32,6 @@
 <% end %>
 <%= link_to fa_icon("twitter", text: "Twitterでログイン"), user_twitter_omniauth_authorize_path, class: "btn btn-info btn-block mb-3" %>
 <%= render "devise/shared/links" %>
-<div class="center mt-4">
-　 　○⌒＼<br>
-　　(二二二)<br>
-（⌒(　･∀･) ﾒﾘｰｸﾘｽﾏｽ!<br>
-(　　ｏ　　つ<br>
-(＿＿し―Ｊ<br>
-</div>
   </div>
-  
 </div>
-
 </div>

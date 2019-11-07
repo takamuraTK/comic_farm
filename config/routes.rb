@@ -7,7 +7,7 @@ Rails.application.routes.draw do
     get '/users/sign_out' => 'devise/sessions#destroy'
   end
   
-  root to: 'toppages#index'
+  get root to: 'toppages#index'
   
   resources :users, only: [:show, :edit, :update] do
     member do

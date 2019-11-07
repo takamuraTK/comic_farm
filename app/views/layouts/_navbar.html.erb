@@ -1,6 +1,6 @@
 <header class="mb-4">
   <nav class="navbar navbar-expand-sm navbar-light bg-light">
-    <a class="navbar-brand" href="/">ComicFarm</a>
+    <a class="navbar-brand title_comicfarm_small" href="/">ComicFarm</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -13,8 +13,8 @@
           <i class="fa fa-star"></i> ランキング
           </a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <%= link_to '登録数ランキング', '/subscribe-ranking', class: 'dropdown-item' %>
-            <%= link_to '高評価ランキング', '/review-ranking', class: 'dropdown-item' %>
+            <%= link_to fa_icon("plus", text: "登録数ランキング"), '/subscribe-ranking', class: 'dropdown-item' %>
+            <%= link_to fa_icon("thumbs-up", text: "高評価ランキング"), '/review-ranking', class: 'dropdown-item' %>
           </div>
         </li>
         <li class="nav-item"><%= link_to fa_icon("search", text: "新刊検索"), newlys_path, class: 'nav-link' %></li>

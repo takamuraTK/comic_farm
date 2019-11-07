@@ -1,0 +1,15 @@
+* {
+    font-family: 'Ludica Sans Unicode', 'Noto Sans JP', "Helvetica Neue", Helvetica, Arial, "游ゴシック体", "Yu Gothic", YuGothic, "Hiragino Kaku Gothic ProN", Meiryo, sans-serif;
+    font-weight: 500;
+}
+
+.title_comicfarm_big {
+    font-family: 'Economica', sans-serif, cursive, 'Ludica Sans Unicode', 'Noto Sans JP', "Helvetica Neue", Helvetica, Arial, "游ゴシック体", "Yu Gothic", YuGothic, "Hiragino Kaku Gothic ProN", Meiryo, sans-serif;
+    font-size: 120px;
+    letter-spacing: 2px;
+}
+
+.title_comicfarm_small {
+    font-family: 'Economica', sans-serif, cursive, 'Ludica Sans Unicode', 'Noto Sans JP', "Helvetica Neue", Helvetica, Arial, "游ゴシック体", "Yu Gothic", YuGothic, "Hiragino Kaku Gothic ProN", Meiryo, sans-serif;
+    letter-spacing: 2px;
+}
