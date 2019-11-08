@@ -15,6 +15,8 @@ development:
 test:
   <<: *default
   database: comic_farm_container_db_test
+  username: test
+  password: test
 
 production:
   <<: *default

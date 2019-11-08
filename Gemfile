@@ -84,4 +84,5 @@ group :development, :test do
   gem 'rspec-rails', '~> 3.6.0'
   gem 'spring-commands-rspec'
   gem 'factory_bot_rails'
+  gem 'rspec_junit_formatter'
 end

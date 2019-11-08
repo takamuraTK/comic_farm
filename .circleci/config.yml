@@ -1,64 +1,103 @@
-# Ruby CircleCI 2.0 configuration file
-#
-# Check https://circleci.com/docs/2.0/language-ruby/ for more details
-#
-version: 2
-jobs:
-  build:
-    docker:
-      # specify the version you desire here
-      - image: circleci/ruby:2.5.3-node-browsers
+version: 2 # use CircleCI 2.0
+jobs: # a collection of steps
+  test:
+    docker: 
+      - image: circleci/ruby:2.5.3-node-browsers 
+        environment: 
+          RAILS_ENV: test
+          # テスト環境を実行するための環境変数
       - image: circleci/mysql:5.7
-
-      # Specify service dependencies here if necessary
-      # CircleCI maintains a library of pre-built images
-      # documented at https://circleci.com/docs/2.0/circleci-images/
-      # - image: circleci/postgres:9.4
-
+        environment:
+        # database.ymlのテストに合わせる
+          MYSQL_USER: test
+          MYSQL_ROOT_PASSWORD: test
+          MYSQL_DATABASE: comic_farm_container_db_test
     working_directory: ~/repo
-
     steps:
       - checkout
-
-      # Download and cache dependencies
-      - restore_cache:
-          keys:
-            - v1-dependencies-{{ checksum "Gemfile.lock" }}
-            # fallback to using the latest cache if no exact match is found
-            - v1-dependencies-
-
       - run:
-          name: install dependencies
-          command: |
-            bundle install --jobs=4 --retry=3 --path vendor/bundle
-
-      - save_cache:
-          paths:
-            - ./vendor/bundle
-          key: v1-dependencies-{{ checksum "Gemfile.lock" }}
-
-      # Database setup
-      - run: bundle exec rake db:create
-      - run: bundle exec rake db:schema:load
-
-      # run tests!
+          name: bundle install
+          command: bundle install --path vendor/bundle
       - run:
-          name: run tests
-          command: |
-            mkdir /tmp/test-results
-            TEST_FILES="$(circleci tests glob "spec/**/*_spec.rb" | \
-              circleci tests split --split-by=timings)"
+          name: データベースの起動を待機
+          command: dockerize -wait tcp://127.0.0.1:3306 -timeout 1m
+          # dockerizeは指定のポートにリクエストを送り、返信が来るか確かめている。この場合、データベースの起動を確認している。
+      - run:
+          name: データベースのセットアップ
+          command: bundle exec rake db:schema:load
+      - run: 
+          name: テストの実行
+          command: bundle exec rspec
+          
+workflows:
+# ジョブの集まりとその実行順序の定義を決めるもの
+  version: 2
+  workflows:
+    jobs:
+      - test
+        
 
-            bundle exec rspec \
-              --format progress \
-              --format RspecJunitFormatter \
-              --out /tmp/test-results/rspec.xml \
-              --format progress \
-              $TEST_FILES
+  # build: # runs not using Workflows must have a `build` job as entry point
+  #   parallelism: 3 # run three instances of this job in parallel
+  #   docker: # run the steps with Docker
+  #     - image: circleci/ruby:2.5.3-jessie-node # ...with this image as the primary container; this is where all `steps` will run
+  #       environment: # environment variables for primary container
+  #         BUNDLE_JOBS: 3
+  #         BUNDLE_RETRY: 3
+  #         BUNDLE_PATH: vendor/bundle
+  #         PGHOST: 127.0.0.1
+  #         PGUSER: circleci-demo-ruby
+  #         RAILS_ENV: test
+  #     - image: mysql:5.7 # database image
+  #       environment: # environment variables for database
+  #         MYSQL_USER: test
+  #         MYSQL_DB: comic_farm_container_db_test
+  #         MYSQL_PASSWORD: test
+  #   steps: # a collection of executable commands
+  #     - checkout # special step to check out source code to working directory
 
-      # collect reports
-      - store_test_results:
-          path: /tmp/test-results
-      - store_artifacts:
-          path: /tmp/test-results
-          destination: test-results
+  #     # Which version of bundler?
+  #     - run:
+  #         name: Which bundler?
+  #         command: bundle -v
+
+  #     # Restore bundle cache
+  #     # Read about caching dependencies: https://circleci.com/docs/2.0/caching/
+  #     - restore_cache:
+  #         keys:
+  #           - rails-demo-bundle-v2-{{ checksum "Gemfile.lock" }}
+  #           - rails-demo-bundle-v2-
+
+  #     - run: # Install Ruby dependencies
+  #         name: Bundle Install
+  #         command: bundle check --path vendor/bundle || bundle install --deployment
+
+  #     # Store bundle cache for Ruby dependencies
+  #     - save_cache:
+  #         key: rails-demo-bundle-v2-{{ checksum "Gemfile.lock" }}
+  #         paths:
+  #           - vendor/bundle
+
+  #     # Only necessary if app uses webpacker or yarn in some other way
+      
+  #     - run:
+  #         name: Wait for DB
+  #         command: dockerize -wait tcp://localhost:5432 -timeout 1m
+
+  #     - run:
+  #         name: Database setup
+  #         command: bin/rails db:schema:load --trace
+
+  #     - run:
+  #         name: Run rspec in parallel
+  #         command: |
+  #           bundle exec rspec --profile 10 \
+  #                             --format RspecJunitFormatter \
+  #                             --out test_results/rspec.xml \
+  #                             --format progress \
+  #                             $(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)
+
+  #     # Save test results for timing analysis
+  #     - store_test_results: # Upload test results for display in Test Summary: https://circleci.com/docs/2.0/collect-test-data/
+  #         path: test_results
+  #     # See https://circleci.com/docs/2.0/deployment-integrations/ for example deploy configs
