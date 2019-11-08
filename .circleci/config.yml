@@ -30,7 +30,7 @@ jobs: # a collection of steps
           command: bundle exec rspec
           
 workflows:
-# ジョブの集まりとその実行順序の定義を決めるもの
+# 複数のジョブを管理するところ
   version: 2
   workflows:
     jobs:
