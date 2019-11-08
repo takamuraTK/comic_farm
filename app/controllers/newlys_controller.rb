@@ -16,7 +16,7 @@ class NewlysController < ApplicationController
 
   def download
     @downloads = Newly.order("created_at DESC")
-    if current_user.admin == true
+    if current_user.admin == true && current_user.downloadadmin == true
       @page = '1'
       @select_month = params[:month]
       now = Time.current
@@ -29,18 +29,13 @@ class NewlysController < ApplicationController
       when now.strftime("%Y年%m月") then
         @month = now.strftime("%m")
         @pre_month = now.prev_month.strftime("%m")
-      
       when now.next_month.strftime("%Y年%m月") then
         @month = now.next_month.strftime("%m")
         @pre_month = now.strftime("%m")
-      
       when now.since(2.month).strftime("%Y年%m月") then
         @month = now.since(2.month).strftime("%m")
         @pre_month = now.next_month.strftime("%m")
-      
       end
-
-     
 
       if @publisherName.present? && @month.present? && @pre_month.present?
         books_search
