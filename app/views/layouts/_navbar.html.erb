@@ -20,7 +20,7 @@
         <li class="nav-item"><%= link_to fa_icon("search", text: "新刊検索"), newlys_path, class: 'nav-link' %></li>
         <li class="nav-item"><%= link_to fa_icon("bell", text: "買うかもしれない新刊"), favnews_path, class: 'nav-link' %></li>
         <% if user_signed_in? %>
-          <% if current_user.admin == true %>
+          <% if current_user.admin == true && current_user.downloadadmin == true %>
             <li class="nav-item"><%= link_to fa_icon("download", text: "新刊情報登録"), newlys_download_path, class: 'nav-link' %></li>
           <% end %>
         <% end %>
