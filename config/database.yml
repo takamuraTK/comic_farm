@@ -13,15 +13,15 @@ development:
   database: comic_farm_container_db_development
 
 test:
-  host: localhost
+  host: <%= ENV['COMIC_FARM_DATABASE_HOST'] %>
   adapter: mysql2
   encoding: utf8
   pool: 5
   port: 3306
   timeout: 10000
   database: comic_farm_container_db_test
-  username: test
-  password: test
+  username: root
+  password: <%= ENV['COMIC_FARM_DATABASE_PASSWORD'] %>
 
 production:
   <<: *default

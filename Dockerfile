@@ -31,7 +31,7 @@ ENV APP_HOME /app
 RUN mkdir -p $APP_HOME
 WORKDIR $APP_HOME
 ADD . $APP_HOME
-ENV RAILS_ENV development
+ENV RAILS_ENV test
 RUN rm -f tmp/pids/server.pid
 VOLUME /app/public
 VOLUME /app/tmp
