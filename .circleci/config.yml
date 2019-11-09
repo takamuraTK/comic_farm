@@ -7,11 +7,13 @@ jobs: # a collection of steps
           RAILS_ENV: test
           # テスト環境を実行するための環境変数
           BUNDLER_VERSION: 2.0.2
-      - image: circleci/mysql:5.7
+          COMIC_FARM_DATABASE_HOST: 127.0.0.1
+          COMIC_FARM_DATABASE_PASSWORD: password
+      - image: mysql:5.7
         environment:
-        # database.ymlのテストに合わせる
-          MYSQL_USER: test
-          MYSQL_ROOT_PASSWORD: test
+          # MYSQL_HOST: comic_farm_db_1
+          MYSQL_USER: root
+          MYSQL_ROOT_PASSWORD: password
           MYSQL_DATABASE: comic_farm_container_db_test
     working_directory: ~/repo
     steps:
