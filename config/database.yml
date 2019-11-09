@@ -2,7 +2,7 @@
 default: &default
   adapter: mysql2
   encoding: utf8
-  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  pool: 5
   username: root
   password: <%= ENV['COMIC_FARM_DATABASE_PASSWORD'] %>
   socket: /var/lib/mysql/mysql.sock
@@ -13,7 +13,12 @@ development:
   database: comic_farm_container_db_development
 
 test:
-  <<: *default
+  host: localhost
+  adapter: mysql2
+  encoding: utf8
+  pool: 5
+  port: 3306
+  timeout: 10000
   database: comic_farm_container_db_test
   username: test
   password: test
