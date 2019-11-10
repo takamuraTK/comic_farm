@@ -29,33 +29,34 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
   # end
 
   def twitter
-    @user = User.from_omniauth(request.env["omniauth.auth"].except("extra"))
+    @user = User.from_omniauth(request.env['omniauth.auth'].except('extra'))
 
     if @user.persisted?
-        sign_in_and_redirect @user
+      sign_in_and_redirect @user
     else
-        @user.skip_confirmation!
-        @user.save!
-        # session["devise.user_attributes"] = @user.attributes
-        # ↑ 認証データを覚える必要はないので削除
-        # redirect_to new_user_registration_url
-        # ↑ ログインすることになるので以下のように修正
-        sign_in_and_redirect @user
+      @user.skip_confirmation!
+      @user.save!
+      # session["devise.user_attributes"] = @user.attributes
+      # ↑ 認証データを覚える必要はないので削除
+      # redirect_to new_user_registration_url
+      # ↑ ログインすることになるので以下のように修正
+      sign_in_and_redirect @user
     end
 end
 
   private
+
   def callback_from(provider)
     provider = provider.to_s
 
     @user = User.find_for_oauth(request.env['omniauth.auth'])
 
     if @user.persisted?
-      print("persisted true")
+      print('persisted true')
       flash[:notice] = I18n.t('devise.omniauth_callbacks.success', kind: provider.capitalize)
       sign_in_and_redirect @user, event: :authentication
     else
-      print("persisted false")
+      print('persisted false')
       session["devise.#{provider}_data"] = request.env['omniauth.auth']
       redirect_to controller: 'sessions', action: 'new'
     end

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class UsersController < ApplicationController
   def show
     unless user_signed_in?
@@ -12,7 +14,7 @@ class UsersController < ApplicationController
       @reviews = Review.where(user_id: params[:id])
       @favs = @user.favbooks.page(params[:page]).per(10)
       @user.books
-      @recently_subs_id = @user.subscribes.order("id DESC").limit(4).select("book_id")
+      @recently_subs_id = @user.subscribes.order('id DESC').limit(4).select('book_id')
       @subs_series = @user.books.group(:series).count.sort
       @favs_series = @user.favbooks.group(:series).count.sort
     end
@@ -48,5 +50,4 @@ class UsersController < ApplicationController
   def user_params
     params.require(:user).permit(:name, :image, :profile)
   end
-  
 end
