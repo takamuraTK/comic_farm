@@ -16,6 +16,9 @@ Style/Documentation:
 Metrics/LineLength:
   Enabled: false
 
+# Metrics/ClassLength:
+#   Enabled: false
+
 #日本語コメント許可
 AsciiComments:
   Enabled: false

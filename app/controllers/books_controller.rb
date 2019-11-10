@@ -9,6 +9,7 @@ class BooksController < ApplicationController
 
     @books = []
     @title = params[:title]
+    @sort_type = params[:sortselect]
     @page = if params[:pageselect].present?
               params[:pageselect]
             else
@@ -16,8 +17,6 @@ class BooksController < ApplicationController
             end
 
     if @title.present?
-      @sort_type = params[:sortselect]
-
       results = RakutenWebService::Books::Book.search(
         title: @title,
         booksGenreId: '001001',
@@ -54,10 +53,8 @@ class BooksController < ApplicationController
     end
 
     @book = Book.find_or_initialize_by(isbn: params[:isbn])
-
     @book_subs_count = Book.joins(:subscribes).group(:book_id).count[@book.id]
     @book_subs_count = 0 if @book_subs_count.nil?
-
     @book_favs_count = Book.joins(:favorites).group(:book_id).count[@book.id]
     @book_favs_count = 0 if @book_favs_count.nil?
 
@@ -69,6 +66,7 @@ class BooksController < ApplicationController
       @book = Book.new(read(results.first))
       @book.save
     end
+
     if Bookseries.find_by(title: @book.series).nil?
       @bookseries = Bookseries.new(title: @book.series)
       @bookseries.save
@@ -83,12 +81,7 @@ class BooksController < ApplicationController
     @book_subs_count = Book.joins(:subscribes).group(:book_id).count
     @book_subs_ids = Hash[@book_subs_count.sort_by { |_, v| -v }].keys
     @book_ranking = Book.where(id: @book_subs_ids).order("FIELD(id, #{@book_subs_ids.join(',')})").page(params[:page]).per(15)
-    if params[:page].nil?
-      @rank = 1
-    else
-      page = params[:page].to_i
-      @rank = (page - 1) * 10 + 1
-    end
+    params[:page].nil? ? (@rank = 1) : (page = params[:page].to_i, @rank = (page - 1) * 10 + 1)
   end
 
   def review_ranking
@@ -99,12 +92,7 @@ class BooksController < ApplicationController
     @book_review_average = Book.joins(:reviews).group(:book_id).average(:point)
     book_review_ids = Hash[@book_review_average.sort_by { |_, v| -v }].keys
     @review_ranking = Book.where(id: book_review_ids).order("FIELD(id, #{book_review_ids.join(',')})").page(params[:page]).per(15)
-    if params[:page].nil?
-      @rank = 1
-    else
-      page = params[:page].to_i
-      @rank = (page - 1) * 10 + 1
-    end
+    params[:page].nil? ? (@rank = 1) : (page = params[:page].to_i, @rank = (page - 1) * 10 + 1)
   end
 
   private
@@ -131,4 +119,5 @@ class BooksController < ApplicationController
       salesint: salesint
     }
   end
+
 end
