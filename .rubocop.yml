@@ -1,0 +1,24 @@
+AllCops:
+  # 除外するディレクトリ（自動生成されたファイル）
+  # デフォルト設定にある"vendor/**/*"が無効化されないように記述
+  Exclude:
+    - db/schema.rb
+    - db/migrate/*
+    - vendor/**/*
+    - tmp/**/*
+  # Rails向けのRails copsを実行。"rubocop -R"と同じ
+Rails:
+  Enabled: true
+
+Style/Documentation:
+  Enabled: false
+
+Metrics/LineLength:
+  Enabled: false
+
+# Metrics/ClassLength:
+#   Enabled: false
+
+#日本語コメント許可
+AsciiComments:
+  Enabled: false

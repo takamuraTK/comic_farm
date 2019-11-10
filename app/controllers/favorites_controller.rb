@@ -1,24 +1,26 @@
+# frozen_string_literal: true
+
 class FavoritesController < ApplicationController
   def create
     @book = Book.find_or_initialize_by(isbn: params[:isbn_id])
     unless @book.persisted?
-        results = RakutenWebService::Books::Book.search({
-          isbn: params[:isbn_id],
-          outOfStockFlag: '1',
-        })
-        @book = Book.new(read(results.first))
-        @book.save
+      results = RakutenWebService::Books::Book.search(
+        isbn: params[:isbn_id],
+        outOfStockFlag: '1'
+      )
+      @book = Book.new(read(results.first))
+      @book.save
     end
     current_user.addfav(@book)
   end
-  
+
   def destroy
     @book = Book.find_or_initialize_by(isbn: params[:isbn_id])
     current_user.removefav(@book)
   end
-  
-private
-  
+
+  private
+
   def read(result)
     title = result['title']
     author = result['author']
@@ -28,7 +30,7 @@ private
     isbn = result['isbn']
     image_url = result['mediumImageUrl'].gsub('?_ex=120x120', '?_ex=350x350')
     series = view_context.series_create(result['title'])
-    salesint = result['salesDate'].gsub(/年|月|日/,"").to_i
+    salesint = result['salesDate'].gsub(/年|月|日/, '').to_i
     {
       title: title,
       author: author,
@@ -38,7 +40,7 @@ private
       isbn: isbn,
       image_url: image_url,
       series: series,
-      salesint: salesint,
+      salesint: salesint
     }
   end
 end

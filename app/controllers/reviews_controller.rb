@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 class ReviewsController < ApplicationController
-  before_action :correct_user, only: [:edit,:destroy]
-  
+  before_action :correct_user, only: %i[edit destroy]
+
   def index
     unless user_signed_in?
       flash[:warning] = 'レビューをみるにはログインが必要です。'
@@ -29,16 +31,15 @@ class ReviewsController < ApplicationController
     @book = Book.find_by(isbn: params[:isbn])
     @book_id = @book.id
   end
-  
 
   def create
     @review = Review.new(
       user_id: current_user.id,
       book_id: params[:book_id],
-      head: review_params["head"],
-      content: review_params["content"],
-      point: review_params["point"],
-      )
+      head: review_params['head'],
+      content: review_params['content'],
+      point: review_params['point']
+    )
     @book = Book.find(params[:book_id])
     isbn = @book.isbn
     if @review.save
@@ -70,7 +71,7 @@ class ReviewsController < ApplicationController
       render :edit
     end
   end
-  
+
   def destroy
     @review = Review.find(params[:id])
     @book = Book.find(@review.book_id)
@@ -78,25 +79,24 @@ class ReviewsController < ApplicationController
     flash[:success] = 'レビューは正常に削除されました'
     redirect_to book_path(@book.isbn)
   end
-  
-  def error
-  end
-  
-private
+
+  def error; end
+
+  private
+
   def review_params
-    params.require(:review).permit(:head,:content,:point)
+    params.require(:review).permit(:head, :content, :point)
   end
-  
+
   def correct_user
     if user_signed_in? && current_user == Review.find(params[:id]).user
       if current_user.admin == false
         @review = current_user.reviews.find(params[:id])
         if current_user.id != @review.user_id
-          flash[:warning] = "権限がありません"
+          flash[:warning] = '権限がありません'
           redirect_to root_path
         end
       end
     end
   end
-  
 end
