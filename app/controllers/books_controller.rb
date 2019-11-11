@@ -25,7 +25,6 @@ class BooksController < ApplicationController
       end
       @no_results = '漫画は見つかりませんでした。' if @books.blank?
     end
-    @search_result = "検索結果：「#{@title}」を表示しています。"
     @books = Kaminari.paginate_array(@books).page(params[:page]).per(30)
   end
 
