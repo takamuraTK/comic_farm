@@ -4,19 +4,17 @@ class BooksController < ApplicationController
   before_action :require_sign_in
   def new
     @books = []
-    @title = params[:title]
-    @sort_type = params[:sortselect]
     @page = if params[:pageselect].present?
               params[:pageselect]
             else
               1
             end
-    if @title.present?
+    if params[:title].present?
       results = RakutenWebService::Books::Book.search(
-        title: @title,
+        title: params[:title],
         booksGenreId: '001001',
         outOfStockFlag: '1',
-        sort: @sort_type,
+        sort: params[:sortselect],
         page: @page
       )
       results.each do |result|
