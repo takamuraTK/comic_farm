@@ -6,7 +6,7 @@
   <% if @book_ranking.present? %>
   <% @book_ranking.each do |book| %>
     <%= render 'ranking_books_card', book: book, test: "a" %>
-  <% @rank+=1 %>
+    <% @rank+=1 %>
   <% end %>
   <% end %>
 </div>

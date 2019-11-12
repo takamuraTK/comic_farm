@@ -31,4 +31,6 @@ class Book < ApplicationRecord
     count = Book.joins(:favorites).group(:book_id).count[self.id]
     count ||= 0
   end
+
+  
 end
