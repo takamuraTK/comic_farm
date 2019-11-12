@@ -4,34 +4,13 @@ class BooksController < ApplicationController
   before_action :require_sign_in
   def new
     @books = []
-    @page = params[:pageselect].present? ? params[:pageselect] : 1
+    params[:sortselect].presence || 'standard'
+    @page = params[:pageselect].presence || 1
     if params[:title].present?
-      results = RakutenWebService::Books::Book.search(
-        title: params[:title],
-        booksGenreId: '001001',
-        outOfStockFlag: '1',
-        sort: params[:sortselect],
-        page: @page
-      )
-      results.each do |result|
-        book = Book.new(read(result))
-        @books << book unless book.title =~ /コミックカレンダー|(巻|冊|BOX)セット/
-      end
+      view_context.search_books(params[:title], params[:sortselect], @page)
       @no_results = '漫画は見つかりませんでした。' if @books.blank?
     end
     @books = Kaminari.paginate_array(@books).page(params[:page]).per(30)
-  end
-
-  def create
-    @book = Book.find_or_initialize_by(isbn: params[:isbn])
-    unless @book.persisted?
-      results = RakutenWebService::Books::Book.search(
-        isbn: @book.isbn,
-        outOfStockFlag: '1'
-      )
-      @book = Book.new(read(results.first))
-      @book.save
-    end
   end
 
   def show
@@ -42,11 +21,7 @@ class BooksController < ApplicationController
     @book_favs_count = 0 if @book_favs_count.nil?
 
     unless @book.persisted?
-      results = RakutenWebService::Books::Book.search(
-        isbn: @book.isbn,
-        outOfStockFlag: '1'
-      )
-      @book = Book.new(read(results.first))
+      @book = Book.new(view_context.search_isbn(@book.isbn))
       @book.save
     end
 
@@ -79,26 +54,18 @@ class BooksController < ApplicationController
     end
   end
 
-  def read(result)
-    title = result['title']
-    author = result['author']
-    publisherName = result['publisherName']
-    url = result['itemUrl']
-    salesDate = result['salesDate']
-    isbn = result['isbn']
-    image_url = result['mediumImageUrl'].gsub('?_ex=120x120', '?_ex=350x350')
-    series = view_context.series_create(result['title'])
-    salesint = result['salesDate'].gsub(/年|月|日/, '').to_i
-    {
-      title: title,
-      author: author,
-      publisherName: publisherName,
-      url: url,
-      salesDate: salesDate,
-      isbn: isbn,
-      image_url: image_url,
-      series: series,
-      salesint: salesint
-    }
-  end
+  # def read(result)
+
+  #   {
+  #     title: result['title'],
+  #     author: result['author'],
+  #     publisherName: result['publisherName'],
+  #     url: result['itemUrl'],
+  #     salesDate: result['salesDate'],
+  #     isbn: result['isbn'],
+  #     image_url: result['mediumImageUrl'].gsub('?_ex=120x120', '?_ex=350x350'),
+  #     series: view_context.series_create(result['title']),
+  #     salesint: result['salesDate'].gsub(/年|月|日/, '').to_i
+  #   }
+  # end
 end
