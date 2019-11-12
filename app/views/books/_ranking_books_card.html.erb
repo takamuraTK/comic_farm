@@ -2,7 +2,7 @@
   <div class="card text-center rounded-0 border-bottom-0 " style="height: 440px; ">
     <div class="p-0">
       <h4 class="mt-2"><%= @rank %>位</h4>
-      <h6 class="text-muted">登録数 <%= @book_subs_count[book.id] %></h6>
+      <h6 class="text-muted">登録数 <%= book.count_subs %></h6>
       <%= link_to book_path(book.isbn), target: "_blank" do %>
         <img src="<%= book.image_url %>" style="width:auto; height:370px; max-width:250px;">
       <% end %>

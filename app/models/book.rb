@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class Book < ApplicationRecord
+  before_save :set_series
   validates :title, presence: true
   validates :author, presence: true
   validates :publisherName, presence: true
@@ -21,4 +22,23 @@ class Book < ApplicationRecord
   has_many :favusers, through: :favorites, source: :user
 
   belongs_to :bookseries, optional: true
+
+  def count_subs
+    count = Book.joins(:subscribes).group(:book_id).count[id]
+    count ||= 0
+  end
+
+  def count_favs
+    count = Book.joins(:favorites).group(:book_id).count[id]
+    count ||= 0
+  end
+
+  private
+
+  def set_series
+    if Bookseries.find_by(title: series).nil?
+      bookseries = Bookseries.new(title: series)
+      bookseries.save
+    end
+  end
 end

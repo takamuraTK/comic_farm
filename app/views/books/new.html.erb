@@ -27,10 +27,5 @@
     </script>
   <% end %>
 </div>
-<% if @books.present? %>
-  <div class="pb-5"><%= @search_result %></div>
-<% end %>
 <%= @no_results %>
-<%= paginate @books %>
 <%= render 'books_card_small', books: @books %>
-<%= paginate @books %>

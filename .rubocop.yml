@@ -22,3 +22,8 @@ Metrics/LineLength:
 #日本語コメント許可
 AsciiComments:
   Enabled: false
+
+# Windows環境で発生する改行エラーに対応
+# CircleCIでrubocopを利用するときはcrlfをlfに変更しないとエラーが出るらしいので注意
+Layout/EndOfLine:
+  EnforcedStyle: crlf
