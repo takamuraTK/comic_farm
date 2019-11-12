@@ -34,9 +34,10 @@ class Book < ApplicationRecord
   end
 
   private
+
   def set_series
-    if Bookseries.find_by(title: self.series).nil?
-      bookseries = Bookseries.new(title: self.series)
+    if Bookseries.find_by(title: series).nil?
+      bookseries = Bookseries.new(title: series)
       bookseries.save
     end
   end

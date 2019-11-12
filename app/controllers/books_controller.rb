@@ -15,10 +15,10 @@ class BooksController < ApplicationController
 
   def show
     @book = Book.find_or_initialize_by(isbn: params[:isbn])
-    unless @book.persisted?
-      @book = Book.new(view_context.search_isbn(@book.isbn))
-      @book.save
-    end
+    return if @book.persisted?
+
+    @book = Book.new(view_context.search_isbn(@book.isbn))
+    @book.save
   end
 
   def ranking
@@ -37,9 +37,9 @@ class BooksController < ApplicationController
   private
 
   def require_sign_in
-    unless user_signed_in?
-      flash[:warning] = 'このページをみるにはログインが必要です。'
-      redirect_to user_session_path
-    end
+    return if user_signed_in?
+
+    flash[:warning] = 'このページをみるにはログインが必要です。'
+    redirect_to user_session_path
   end
 end
