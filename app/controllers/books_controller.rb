@@ -15,10 +15,6 @@ class BooksController < ApplicationController
 
   def show
     @book = Book.find_or_initialize_by(isbn: params[:isbn])
-    @book_subs_count = Book.joins(:subscribes).group(:book_id).count[@book.id]
-    @book_subs_count = 0 if @book_subs_count.nil?
-    @book_favs_count = Book.joins(:favorites).group(:book_id).count[@book.id]
-    @book_favs_count = 0 if @book_favs_count.nil?
 
     unless @book.persisted?
       @book = Book.new(view_context.search_isbn(@book.isbn))
@@ -53,19 +49,4 @@ class BooksController < ApplicationController
       redirect_to user_session_path
     end
   end
-
-  # def read(result)
-
-  #   {
-  #     title: result['title'],
-  #     author: result['author'],
-  #     publisherName: result['publisherName'],
-  #     url: result['itemUrl'],
-  #     salesDate: result['salesDate'],
-  #     isbn: result['isbn'],
-  #     image_url: result['mediumImageUrl'].gsub('?_ex=120x120', '?_ex=350x350'),
-  #     series: view_context.series_create(result['title']),
-  #     salesint: result['salesDate'].gsub(/年|月|日/, '').to_i
-  #   }
-  # end
 end

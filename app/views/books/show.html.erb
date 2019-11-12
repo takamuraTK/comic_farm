@@ -11,8 +11,8 @@
         <div class="row pl-3">
           <p class="col-lg-3 m-0">発売日</p> <p class="col-lg-9 m-0"><%= @book.salesDate %></p>
           <p class="col-lg-3 m-0">作品シリーズ</p> <p class="col-lg-9 m-0"><%= @book.series %></p>
-          <p class="col-lg-3 m-0">所持登録数</p>  <p class="col-lg-9 m-0"><%= @book_subs_count %>人</p>
-          <p class="col-lg-3 m-0">お気に入り登録数</p>  <p class="col-lg-9 m-0"><%= @book_favs_count %>人</p>
+          <p class="col-lg-3 m-0">所持登録数</p>  <p class="col-lg-9 m-0"><%= @book.count_subs %>人</p>
+          <p class="col-lg-3 m-0">お気に入り登録数</p>  <p class="col-lg-9 m-0"><%= @book.count_favs %>人</p>
         </div>
         <div class="subscribe_book_zone_<%= @book.isbn %>">
           <%= render 'subscribes/sub_button', isbn: @book.isbn %>

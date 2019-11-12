@@ -21,4 +21,14 @@ class Book < ApplicationRecord
   has_many :favusers, through: :favorites, source: :user
 
   belongs_to :bookseries, optional: true
+
+  def count_subs
+    count = Book.joins(:subscribes).group(:book_id).count[self.id]
+    count ||= 0
+  end
+
+  def count_favs
+    count = Book.joins(:favorites).group(:book_id).count[self.id]
+    count ||= 0
+  end
 end
