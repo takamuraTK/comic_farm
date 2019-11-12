@@ -4,10 +4,10 @@
 </div>
 <div class="row">
   <% if @book_ranking.present? %>
+  <% @rank = 1 %>
   <% @book_ranking.each do |book| %>
     <%= render 'ranking_books_card', book: book, test: "a" %>
     <% @rank+=1 %>
   <% end %>
   <% end %>
 </div>
-<%= paginate @book_ranking %>
