@@ -15,15 +15,9 @@ class BooksController < ApplicationController
 
   def show
     @book = Book.find_or_initialize_by(isbn: params[:isbn])
-
     unless @book.persisted?
       @book = Book.new(view_context.search_isbn(@book.isbn))
       @book.save
-    end
-
-    if Bookseries.find_by(title: @book.series).nil?
-      @bookseries = Bookseries.new(title: @book.series)
-      @bookseries.save
     end
   end
 
