@@ -19,8 +19,8 @@ class NewlysController < ApplicationController
       @counter = 0
 
       if params[:month].present?
-        @month = params[:month].in_time_zone.strftime('%Y年%m月')
-        @pre_month = params[:month].in_time_zone.strftime('%Y年%m月')
+        @month = params[:month].in_time_zone.strftime('%m月')
+        @pre_month = params[:month].in_time_zone.strftime('%m月')
       end
 
       if @publisherName.present? && @month.present? && @pre_month.present?
@@ -90,10 +90,10 @@ class NewlysController < ApplicationController
     )
     results.each do |result|
       book = Book.new(read(result))
-      @check_page = 1 if book.salesDate =~ /#{@pre_month}月/
+      @check_page = 1 if book.salesDate =~ /#{@pre_month}/
       next if book.title =~ /コミックカレンダー|(巻|冊|BOX)セット/
 
-      next unless book.salesDate =~ /#{@month}月/
+      next unless book.salesDate =~ /#{@month}/
 
       comic = Book.find_or_initialize_by(isbn: book.isbn)
       unless comic.persisted?
