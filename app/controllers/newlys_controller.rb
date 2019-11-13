@@ -12,28 +12,21 @@ class NewlysController < ApplicationController
   def download
     @downloads = Newly.order('created_at DESC')
     if current_user.admin == true && current_user.downloadadmin == true
-      @page = 1 
-      @check_page = 0
-      @publisherName = params[:publisher_select]
-      @books = []
-      @counter = 0
-
-      if params[:month].present?
-        @month = params[:month].in_time_zone.strftime('%m月')
-        @pre_month = params[:month].in_time_zone.strftime('%m月')
-      end
-
-      if @publisherName.present? && @month.present? && @pre_month.present?
-        books_search(@page)
-        while @check_page == 0
+      if params[:publisher_select].present? && params[:month].present?
+        @page = 0
+        @month = params[:month].in_time_zone.strftime('%Y年%m月')
+        @pre_month = params[:month].in_time_zone.prev_month.strftime('%Y年%m月')
+        @check_page = 'running'
+        while @check_page == 'running'
           @page += 1
-          books_search(@page)
+          search_new
         end
         Newly.create(
-          publisherName: @publisherName,
+          publisherName: params[:publisher_select],
           counter: @counter,
           month: @month
         )
+        @page = 0
       end
     else
       flash[:warning] = '権限がありません'
@@ -80,50 +73,33 @@ class NewlysController < ApplicationController
     redirect_to user_session_path
   end
 
-  def books_search(page)
+  def search_new
+    @counter = 0
     results = RakutenWebService::Books::Book.search(
-      publisherName: @publisherName,
+      publisherName: params[:publisher_select],
       booksGenreId: '001001',
       outOfStockFlag: '1',
       sort: '-releaseDate',
-      page: page
+      page: @page
     )
     results.each do |result|
-      book = Book.new(read(result))
-      @check_page = 1 if book.salesDate =~ /#{@pre_month}/
-      next if book.title =~ /コミックカレンダー|(巻|冊|BOX)セット/
+      book = Book.new(view_context.read(result))
+      if book.salesDate.include?(@pre_month)
+        @check_page = 'stop' 
+        break
+      end
+
+      # next if book.title =~ /コミックカレンダー|(巻|冊|BOX)セット/
+      # go model
 
       next unless book.salesDate =~ /#{@month}/
-
+      
       comic = Book.find_or_initialize_by(isbn: book.isbn)
       unless comic.persisted?
-        @counter += 1
-        book.save
+        if book.save
+          @counter += 1
+        end
       end
     end
-
-  end
-
-  def read(result)
-    title = result['title']
-    author = result['author']
-    publisherName = result['publisherName']
-    url = result['itemUrl']
-    salesDate = result['salesDate']
-    isbn = result['isbn']
-    image_url = result['mediumImageUrl'].gsub('?_ex=120x120', '?_ex=350x350')
-    series = view_context.series_create(result['title'])
-    salesint = result['salesDate'].gsub(/年|月|日/, '').to_i
-    {
-      title: title,
-      author: author,
-      publisherName: publisherName,
-      url: url,
-      salesDate: salesDate,
-      isbn: isbn,
-      image_url: image_url,
-      series: series,
-      salesint: salesint
-    }
   end
 end
