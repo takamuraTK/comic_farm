@@ -90,9 +90,6 @@ class NewlysController < ApplicationController
         break
       end
 
-      # next if book.title =~ /コミックカレンダー|(巻|冊|BOX)セット/
-      # go model
-
       next unless book.salesDate.include?(@month)
 
       comic = Book.find_or_initialize_by(isbn: book.isbn)
