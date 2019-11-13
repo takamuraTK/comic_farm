@@ -1,15 +1,10 @@
 # frozen_string_literal: true
 
 class NewlysController < ApplicationController
+  before_action :require_sign_in, only: [:search]
   def search
-    unless user_signed_in?
-      flash[:warning] = '新刊検索をするにはログインが必要です。'
-      redirect_to user_session_path
-    end
-    @month = params[:month]
-    @publisherName = params[:publisher_select]
-    if @publisherName.present? && @month.present?
-      @books = Book.where('salesDate LIKE ?', "%#{@month}%").where(publisherName: @publisherName)
+    if params[:publisher_select].present? && params[:month].present?
+      @books = Book.where('salesDate LIKE ?', "%#{params[:month]}%").where(publisherName: params[:publisher_select])
       @no_results = '漫画は見つかりませんでした。' if @books.blank?
     end
   end
@@ -88,6 +83,12 @@ class NewlysController < ApplicationController
   end
 
   private
+  def require_sign_in
+    return if user_signed_in?
+
+    flash[:warning] = 'このページをみるにはログインが必要です。'
+    redirect_to user_session_path
+  end
 
   def books_search
     results = RakutenWebService::Books::Book.search(
