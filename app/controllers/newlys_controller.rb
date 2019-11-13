@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class NewlysController < ApplicationController
-  before_action :require_sign_in, only: [:search, :download]
+  before_action :require_sign_in, only: %i[search download]
   def search
     if params[:publisher_select].present? && params[:month].present?
       @books = Book.where('salesDate LIKE ?', "%#{params[:month]}%").where(publisherName: params[:publisher_select])
@@ -66,6 +66,7 @@ class NewlysController < ApplicationController
   end
 
   private
+
   def require_sign_in
     return if user_signed_in?
 
@@ -85,21 +86,19 @@ class NewlysController < ApplicationController
     results.each do |result|
       book = Book.new(view_context.read(result))
       if book.salesDate.include?(@pre_month)
-        @check_page = 'stop' 
+        @check_page = 'stop'
         break
       end
 
       # next if book.title =~ /コミックカレンダー|(巻|冊|BOX)セット/
       # go model
 
-      next unless book.salesDate =~ /#{@month}/
-      
+      next unless book.salesDate.include?(@month)
+
       comic = Book.find_or_initialize_by(isbn: book.isbn)
-      unless comic.persisted?
-        if book.save
-          @counter += 1
-        end
-      end
+      next if comic.persisted?
+
+      @counter += 1 if book.save
     end
   end
 end
