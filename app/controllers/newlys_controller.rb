@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class NewlysController < ApplicationController
-  before_action :require_sign_in, only: [:search]
+  before_action :require_sign_in, only: [:search, :download]
   def search
     if params[:publisher_select].present? && params[:month].present?
       @books = Book.where('salesDate LIKE ?', "%#{params[:month]}%").where(publisherName: params[:publisher_select])
@@ -12,32 +12,22 @@ class NewlysController < ApplicationController
   def download
     @downloads = Newly.order('created_at DESC')
     if current_user.admin == true && current_user.downloadadmin == true
-      @page = '1'
-      @select_month = params[:month]
-      now = Time.current
+      @page = 1 
       @check_page = 0
       @publisherName = params[:publisher_select]
       @books = []
       @counter = 0
 
-      case @select_month
-      when now.strftime('%Y年%m月') then
-        @month = now.strftime('%m')
-        @pre_month = now.prev_month.strftime('%m')
-      when now.next_month.strftime('%Y年%m月') then
-        @month = now.next_month.strftime('%m')
-        @pre_month = now.strftime('%m')
-      when now.since(2.month).strftime('%Y年%m月') then
-        @month = now.since(2.month).strftime('%m')
-        @pre_month = now.next_month.strftime('%m')
+      if params[:month].present?
+        @month = params[:month].in_time_zone.strftime('%Y年%m月')
+        @pre_month = params[:month].in_time_zone.strftime('%Y年%m月')
       end
 
       if @publisherName.present? && @month.present? && @pre_month.present?
-        books_search
+        books_search(@page)
         while @check_page == 0
-          @page = @page.to_i + 1
-          @page.to_s
-          books_search
+          @page += 1
+          books_search(@page)
         end
         Newly.create(
           publisherName: @publisherName,
@@ -90,13 +80,13 @@ class NewlysController < ApplicationController
     redirect_to user_session_path
   end
 
-  def books_search
+  def books_search(page)
     results = RakutenWebService::Books::Book.search(
       publisherName: @publisherName,
       booksGenreId: '001001',
       outOfStockFlag: '1',
       sort: '-releaseDate',
-      page: @page
+      page: page
     )
     results.each do |result|
       book = Book.new(read(result))
@@ -111,6 +101,7 @@ class NewlysController < ApplicationController
         book.save
       end
     end
+
   end
 
   def read(result)

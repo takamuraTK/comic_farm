@@ -11,12 +11,13 @@
   <div class="form-group row">
     <%= f.label :month, '月選択', class: "col-lg-2 pt-1" %>
     <% now = Time.current %>
-    <%= f.select :month, options_for_select([
-      now.strftime("%Y年%m月"),
-      now.next_month.strftime("%Y年%m月"),
-      now.since(2.month).strftime("%Y年%m月"),
-      ]
-    .map{|c|[c, {}]},params[:month]),{}, class: 'form-control mb-2 col-lg-10' %>
+    <% month_array = [
+      {id: now, name: now.strftime("%Y年%m月")},
+      {id: now.next_month, name: now.next_month.strftime('%Y年%m月')},
+      {id: now.since(2.month), name: now.since(2.month).strftime('%Y年%m月')}
+      ] %>
+    <%= f.select :month, options_for_select(
+      month_array.map{|c|[c[:name], c[:id], {}]},params[:month]),{}, class: 'form-control mb-2 col-lg-10' %>
     <%= f.submit "DBに登録", class:'btn btn-success btn-block mt-4' %>
   </div>
 <% end %>
