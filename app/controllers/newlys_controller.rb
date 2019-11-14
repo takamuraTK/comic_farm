@@ -3,34 +3,33 @@
 class NewlysController < ApplicationController
   before_action :require_sign_in, only: %i[search download]
   def search
-    if params[:publisher_select].present? && params[:month].present?
-      @books = Book.where('salesDate LIKE ?', "%#{params[:month]}%").where(publisherName: params[:publisher_select])
-      @no_results = '漫画は見つかりませんでした。' if @books.blank?
-    end
+    return unless params[:publisher_select].present? && params[:month].present?
+
+    @books = Book.where('salesDate LIKE ?', "%#{params[:month]}%").where(publisherName: params[:publisher_select])
+    @no_results = '漫画は見つかりませんでした。' if @books.blank?
   end
 
   def download
-    @downloads = Newly.order('created_at DESC')
-    if current_user.admin == true && current_user.downloadadmin == true
-      if params[:publisher_select].present? && params[:month].present?
-        @page = 0
-        @month = params[:month].in_time_zone.strftime('%Y年%m月')
-        @pre_month = params[:month].in_time_zone.prev_month.strftime('%Y年%m月')
-        @check_page = 'running'
-        while @check_page == 'running'
-          @page += 1
-          search_new
-        end
-        Newly.create(
-          publisherName: params[:publisher_select],
-          counter: @counter,
-          month: @month
-        )
-        @page = 0
-      end
-    else
+    unless current_user.admin == true && current_user.downloadadmin == true
       flash[:warning] = '権限がありません'
       redirect_to root_path
+    end
+    @downloads = Newly.order('created_at DESC')
+    if params[:publisher_select].present? && params[:month].present?
+      @page = 0
+      @month = params[:month].in_time_zone.strftime('%Y年%m月')
+      @pre_month = params[:month].in_time_zone.prev_month.strftime('%Y年%m月')
+      @check_page = 'running'
+      while @check_page == 'running'
+        @page += 1
+        search_new
+      end
+      Newly.create(
+        publisherName: params[:publisher_select],
+        counter: @counter,
+        month: @month
+      )
+      @page = 0
     end
   end
 
