@@ -2,6 +2,7 @@
 
 class NewlysController < ApplicationController
   before_action :require_sign_in, only: %i[search download]
+  before_action :download, only: %i[download]
   def search
     return unless params[:publisher_select].present? && params[:month].present?
 
@@ -10,27 +11,12 @@ class NewlysController < ApplicationController
   end
 
   def download
-    unless current_user.admin == true && current_user.downloadadmin == true
-      flash[:warning] = '権限がありません'
-      redirect_to root_path
-    end
     @downloads = Newly.order('created_at DESC')
-    if params[:publisher_select].present? && params[:month].present?
-      @page = 0
-      @month = params[:month].in_time_zone.strftime('%Y年%m月')
-      @pre_month = params[:month].in_time_zone.prev_month.strftime('%Y年%m月')
-      @check_page = 'running'
-      while @check_page == 'running'
-        @page += 1
-        search_new
-      end
-      Newly.create(
-        publisherName: params[:publisher_select],
-        counter: @counter,
-        month: @month
-      )
-      @page = 0
-    end
+    return unless params[:publisher_select].present? && params[:month].present?
+
+    @month = view_context.get_month_str(params[:month])
+    @pre_month = view_context.get_pre_month_str(params[:month])
+    search_new
   end
 
   def newfav
@@ -73,28 +59,39 @@ class NewlysController < ApplicationController
     redirect_to user_session_path
   end
 
+  def check_admin
+    redirect_to root_path unless current_user.admin == true && current_user.downloadadmin == true
+  end
+
   def search_new
-    @counter = 0
-    results = RakutenWebService::Books::Book.search(
-      publisherName: params[:publisher_select],
-      booksGenreId: '001001',
-      outOfStockFlag: '1',
-      sort: '-releaseDate',
-      page: @page
-    )
-    results.each do |result|
-      book = Book.new(view_context.read(result))
-      if book.salesDate.include?(@pre_month)
-        @check_page = 'stop'
-        break
+    check_page = 'running'
+    counter = 0
+    page = 0
+    while check_page == 'running'
+      page += 1
+      results = RakutenWebService::Books::Book.search(
+        publisherName: params[:publisher_select],
+        booksGenreId: '001001',
+        outOfStockFlag: '1',
+        sort: '-releaseDate',
+        page: page
+      )
+      results.each do |result|
+        book = Book.new(view_context.read(result))
+        if book.salesDate.include?(@pre_month)
+          check_page = 'stop'
+          break
+        end
+
+        next unless book.salesDate.include?(@month)
+
+        comic = Book.find_or_initialize_by(isbn: book.isbn)
+        next if comic.persisted?
+
+        counter += 1 if book.save
       end
-
-      next unless book.salesDate.include?(@month)
-
-      comic = Book.find_or_initialize_by(isbn: book.isbn)
-      next if comic.persisted?
-
-      @counter += 1 if book.save
     end
+    @page = 0
+    Newly.create(publisherName: params[:publisher_select], counter: counter, month: @month)
   end
 end
