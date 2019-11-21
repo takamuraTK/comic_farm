@@ -2,7 +2,7 @@
 
 class NewlysController < ApplicationController
   before_action :require_sign_in, only: %i[search download]
-  before_action :download, only: %i[download]
+  before_action :check_admin, only: %i[download]
   def search
     return unless params[:publisher_select].present? && params[:month].present?
 
@@ -14,9 +14,8 @@ class NewlysController < ApplicationController
     @downloads = Newly.order('created_at DESC')
     return unless params[:publisher_select].present? && params[:month].present?
 
-    @month = view_context.get_month_str(params[:month])
-    @pre_month = view_context.get_pre_month_str(params[:month])
-    search_new
+    download_comics = Newly.new(publisherName: params[:publisher_select], month: params[:month])
+    download_comics.save
   end
 
   def newfav
@@ -61,37 +60,5 @@ class NewlysController < ApplicationController
 
   def check_admin
     redirect_to root_path unless current_user.admin == true && current_user.downloadadmin == true
-  end
-
-  def search_new
-    check_page = 'running'
-    counter = 0
-    page = 0
-    while check_page == 'running'
-      page += 1
-      results = RakutenWebService::Books::Book.search(
-        publisherName: params[:publisher_select],
-        booksGenreId: '001001',
-        outOfStockFlag: '1',
-        sort: '-releaseDate',
-        page: page
-      )
-      results.each do |result|
-        book = Book.new(view_context.read(result))
-        if book.salesDate.include?(@pre_month)
-          check_page = 'stop'
-          break
-        end
-
-        next unless book.salesDate.include?(@month)
-
-        comic = Book.find_or_initialize_by(isbn: book.isbn)
-        next if comic.persisted?
-
-        counter += 1 if book.save
-      end
-    end
-    @page = 0
-    Newly.create(publisherName: params[:publisher_select], counter: counter, month: @month)
   end
 end
