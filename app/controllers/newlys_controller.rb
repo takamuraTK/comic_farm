@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class NewlysController < ApplicationController
-  before_action :require_sign_in, only: %i[search download]
+  before_action :require_sign_in, only: %i[search download newfav]
   before_action :check_admin, only: %i[download]
   def search
     return unless params[:publisher_select].present? && params[:month].present?
@@ -19,34 +19,26 @@ class NewlysController < ApplicationController
   end
 
   def newfav
-    if user_signed_in?
-      @books = []
-      now = Time.now
-      @month = now.mon.to_s
-      @year = now.year.to_s
-      @subbooks = current_user.books.group(:series).count.keys
-      @subbooks.each do |book|
-        comics = Book.where('title LIKE ?', "%#{book}%").where('salesDate LIKE ?', "%#{@year}年#{@month}月%")
-        comics.each do |comic|
-          @books << comic
-        end
+    @books = []
+    Time.current.strftime('%Y年%m月')
+    current_user.books.group(:series).count.keys.each do |book|
+      comics = Book.where('title LIKE ?', "%#{book}%").where('salesDate LIKE ?', "%#{Time.current.strftime('%Y年%m月')}%")
+      comics.each do |comic|
+        @books << comic
       end
-    else
-      flash[:warning] = '買うかもしれない機能を使うにはログインが必要です。'
-      redirect_to user_session_path
     end
   end
 
   def create
     @book = Book.find_or_initialize_by(isbn: params[:isbn])
-    unless @book.persisted?
-      results = RakutenWebService::Books::Book.search(
-        isbn: @book.isbn,
-        outOfStockFlag: '1'
-      )
-      @book = Book.new(read(results.first))
-      @book.save
-    end
+    return if @book.persisted?
+
+    results = RakutenWebService::Books::Book.search(
+      isbn: @book.isbn,
+      outOfStockFlag: '1'
+    )
+    @book = Book.new(read(results.first))
+    @book.save
   end
 
   private
