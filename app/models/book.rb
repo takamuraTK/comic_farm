@@ -3,6 +3,7 @@
 class Book < ApplicationRecord
   before_save :set_series
   validates :title, presence: true
+  validate :validate_title
   validates :author, presence: true
   validates :publisherName, presence: true
   validates :url, presence: true, format: /\A#{URI.regexp(%w[http https])}\z/
@@ -40,5 +41,9 @@ class Book < ApplicationRecord
       bookseries = Bookseries.new(title: series)
       bookseries.save
     end
+  end
+
+  def validate_title
+    errors.add(:title, '適正のない書籍は登録出来ません') if title =~ /コミックカレンダー|(巻|冊|BOX)セット/
   end
 end
