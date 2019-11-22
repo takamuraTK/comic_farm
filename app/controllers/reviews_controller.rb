@@ -2,31 +2,19 @@
 
 class ReviewsController < ApplicationController
   before_action :correct_user, only: %i[edit destroy]
+  before_action :require_sign_in
 
   def index
-    unless user_signed_in?
-      flash[:warning] = 'レビューをみるにはログインが必要です。'
-      redirect_to user_session_path
-    end
-    @book_id = params[:id]
-    @reviews = Review.where(book_id: @book_id).page(params[:page]).per(10)
+    @reviews = Review.where(book_id: params[:id]).page(params[:page]).per(10)
   end
 
   def show
-    unless user_signed_in?
-      flash[:warning] = 'レビューをみるにはログインが必要です。'
-      redirect_to user_session_path
-    end
     @review = Review.find(params[:id])
     @review_book = Book.find(@review.book_id)
     @user = User.find(@review.user_id)
   end
 
   def new
-    unless user_signed_in?
-      flash[:warning] = 'レビューを書くにはログインが必要です。'
-      redirect_to user_session_path
-    end
     @review = Review.new
     @book = Book.find_by(isbn: params[:isbn])
     @book_id = @book.id
@@ -41,10 +29,9 @@ class ReviewsController < ApplicationController
       point: review_params['point']
     )
     @book = Book.find(params[:book_id])
-    isbn = @book.isbn
     if @review.save
       flash[:success] = 'レビューが正常に投稿されました'
-      redirect_to book_path(isbn)
+      redirect_to book_path(@book.isbn)
     else
       flash.now[:danger] = 'レビューが投稿されませんでした'
       render new_review_path
@@ -86,6 +73,13 @@ class ReviewsController < ApplicationController
 
   def review_params
     params.require(:review).permit(:head, :content, :point)
+  end
+
+  def require_sign_in
+    return if user_signed_in?
+
+    flash[:warning] = 'このページをみるにはログインが必要です。'
+    redirect_to user_session_path
   end
 
   def correct_user
