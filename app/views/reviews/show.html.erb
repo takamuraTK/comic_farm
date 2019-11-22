@@ -1,21 +1,20 @@
 <div class="card w-80 m-4">
   <div class="card-body">
     <h5 class="card-title"><%= @review.head %></h5>
-    <% review_book = Book.find(@review.book_id) %>
     <div class="row mb-3">
       <div class="col-lg-2 col-md-3 text-center">
-        <img src="<%= review_book.image_url %>" style="width:auto; height:175px; max-width:125px;">
+        <img src="<%= @review_book.image_url %>" style="width:auto; height:175px; max-width:125px;">
       </div>
       <div class="col-lg-10 col-md-9 ">
-        <h6><%= link_to review_book.title, book_path(review_book.isbn), class: "card-subtitle mb-2 text-muted" %></h6>
+        <h6><%= link_to @review_book.title, book_path(@review_book.isbn), class: "card-subtitle mb-2 text-muted" %></h6>
 
         <h6 class="card-subtitle mb-2 text-muted"><%= @review.created_at %>に投稿</h6>
-        <h6 class="card-subtitle mb-2 text-muted">投稿者:<%= link_to User.find(@review.user_id).name, user_path(@review.user_id) %></h6>
+        <h6 class="card-subtitle mb-2 text-muted">投稿者:<%= link_to @user.name, user_path(@user) %></h6>
         <h6 class="card-subtitle mb-2 text-muted">評価:<%= @review.point %></h6>
-        <% if @current_user.id == @user.id %>
+        <% if @current_user == @user %>
         <%= link_to '編集する', edit_review_path(@review) %>
         <% end %>
-        <% if @current_user.id == @user.id || @current_user.admin? %>
+        <% if @current_user == @user || @current_user.admin? %>
         <%= link_to '削除する', @review, method: :delete, data: { confirm: '本当に削除してよろしいですか？' } %>
         <% end %>
         <p class="card-text"><%= simple_format(h(@review.content)) %></p>

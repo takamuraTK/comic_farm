@@ -2,49 +2,28 @@
 
 class ReviewsController < ApplicationController
   before_action :correct_user, only: %i[edit destroy]
+  before_action :require_sign_in
 
   def index
-    unless user_signed_in?
-      flash[:warning] = 'レビューをみるにはログインが必要です。'
-      redirect_to user_session_path
-    end
-    @book_id = params[:id]
-    @reviews = Review.where(book_id: @book_id).page(params[:page]).per(10)
+    @reviews = Review.where(book_id: params[:id]).page(params[:page]).per(10)
   end
 
   def show
-    unless user_signed_in?
-      flash[:warning] = 'レビューをみるにはログインが必要です。'
-      redirect_to user_session_path
-    end
     @review = Review.find(params[:id])
-    @review_book = Book.find(@review.book_id)
-    @user = User.find(@review.user_id)
+    @review_book = @review.book
+    @user = @review.user
   end
 
   def new
-    unless user_signed_in?
-      flash[:warning] = 'レビューを書くにはログインが必要です。'
-      redirect_to user_session_path
-    end
     @review = Review.new
     @book = Book.find_by(isbn: params[:isbn])
-    @book_id = @book.id
   end
 
   def create
-    @review = Review.new(
-      user_id: current_user.id,
-      book_id: params[:book_id],
-      head: review_params['head'],
-      content: review_params['content'],
-      point: review_params['point']
-    )
-    @book = Book.find(params[:book_id])
-    isbn = @book.isbn
+    @review = Review.new(new_review_params(params[:book_id]))
     if @review.save
       flash[:success] = 'レビューが正常に投稿されました'
-      redirect_to book_path(isbn)
+      redirect_to review_path(@review)
     else
       flash.now[:danger] = 'レビューが投稿されませんでした'
       render new_review_path
@@ -52,12 +31,10 @@ class ReviewsController < ApplicationController
   end
 
   def edit
-    if user_signed_in? && current_user.id == Review.find(params[:id]).user
+    if current_user == Review.find(params[:id]).user
       @review = Review.find(params[:id])
-      @book_id = Book.find(@review.book_id)
     else
-      flash[:warning] = 'ログインが必要です。'
-      redirect_to user_session_path
+      redirect_to review_path(Review.find(params[:id]))
     end
   end
 
@@ -84,19 +61,28 @@ class ReviewsController < ApplicationController
 
   private
 
+  def new_review_params(book_id)
+    strong_params = params.require(:review).permit(:head, :content, :point)
+    strong_params[:user_id] = current_user.id
+    strong_params[:book_id] = book_id
+    strong_params
+  end
+
   def review_params
     params.require(:review).permit(:head, :content, :point)
   end
 
+  def require_sign_in
+    return if user_signed_in?
+
+    flash[:warning] = 'このページをみるにはログインが必要です。'
+    redirect_to user_session_path
+  end
+
   def correct_user
-    if user_signed_in? && current_user == Review.find(params[:id]).user
-      if current_user.admin == false
-        @review = current_user.reviews.find(params[:id])
-        if current_user.id != @review.user_id
-          flash[:warning] = '権限がありません'
-          redirect_to root_path
-        end
-      end
-    end
+    return unless current_user.admin == false
+
+    @review = current_user.reviews.find(params[:id])
+    redirect_to root_path if current_user != @review.user
   end
 end
