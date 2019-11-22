@@ -23,6 +23,10 @@ Metrics/LineLength:
 AsciiComments:
   Enabled: false
 
+# モジュール名::クラス名の許可
+ClassAndModuleChildren:
+  Enabled: false
+
 # Windows環境で発生する改行エラーに対応
 # CircleCIでrubocopを利用するときはcrlfをlfに変更しないとエラーが出るらしいので注意
 Layout/EndOfLine:
