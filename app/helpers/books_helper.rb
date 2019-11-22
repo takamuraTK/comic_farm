@@ -9,10 +9,15 @@ module BooksHelper
       sort: sort,
       page: page
     )
+    check_results(results)
+  end
+
+  def check_results(results)
     results.each do |result|
       book = Book.new(read(result))
       @books << book unless book.title =~ /コミックカレンダー|(巻|冊|BOX)セット/
     end
+    @books
   end
 
   def search_isbn(isbn)
