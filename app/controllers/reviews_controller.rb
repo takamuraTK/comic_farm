@@ -80,14 +80,9 @@ class ReviewsController < ApplicationController
   end
 
   def correct_user
-    if user_signed_in? && current_user == Review.find(params[:id]).user
-      if current_user.admin == false
-        @review = current_user.reviews.find(params[:id])
-        if current_user.id != @review.user_id
-          flash[:warning] = '権限がありません'
-          redirect_to root_path
-        end
-      end
-    end
+    return unless current_user.admin == false
+
+    @review = current_user.reviews.find(params[:id])
+    redirect_to root_path if current_user != @review.user
   end
 end
