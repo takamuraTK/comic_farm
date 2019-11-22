@@ -26,21 +26,21 @@ class Book < ApplicationRecord
 
   def count_subs
     count = Book.joins(:subscribes).group(:book_id).count[id]
-    count ||= 0
+    count || 0
   end
 
   def count_favs
     count = Book.joins(:favorites).group(:book_id).count[id]
-    count ||= 0
+    count || 0
   end
 
   private
 
   def set_series
-    if Bookseries.find_by(title: series).nil?
-      bookseries = Bookseries.new(title: series)
-      bookseries.save
-    end
+    return unless Bookseries.find_by(title: series).nil?
+
+    bookseries = Bookseries.new(title: series)
+    bookseries.save
   end
 
   def validate_title
