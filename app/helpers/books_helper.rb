@@ -37,7 +37,7 @@ module BooksHelper
 
   def series_create(title)
     title.sub(
-      /\（.*|\(.*|\p{blank}\d.*|公式ファンブック.*|外伝.*|\p{blank}巻ノ.*/,""
+      /（.*|\(.*|\p{blank}\d.*|公式ファンブック.*|外伝.*|\p{blank}巻ノ.*/, ''
       )
     .gsub(
       /\p{blank}/,""
