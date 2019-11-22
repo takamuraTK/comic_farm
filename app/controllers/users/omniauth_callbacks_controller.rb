@@ -40,7 +40,6 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
       # ↑ 認証データを覚える必要はないので削除
       # redirect_to new_user_registration_url
       # ↑ ログインすることになるので以下のように修正
-      sign_in_and_redirect @user
     end
 end
 
