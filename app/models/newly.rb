@@ -48,8 +48,7 @@ class Newly < ApplicationRecord
   private
 
   def read(result)
-    {
-      title: result['title'],
+    { title: result['title'],
       author: result['author'],
       publisherName: result['publisherName'],
       url: result['itemUrl'],
@@ -57,8 +56,7 @@ class Newly < ApplicationRecord
       isbn: result['isbn'],
       image_url: result['mediumImageUrl'].gsub('?_ex=120x120', '?_ex=350x350'),
       series: series_create(result['title']),
-      salesint: result['salesDate'].gsub(/年|月|日/, '').to_i
-    }
+      salesint: result['salesDate'].gsub(/年|月|日/, '').to_i }
   end
 
   def series_create(title)
