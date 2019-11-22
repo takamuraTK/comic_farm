@@ -1,11 +1,9 @@
 # frozen_string_literal: true
 
 class UsersController < ApplicationController
+  before_action :require_sign_in
+
   def show
-    unless user_signed_in?
-      flash[:warning] = 'ユーザーページをみるにはログインが必要です。'
-      redirect_to user_session_path
-    end
     if User.find_by(id: params[:id]).nil?
       redirect_to root_path
     else
@@ -21,15 +19,11 @@ class UsersController < ApplicationController
   end
 
   def edit
-    if user_signed_in?
-      if current_user.id.to_s == params[:id]
-        @user = User.find(params[:id])
-      else
-        redirect_to root_path
-        flash[:danger] = '編集する権限がありません。'
-      end
+    if current_user.id.to_s == params[:id]
+      @user = User.find(params[:id])
     else
-      redirect_to user_session_path
+      redirect_to root_path
+      flash[:danger] = '編集する権限がありません。'
     end
   end
 
@@ -45,8 +39,13 @@ class UsersController < ApplicationController
   end
 
   private
+  def require_sign_in
+    return if user_signed_in?
 
-  # Strong Parameter
+    flash[:warning] = 'このページをみるにはログインが必要です。'
+    redirect_to user_session_path
+  end
+
   def user_params
     params.require(:user).permit(:name, :image, :profile)
   end
