@@ -35,7 +35,7 @@
     </div>
     <div class="collapse" id="collapsesubs">
       <div class="row">
-      <% @recently_subs_id.each do |id| %>
+      <% @user.subscribes.order('id DESC').limit(4).select('book_id').each do |id| %>
         <%= render 'books/book_card_small', book: id.book %>
       <% end %>
       </div>
@@ -46,7 +46,7 @@
 
 
     <div class="row">
-    <% @subs_series.each do |comic,count| %>
+    <% @user.books.group(:series).count.sort.each do |comic,count| %>
       <div class="col-md-6">
         <% escape_comic = comic.gsub(/\.|\!/,"") %>
         <a class="btn btn-dark btn-block text-left d-flex justify-content-between align-items-center" data-toggle="collapse" href="#collapse<%= escape_comic %>" role="button" aria-expanded="false" aria-controls="collapse<%= escape_comic %>">
@@ -74,9 +74,8 @@
       <br>
     </div>
     <div class="collapse" id="collapsesubs">
-      <% recently_favs_id = @user.favorites.order("id DESC").limit(4).select("book_id") %>
       <div class="row">
-        <% recently_favs_id.each do |id| %>
+        <% @user.favorites.order("id DESC").limit(4).select("book_id").each do |id| %>
           <%= render 'books/book_card_small', book: id.book %>
         <% end %>
       </div>
@@ -86,7 +85,7 @@
   <% end %>
 
 <div class="row" id="favzone">
-<% @favs_series.each do |comic,count| %>
+<% @user.favbooks.group(:series).count.sort.each do |comic,count| %>
   <div class="col-md-6">
   <% escape_comic = comic.sub(/\./,"") %>
     <a class="btn btn-dark btn-block text-left d-flex justify-content-between align-items-center" data-toggle="collapse" href="#collapse<%= escape_comic %>" role="button" aria-expanded="false" aria-controls="collapse<%= escape_comic %>">

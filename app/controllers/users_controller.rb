@@ -4,18 +4,10 @@ class UsersController < ApplicationController
   before_action :require_sign_in
 
   def show
-    if User.find_by(id: params[:id]).nil?
-      redirect_to root_path
-    else
-      @user = User.find(params[:id])
-      @subs = @user.books.page(params[:page]).per(15)
-      @reviews = Review.where(user_id: params[:id])
-      @favs = @user.favbooks.page(params[:page]).per(10)
-      @user.books
-      @recently_subs_id = @user.subscribes.order('id DESC').limit(4).select('book_id')
-      @subs_series = @user.books.group(:series).count.sort
-      @favs_series = @user.favbooks.group(:series).count.sort
-    end
+    redirect_to root_path if User.find_by(id: params[:id]).nil?
+
+    @user = User.find(params[:id])
+    @reviews = Review.where(user_id: params[:id])
   end
 
   def edit
@@ -39,6 +31,7 @@ class UsersController < ApplicationController
   end
 
   private
+
   def require_sign_in
     return if user_signed_in?
 
