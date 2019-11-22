@@ -20,17 +20,10 @@ class ReviewsController < ApplicationController
   end
 
   def create
-    @review = Review.new(
-      user_id: current_user.id,
-      book_id: params[:book_id],
-      head: review_params['head'],
-      content: review_params['content'],
-      point: review_params['point']
-    )
-    @book = Book.find(params[:book_id])
+    @review = Review.new(review_params(params[:book_id]))
     if @review.save
       flash[:success] = 'レビューが正常に投稿されました'
-      redirect_to book_path(@book.isbn)
+      redirect_to review_path(@review)
     else
       flash.now[:danger] = 'レビューが投稿されませんでした'
       render new_review_path
@@ -70,8 +63,11 @@ class ReviewsController < ApplicationController
 
   private
 
-  def review_params
-    params.require(:review).permit(:head, :content, :point)
+  def review_params(book_id)
+    strong_params = params.require(:review).permit(:head, :content, :point)
+    strong_params[:user_id] = current_user.id
+    strong_params[:book_id] = book_id
+    strong_params
   end
 
   def require_sign_in
