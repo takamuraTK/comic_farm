@@ -14,7 +14,7 @@ class User < ApplicationRecord
       user.password = Devise.friendly_token[0, 20]
       user.email = User.dumy_email(auth)
     end
- end
+  end
 
   def self.new_with_session(params, session)
     if session['devise.user_attributes']
@@ -81,8 +81,6 @@ class User < ApplicationRecord
   end
 
   mount_uploader :image, ImageUploader
-
-  private
 
   def self.dumy_email(auth)
     "#{auth.uid}-#{auth.provider}@example.com"
