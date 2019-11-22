@@ -17,7 +17,6 @@ class ReviewsController < ApplicationController
   def new
     @review = Review.new
     @book = Book.find_by(isbn: params[:isbn])
-    @book_id = @book.id
   end
 
   def create
