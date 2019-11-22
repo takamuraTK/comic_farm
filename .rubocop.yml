@@ -6,6 +6,8 @@ AllCops:
     - db/migrate/*
     - vendor/**/*
     - tmp/**/*
+    - config/environments/development.rb
+    - spec/models/*
   # Rails向けのRails copsを実行。"rubocop -R"と同じ
 Rails:
   Enabled: true

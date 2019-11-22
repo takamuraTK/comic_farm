@@ -11,27 +11,21 @@ Rails.application.routes.draw do
 
   get root to: 'toppages#index'
 
-  resources :users, only: %i[show edit update] do
-    member do
-      get :subs
-    end
-  end
+  resources :users, only: %i[show edit update]
 
   resources :subscribes, only: %i[create destroy]
   resources :favorites, only: %i[create destroy]
 
   get 'books', to: 'books#new'
-  post 'books', to: 'books#create'
   get 'books/:isbn', to: 'books#show', as: 'book'
-
+  get 'books/:isbn/reviews/new', to: 'reviews#new', as: 'review_new'
   get 'subscribe-ranking', to: 'books#ranking'
   get 'review-ranking', to: 'books#review_ranking'
 
   get 'howto', to: 'toppages#howto'
 
-  get 'books/:isbn/reviews/new', to: 'reviews#new', as: 'review_new'
-  get 'reviews/index/:id', to: 'reviews#index', as: 'review_index'
   resources :reviews
+  get 'reviews/index/:id', to: 'reviews#index', as: 'review_index'
   get 'reviews/error', to: 'reviews#error'
 
   resources :reviewfavorites, only: %i[create destroy]

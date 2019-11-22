@@ -15,7 +15,7 @@ class Newly < ApplicationRecord
 
     while check_page == 'running'
       page += 1
-      search_publisher(self.publisherName, page)
+      search_publisher(publisherName, page)
       @results.each do |result|
         book = Book.new(read(result))
         if book.salesDate.include?(pre_month)
@@ -46,6 +46,7 @@ class Newly < ApplicationRecord
   end
 
   private
+
   def read(result)
     {
       title: result['title'],
@@ -62,10 +63,10 @@ class Newly < ApplicationRecord
 
   def series_create(title)
     title.sub(
-      /\（.*|\(.*|\p{blank}\d.*|公式ファンブック.*|外伝.*|\p{blank}巻ノ.*/,""
-      )
-    .gsub(
-      /\p{blank}/,""
-      )
+      /（.*|\(.*|\p{blank}\d.*|公式ファンブック.*|外伝.*|\p{blank}巻ノ.*/, ''
+    )
+         .gsub(
+           /\p{blank}/, ''
+         )
   end
 end
