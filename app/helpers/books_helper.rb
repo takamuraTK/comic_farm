@@ -29,8 +29,7 @@ module BooksHelper
   end
 
   def read(result)
-    {
-      title: result['title'],
+    { title: result['title'],
       author: result['author'],
       publisherName: result['publisherName'],
       url: result['itemUrl'],
@@ -38,8 +37,7 @@ module BooksHelper
       isbn: result['isbn'],
       image_url: result['mediumImageUrl'].gsub('?_ex=120x120', '?_ex=350x350'),
       series: series_create(result['title']),
-      salesint: result['salesDate'].gsub(/年|月|日/, '').to_i
-    }
+      salesint: result['salesDate'].gsub(/年|月|日/, '').to_i }
   end
 
   def series_create(title)
@@ -57,20 +55,14 @@ module BooksHelper
 
   def change_isbn(isbn13)
     body = isbn13[3..-2]
-
     sum = body.each_char.map.with_index { |a, b| a.to_i * (10 - b) }.sum
-
     mod = sum % 11
-
     raw_digit = 11 - mod
-
-    digit =
-      case raw_digit
-      when 11 then '0'
-      when 10 then 'X'
-      else raw_digit.to_s
-      end
-
+    digit = case raw_digit
+            when 11 then '0'
+            when 10 then 'X'
+            else raw_digit.to_s
+            end
     "#{body}#{digit}"
   end
 end
