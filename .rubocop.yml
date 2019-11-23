@@ -8,7 +8,7 @@ AllCops:
     - tmp/**/*
     - config/environments/development.rb
     - spec/models/*
-  # Rails向けのRails copsを実行。"rubocop -R"と同じ
+
 Rails:
   Enabled: true
 
@@ -32,4 +32,5 @@ ClassAndModuleChildren:
 # Windows環境で発生する改行エラーに対応
 # CircleCIでrubocopを利用するときはcrlfをlfに変更しないとエラーが出るらしいので注意
 Layout/EndOfLine:
-  EnforcedStyle: crlf
+  # EnforcedStyle: crlf
+  EnforcedStyle: lf
