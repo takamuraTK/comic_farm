@@ -13,12 +13,6 @@ services:
     ports:
       - "3000:3000"
 
-    #開発環境のみで使用
-    depends_on:
-      - db
-    tty: true
-    stdin_open: true
-
   nginx:
     build: containers/nginx
     volumes:
@@ -30,15 +24,6 @@ services:
     depends_on:
       - web
 
-  #開発環境のみで使用
-  db:
-    image: mysql:5.7
-    environment:
-      MYSQL_ROOT_PASSWORD: password
-    ports:
-      - '3306:3306'
-    volumes:
-      - mysql_data:/var/lib/mysql
 volumes:
   mysql_data:
   tmps:
