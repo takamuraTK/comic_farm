@@ -29,9 +29,7 @@
                 <% amazonurl = "http://www.amazon.co.jp/dp/#{change_isbn(book.isbn)}" %>
                 <a href="<%= amazonurl %>" class="card-link btn-sm btn-dark ml-1" target="_blank">Amazon</a>
                 <% unless book.series.nil? %>
-                  
-                  <%= link_to "検索", {controller: "books", action: "new", title: book.series, sortselect: "古い順"}, class: "card-link btn-sm btn-light border ml-1" %>
-                  
+                  <%= link_to "検索", {controller: "books", action: "new", title: book.series, sortselect: "+releaseDate"}, class: "card-link btn-sm btn-light border ml-1" %>
                 <% end %>
               </div>
           </div>

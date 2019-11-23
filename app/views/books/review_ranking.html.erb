@@ -1,42 +1,13 @@
-<h2 class="pb-4">高評価ランキング</h2>
+<h2 class="pb-4"><i class="fa fa-thumbs-up"></i> 高評価ランキング</h2>
 <div class="mark mb-5">
-  <p>こちらのランキングはユーザーが投稿したレビューを元に平均評価を割り出し、それを順位づけしたものです。</p>
+  <p class="pt-3">こちらのランキングはユーザーが投稿したレビューを元に平均評価を割り出し、それを順位づけしたものです。</p>
 </div>
-<% @review_ranking.each do |book| %>
-  <% point = BigDecimal(@book_review_average[book.id].to_s).floor(2).to_f %>
-  <h4 class="mark border m-0"><i class="fa fa-star"></i>  <%= @rank %>位（平均評価 <%= point %>）</h4>
-  <div class="card mb-4 h-350px border-top-0">
-    <div class="row no-gutters">
-      <div class="col-md-3 p-1">
-          <img src="<%= book.image_url %>" style="width:auto; height:350px; max-width:250px;">
-      </div>
-      <div class="col-md-9">
-        <div class="card-body p-3">
-          <p class="card-text mark"><%= book.publisherName %></p>
-          <h5 class="card-title"><%= link_to book.title, book_path(book.isbn), style: 'text-decoration:none;' %></h5>
-          <h6 class="card-subtitle mb-2 text-muted"><%= book.author %></h6>
-          <div class="row pl-3">
-            <p class="col-lg-3 m-0">発売日</p> <p class="col-lg-9 m-0"><%= book.salesDate %></p>
-            <p class="col-lg-3 m-0 pb-4">作品シリーズ</p> <p class="col-lg-9 m-0"><%= book.series %></p>
-          </div>
-          <div class="subscribe_book_zone_<%= book.isbn %>">
-            <%= render 'subscribes/sub_button', isbn: book.isbn %>
-          </div>
-          <div class="favorite_book_zone_<%= book.isbn %>">
-            <%= render 'favorites/fav_button', isbn: book.isbn %>
-          </div>
-          <div class="mt-2 mb-2">
-            <%= link_to '楽天', book.url, class: 'card-link btn-sm btn-dark ml-1', target:'blank' %>
-            <% amazonurl = "http://www.amazon.co.jp/dp/#{change_isbn(book.isbn)}" %>
-            <%= link_to 'Amazon', amazonurl, class: 'card-link btn-sm btn-dark ml-1', target:'blank' %>
-            <% unless book.series.nil? %>
-              <%= link_to "検索", books_path + '?utf8=✓&title=' + book.series + "&commit=検索", class: "card-link btn-sm btn-light border ml-1" %>
-            <% end %>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <% @rank+=1 %>
+<div class="row">
+<% if @review_ranking.present? %>
+  <% @rank = 1 %>
+  <% @review_ranking.each do |book| %>
+    <%= render 'review_ranking_books_card', book: book, test: "a" %>
+    <% @rank+=1 %>
+  <% end %>
 <% end %>
-<%= paginate @review_ranking %>
+</div>

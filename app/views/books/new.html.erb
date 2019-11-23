@@ -1,10 +1,12 @@
+<h1 class="title_comicfarm_big text-center">ComicFarm</h1>
 <div class="mb-5">
   <%= form_with url: books_path, method: :get, local: true do |f| %>
     <div class="form-group row">
       <%= f.label :title, 'タイトル', class: "col-lg-2 pt-1" %>
       <%= f.text_field "title", value: params[:title], class: 'form-control mb-2 col-lg-10' %>
       <%= f.label :sortselect, 'ソート設定', class: "col-lg-2 pt-1" %>
-      <%= f.select :sortselect, options_for_select(['古い順', '新しい順', '売れている順'].map{|c|[c, {}]},params[:sortselect]), {}, class: 'form-control mb-2 col-lg-10' %>
+      <% @sort_array = [{id: "+releaseDate", name: "古い順"}, {id: "-releaseDate", name: "新しい順"}, {id: "sales", name: "売れている順"}] %>
+      <%= f.select :sortselect, options_for_select(@sort_array.map{|c|[c[:name], c[:id], {}]},params[:sortselect]), {}, class: 'form-control mb-2 col-lg-10' %>
       <%= f.label :pageselect, 'ページ指定', class: "col-lg-2 pt-1" do %>
         <span id="hoge" class="" data-toggle="popover" title="ページ指定とは？" data-content="この検索は楽天APIを用いているので、1ページあたり30冊までしか表示できません。なので数の多い漫画を検索するときはページ数を指定することができます。">
         ページ指定
@@ -19,16 +21,11 @@
     <script>
       $(function() {
         $('#hoge').popover({
-          trigger: 'hover', // click,hover,focus,manualを選択出来る
+          trigger: 'hover',
         });
       });
     </script>
   <% end %>
 </div>
-<% if @books.present? %>
-  <div class="pb-5"><%= @search_result %></div>
-<% end %>
 <%= @no_results %>
-<%= paginate @books %>
 <%= render 'books_card_small', books: @books %>
-<%= paginate @books %>

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ReviewfavoritesController < ApplicationController
   def create
     @review = Review.find(params[:review_id])
