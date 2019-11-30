@@ -32,5 +32,5 @@ ClassAndModuleChildren:
 # Windows環境で発生する改行エラーに対応
 # CircleCIでrubocopを利用するときはcrlfをlfに変更しないとエラーが出るらしいので注意
 Layout/EndOfLine:
-  # EnforcedStyle: crlf
-  EnforcedStyle: lf
+  EnforcedStyle: crlf
+  # EnforcedStyle: lf
