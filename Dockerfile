@@ -5,6 +5,7 @@ RUN apk --update add --virtual=buildings \
     curl-dev \
     mysql-dev \
     nodejs \
+    libxml2-dev \
     git
 RUN gem install bundler
 WORKDIR /tmp
