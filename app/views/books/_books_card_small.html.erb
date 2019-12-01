@@ -2,7 +2,7 @@
   <% if books.present? %>
     <% books.each do |book| %>
     <div class="col-xl-3 col-lg-4 col-md-6">
-      <div class="card text-center rounded-0 border-bottom-0" style="height: 350px; ">
+      <div class="card text-center rounded-0 border-bottom-0 pt-1" style="height: 370px; ">
         <div class="p-0">
           <%= link_to book_path(book.isbn), target: "_blank" do %>
             <img src="<%= book.image_url %>" style="width:auto; height:350px; max-width:250px;">

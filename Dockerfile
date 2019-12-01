@@ -5,6 +5,7 @@ RUN apk --update add --virtual=buildings \
     curl-dev \
     mysql-dev \
     nodejs \
+    libxml2-dev \
     git
 RUN gem install bundler
 WORKDIR /tmp
@@ -31,7 +32,7 @@ ENV APP_HOME /app
 RUN mkdir -p $APP_HOME
 WORKDIR $APP_HOME
 ADD . $APP_HOME
-ENV RAILS_ENV development
+ENV RAILS_ENV production
 RUN rm -f tmp/pids/server.pid
 VOLUME /app/public
 VOLUME /app/tmp

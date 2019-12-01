@@ -29,11 +29,11 @@ Rails.application.configure do
   # config.assets.css_compressor = :sass
 
   # Do not fallback to assets pipeline if a precompiled asset is missed.
-  config.assets.compile = false
+  config.assets.compile = true
 
   # `config.assets.precompile` and `config.assets.version` have moved to config/initializers/assets.rb
 
-  # Enable serving of images, stylesheets, and JavaScripts from an asset server.
+  # Enable serving of s, stylesheets, and JavaScripts from an asset server.
   # config.action_controller.asset_host = 'http://assets.example.com'
 
   # Specifies the header that your server uses for sending files.
@@ -64,6 +64,20 @@ Rails.application.configure do
   # Use a real queuing backend for Active Job (and separate queues per environment)
   # config.active_job.queue_adapter     = :resque
   # config.active_job.queue_name_prefix = "comic_farm_#{Rails.env}"
+
+  # Don't care if the mailer can't send.
+  config.action_mailer.default_url_options = { host: 'https://www.comic-farm.net/', port: 3000 }
+  # mail setting
+  config.action_mailer.raise_delivery_errors = true
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.smtp_settings = {
+    address: 'smtp.gmail.com',
+    port: 587,
+    user_name: 'comicfarm.authentication@gmail.com',
+    password: Rails.application.credentials.gmail_password,
+    authentication: :plain,
+    enable_starttls_auto: true
+  }
 
   config.action_mailer.perform_caching = false
 

@@ -4,12 +4,11 @@ services:
   web:
     build: .
     environment:
-      RAILS_ENV: development
+      RAILS_ENV: production
     volumes:
       - .:/app
       - publics:/app/public
       - tmps:/app/tmp
-      - logs:/app/log
     ports:
       - "3000:3000"
 
@@ -18,7 +17,6 @@ services:
     volumes:
       - publics:/app/public
       - tmps:/app/tmp
-      - logs:/app/log
     ports:
       - 80:80
     depends_on:
