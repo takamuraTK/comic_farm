@@ -6,7 +6,7 @@ AllCops:
     - db/migrate/*
     - vendor/**/*
     - tmp/**/*
-    - config/environments/development.rb
+    - config/environments/*
     - spec/models/*
 
 Rails:

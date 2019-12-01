@@ -38,8 +38,4 @@ VOLUME /app/public
 VOLUME /app/tmp
 EXPOSE  3000
 
-#開発環境のみで使用する環境変数2つ
-ENV COMIC_FARM_DATABASE_PASSWORD=password
-ENV COMIC_FARM_DATABASE_HOST=comic_farm_db_1
-
 CMD bundle exec puma 
