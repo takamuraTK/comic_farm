@@ -66,7 +66,7 @@ Rails.application.configure do
   # config.active_job.queue_name_prefix = "comic_farm_#{Rails.env}"
 
   # Don't care if the mailer can't send.
-  config.action_mailer.default_url_options = { host: 'https://www.comic-farm.net/', port: 3000 }
+  config.action_mailer.default_url_options = { host: 'https://www.comic-farm.net/' }
   # mail setting
   config.action_mailer.raise_delivery_errors = true
   config.action_mailer.delivery_method = :smtp
