@@ -32,10 +32,14 @@ ENV APP_HOME /app
 RUN mkdir -p $APP_HOME
 WORKDIR $APP_HOME
 ADD . $APP_HOME
-ENV RAILS_ENV production
+ENV RAILS_ENV development
 RUN rm -f tmp/pids/server.pid
 VOLUME /app/public
 VOLUME /app/tmp
 EXPOSE  3000
+
+#開発環境のみで使用する環境変数2つ
+ENV COMIC_FARM_DATABASE_PASSWORD=password
+ENV COMIC_FARM_DATABASE_HOST=comic_farm_db_1
 
 CMD bundle exec puma 
