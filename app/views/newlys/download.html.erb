@@ -27,8 +27,8 @@
   <ul class="list-group mb-2" >
   <li class="list-group-item row list-group-item-success" style="width:max">
     <div class="row">
-      <div class="col-lg-5">出版社名</div>
-      <div class="col-lg-1">月</div>
+      <div class="col-lg-4">出版社名</div>
+      <div class="col-lg-2">月</div>
       <div class="col-lg-2">冊数</div>
       <div class="col-lg-4">登録日</div>
     </div>
@@ -36,8 +36,8 @@
   <% @downloads.each do |download| %>
       <li class="list-group-item row" style="width:max">
         <div class="row">
-          <div class="col-lg-5"><%= download.publisherName %></div>
-          <div class="col-lg-1"><%= download.month %>月</div>
+          <div class="col-lg-4"><%= download.publisherName %></div>
+          <div class="col-lg-2"><%= download.month.in_time_zone.strftime('%Y年%m月') %></div>
           <div class="col-lg-2"><%= download.counter %>冊</div>
           <div class="col-lg-4"><%= download.created_at %></div>
         </div>
