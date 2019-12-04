@@ -1,10 +1,8 @@
 <div class="mb-4"><h2><%= @user.name %>さんのページです</h2></div>
-
 <%= render 'profile_card', user: @user %>
 <% if @current_user.id == @user.id %>
-<%= link_to '編集する', edit_user_path %>
+  <%= link_to '編集する', edit_user_path %>
 <% end %>
-
 
 <!--タブボタン部分-->
 <ul class="nav nav-tabs mt-3">
@@ -26,81 +24,76 @@
 <div class="tab-content">
   <div id="tab1" class="tab-pane active pt-2">
 
-  <% unless @user.books.empty? %>
-    <div>
-      <a class="btn btn-info btn-block text-left d-flex justify-content-between align-items-center" data-toggle="collapse" href="#collapsesubs" role="button" aria-expanded="false" aria-controls="collapsesubs">
-        <span><i class="fa fa-book"></i> 最近登録した漫画<span class="text-black-50 text-left">（4件まで表示）</span></span>
-      </a>
-      <br>
-    </div>
-    <div class="collapse" id="collapsesubs">
-      <div class="row">
-      <% @user.subscribes.order('id DESC').limit(4).select('book_id').each do |id| %>
-        <%= render 'books/book_card_small', book: id.book %>
-      <% end %>
-      </div>
-    </div>
-  <% else %>
-    <p>所持登録している漫画はありません。</p>
-  <% end %>
-
-
-    <div class="row">
+  <div class="row">
     <% @user.books.group(:series).count.sort.each do |comic,count| %>
-      <div class="col-md-6">
-        <% escape_comic = comic.gsub(/\.|\!/,"") %>
-        <a class="btn btn-dark btn-block text-left d-flex justify-content-between align-items-center" data-toggle="collapse" href="#collapse<%= escape_comic %>" role="button" aria-expanded="false" aria-controls="collapse<%= escape_comic %>">
-          
-          <%= comic %><span class="badge badge-light badge-pill pull-right"><%= count %></span>
-        </a>
-        <br>
-      </div>
-
-      <div class="collapse col-md-12" id="collapse<%= escape_comic %>">
-        <% series_books = @user.books.where(series: comic).order("salesint") %>
-          <%= render 'books/books_card_small', books: series_books %>
+      <div class="col-lg-4 col-md-6">
+        <%= form_with url: user_path, method: :get do |f| %>
+          <%= hidden_field_tag :sub_series_title, comic %>
+          <input value="<%= comic %>" type="submit" class="mb-2 btn btn-dark btn-block text-left d-flex justify-content-between align-items-center" data-toggle="modal" data-target="#Modal">
+        <% end %>
       </div>
     <% end %>
     </div>
   </div>
-    
 
-  <div id="tab2" class="tab-pane pt-2">
-  <% unless @user.favbooks.empty? %>
-    <div>
-      <a class="btn btn-info btn-block text-left d-flex justify-content-between align-items-center" data-toggle="collapse" href="#collapsesubs" role="button" aria-expanded="false" aria-controls="collapsesubs">
-        <span><i class="fa fa-star"></i> 最近お気に入り登録した漫画<span class="text-black-50 text-left">（4件まで表示）</span></span>
-      </a>
-      <br>
-    </div>
-    <div class="collapse" id="collapsesubs">
-      <div class="row">
-        <% @user.favorites.order("id DESC").limit(4).select("book_id").each do |id| %>
-          <%= render 'books/book_card_small', book: id.book %>
-        <% end %>
+  <div class="modal fade" id="Modal" tabindex="-1" role="dialog" aria-labelledby="Modal" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="Modal">登録漫画</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="閉じる">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p>選択したシリーズで、登録した漫画を表示しています。</p>
+          <p>冊数が多いと、画面の切り替わりに時間がかかる場合があります。</p>
+          <div class="px-3" id="book_series_zone">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">閉じる</button>
+        </div>
       </div>
     </div>
-  <% else %>
-    <p>お気に入り登録している漫画はありません。</p>
-  <% end %>
-
-<div class="row" id="favzone">
-<% @user.favbooks.group(:series).count.sort.each do |comic,count| %>
-  <div class="col-md-6">
-  <% escape_comic = comic.sub(/\./,"") %>
-    <a class="btn btn-dark btn-block text-left d-flex justify-content-between align-items-center" data-toggle="collapse" href="#collapse<%= escape_comic %>" role="button" aria-expanded="false" aria-controls="collapse<%= escape_comic %>">
-      <%= comic %><span class="badge badge-light badge-pill pull-right"><%= count %></span>
-    </a>
-    <br>
-  </div>
-  <div class="collapse col-md-12" id="collapse<%= escape_comic %>">
-    <% series_books = @user.favbooks.where(series: comic).order("salesint") %>
-      <%= render 'books/books_card_small', books: series_books %>
-  </div>
-<% end %>
-</div>
   </div>
     
+  <div id="tab2" class="tab-pane pt-2">
+
+  <div class="row" id="favzone">
+    <% @user.favbooks.group(:series).count.sort.each do |comic,count| %>
+      <div class="col-lg-4 col-md-6">
+        <%= form_with url: user_path, method: :get do |f| %>
+          <%= hidden_field_tag :fav_series_title, comic %>
+          <input value="<%= comic %>" type="submit" class="mb-2 btn btn-dark btn-block text-left d-flex justify-content-between align-items-center" data-toggle="modal" data-target="#Modalfav">
+        <% end %>
+      </div>
+    <% end %>
+    </div>
+  </div>
+
+  <div class="modal fade" id="Modalfav" tabindex="-1" role="dialog" aria-labelledby="Modal" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="Modal">お気に入り漫画</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="閉じる">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p>選択したシリーズで、お気に入り登録した漫画を表示しています。</p>
+          <p>冊数が多いと、画面の切り替わりに時間がかかる場合があります。</p>
+          <div class="px-3" id="book_series_zone_fav">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">閉じる</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <div id="tab3" class="tab-pane pt-2">
     <% unless @reviews.empty? %>
       <% @reviews.each do |review| %>
@@ -122,6 +115,5 @@
       <p>いいねしたレビューはありません。</p>
     <% end %>
   </div>
-
 </div>
 

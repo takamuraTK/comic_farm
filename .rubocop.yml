@@ -29,6 +29,9 @@ AsciiComments:
 ClassAndModuleChildren:
   Enabled: false
 
+Metrics/AbcSize:
+  Max: 20
+
 # Windows環境で発生する改行エラーに対応
 # CircleCIでrubocopを利用するときはcrlfをlfに変更しないとエラーが出るらしいので注意
 Layout/EndOfLine:

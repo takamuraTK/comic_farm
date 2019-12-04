@@ -21,6 +21,7 @@ class ReviewsController < ApplicationController
 
   def create
     @review = Review.new(new_review_params(params[:book_id]))
+    @book = Book.find(params[:book_id])
     if @review.save
       flash[:success] = 'レビューが正常に投稿されました'
       redirect_to review_path(@review)

@@ -1,0 +1,19 @@
+<% if books.present? %>
+  合計<%= books.count %>冊
+  <ul class="list-group mb-2" >
+  <li class="list-group-item row list-group-item-primary" style="width:max">
+    <div class="row">
+      <div class="col-lg-8">タイトル</div>
+      <div class="col-lg-4">発売日</div>
+    </div>
+  </li>
+  <% books.each do |book| %>
+    <li class="list-group-item row" style="width:max">
+      <div class="row">
+        <div class="col-lg-8"><%= link_to book.title, book_path(book.isbn), target: :_blank, class: 'text-decoration-none text-body' %></div>
+        <div class="col-lg-4"><%= book.salesDate %></div>
+      </div>
+    </li>
+  <% end %>
+  </ul>
+<% end %>

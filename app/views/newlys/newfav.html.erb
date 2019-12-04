@@ -1,4 +1,7 @@
 <h2 class="mb-5">あなたが買うかもしれない今月の新刊！</h2>
+<div class="mark mb-3">
+こちらでは登録した漫画を元に今月発売の新刊を表示しています。
+</div>
 <% if @books.present? %>
     <%= render 'books/books_card_small', books: @books %>
 <% else %>
