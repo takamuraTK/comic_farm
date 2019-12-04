@@ -48,7 +48,7 @@
     <div class="row">
     <% @user.books.group(:series).count.sort.each do |comic,count| %>
       <div class="col-md-6">
-        <% escape_comic = comic.gsub(/\.|\!/,"") %>
+        <% escape_comic = comic.gsub(/\.|\!|\:/,"") %>
         <a class="btn btn-dark btn-block text-left d-flex justify-content-between align-items-center" data-toggle="collapse" href="#collapse<%= escape_comic %>" role="button" aria-expanded="false" aria-controls="collapse<%= escape_comic %>">
           
           <%= comic %><span class="badge badge-light badge-pill pull-right"><%= count %></span>
@@ -87,7 +87,7 @@
 <div class="row" id="favzone">
 <% @user.favbooks.group(:series).count.sort.each do |comic,count| %>
   <div class="col-md-6">
-  <% escape_comic = comic.sub(/\./,"") %>
+  <% escape_comic = comic.gsub(/\.|\!|\:/,"") %>
     <a class="btn btn-dark btn-block text-left d-flex justify-content-between align-items-center" data-toggle="collapse" href="#collapse<%= escape_comic %>" role="button" aria-expanded="false" aria-controls="collapse<%= escape_comic %>">
       <%= comic %><span class="badge badge-light badge-pill pull-right"><%= count %></span>
     </a>

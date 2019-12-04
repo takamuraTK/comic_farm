@@ -47,6 +47,8 @@ module BooksHelper
          .gsub(
            /\p{blank}/, ''
          )
+         .gsub(/：/, ':')
+         .gsub(/トーキョーグール/, '')
   end
 
   def publisher_name_array
