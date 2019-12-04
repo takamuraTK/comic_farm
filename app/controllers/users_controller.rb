@@ -8,8 +8,8 @@ class UsersController < ApplicationController
 
     @user = User.find(params[:id])
     @reviews = Review.where(user_id: params[:id])
-    @sub_books = @user.books.where(series: params[:sub_series_title]).order("salesint")
-    @fav_books = @user.favbooks.where(series: params[:fav_series_title]).order("salesint")
+    get_subs(params[:sub_series_title])
+    get_favs(params[:fav_series_title])
   end
 
   def edit
@@ -43,5 +43,13 @@ class UsersController < ApplicationController
 
   def user_params
     params.require(:user).permit(:name, :image, :profile)
+  end
+
+  def get_subs(series)
+    @sub_books = @user.books.where(series: series).order('salesint')
+  end
+
+  def get_favs(series)
+    @fav_books = @user.favbooks.where(series: series).order('salesint')
   end
 end
