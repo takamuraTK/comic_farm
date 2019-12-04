@@ -9,7 +9,7 @@
 
 # coding: utf-8
 
-User.create(name: 'TestUser', email: 'xxx@example.com', password: 'password', confirmed_at: Date.current.in_time_zone, admin: true)
+User.create(name: 'TestUser', email: 'xxx@example.com', password: 'password', confirmed_at: Date.current.in_time_zone)
 Book.create(title: 'ブルーピリオド（2）', author: '山口 つばさ', publisherName: '講談社', url: 'https://books.rakuten.co.jp/rb/15371858/', salesDate: '2018年03月23日', isbn: '9784065111246', image_url: 'https://thumbnail.image.rakuten.co.jp/@0_mall/book/cabinet/1246/9784065111246.jpg?_ex=350x350', series: 'ブルーピリオド', salesint: 20_180_323)
 Subscribe.create(user_id: 1, book_id: 1)
 
