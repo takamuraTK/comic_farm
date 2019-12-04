@@ -8,6 +8,8 @@ class UsersController < ApplicationController
 
     @user = User.find(params[:id])
     @reviews = Review.where(user_id: params[:id])
+    @sub_books = @user.books.where(series: params[:sub_series_title]).order("salesint")
+    @fav_books = @user.favbooks.where(series: params[:fav_series_title]).order("salesint")
   end
 
   def edit
