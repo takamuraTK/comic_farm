@@ -29,7 +29,7 @@
       <div class="col-lg-4 col-md-6">
         <%= form_with url: user_path, method: :get do |f| %>
           <%= hidden_field_tag :sub_series_title, comic %>
-          <input value="<%= comic %>" type="submit" class="mb-2 btn btn-dark btn-block text-left d-flex justify-content-between align-items-center" data-toggle="modal" data-target="#Modal">
+          <input value="<%= comic %>" type="submit" class="mb-2 btn <%= get_color(comic) %> btn-block text-left d-flex justify-content-between align-items-center" data-toggle="modal" data-target="#Modal">
         <% end %>
       </div>
     <% end %>
