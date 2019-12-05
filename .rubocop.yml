@@ -8,6 +8,7 @@ AllCops:
     - tmp/**/*
     - config/environments/*
     - spec/models/*
+    - app/helpers/users_helper.rb
 
 Rails:
   Enabled: true

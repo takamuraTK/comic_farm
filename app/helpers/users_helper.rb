@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module UsersHelper
   def get_color(comic)
     publisher = Bookseries.find_by(title: comic).publisher
