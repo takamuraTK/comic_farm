@@ -18,7 +18,6 @@ module UsersHelper
               'btn-secondary'
             when '少年画報社'
               'btn-info'
-
             else
               'btn-dark'
             end

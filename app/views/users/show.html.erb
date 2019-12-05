@@ -23,7 +23,7 @@
 <!--タブコンテンツ部分-->
 <div class="tab-content">
   <div id="tab1" class="tab-pane active pt-2">
-
+  <p>出版社毎に色分けして表示されます。</p>
   <div class="row">
     <% @user.books.group(:series).count.sort.each do |comic,count| %>
       <div class="col-lg-4 col-md-6">
@@ -59,7 +59,7 @@
   </div>
     
   <div id="tab2" class="tab-pane pt-2">
-
+  <p>出版社毎に色分けして表示されます。</p>
   <div class="row" id="favzone">
     <% @user.favbooks.group(:series).count.sort.each do |comic,count| %>
       <div class="col-lg-4 col-md-6">
