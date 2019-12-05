@@ -39,7 +39,7 @@ class Book < ApplicationRecord
   def set_series
     return unless Bookseries.find_by(title: series).nil?
 
-    bookseries = Bookseries.new(title: series)
+    bookseries = Bookseries.new(title: series, publisher: publisherName)
     bookseries.save
   end
 
