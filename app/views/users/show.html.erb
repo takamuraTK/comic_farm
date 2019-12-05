@@ -22,7 +22,9 @@
 
 <!--タブコンテンツ部分-->
 <div class="tab-content">
+
   <div id="tab1" class="tab-pane active pt-2">
+  <% if @user.books.present? %>
   <p>出版社毎に色分けして表示されます。</p>
   <div class="row">
     <% @user.books.group(:series).count.sort.each do |comic,count| %>
@@ -34,6 +36,9 @@
       </div>
     <% end %>
     </div>
+    <% else %>
+      <p>まだ漫画を登録していません。</p>
+    <% end %>
   </div>
 
   <div class="modal fade" id="Modal" tabindex="-1" role="dialog" aria-labelledby="Modal" aria-hidden="true">
@@ -57,8 +62,10 @@
       </div>
     </div>
   </div>
-    
+
+
   <div id="tab2" class="tab-pane pt-2">
+  <% if @user.books.present? %>
   <p>出版社毎に色分けして表示されます。</p>
   <div class="row" id="favzone">
     <% @user.favbooks.group(:series).count.sort.each do |comic,count| %>
@@ -70,6 +77,9 @@
       </div>
     <% end %>
     </div>
+    <% else %>
+      <p>まだ漫画をお気に入り登録していません。</p>
+    <% end %>
   </div>
 
   <div class="modal fade" id="Modalfav" tabindex="-1" role="dialog" aria-labelledby="Modal" aria-hidden="true">
