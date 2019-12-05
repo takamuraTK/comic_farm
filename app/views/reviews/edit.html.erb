@@ -1,3 +1,12 @@
+<% if @review.errors.any? %>
+  <div id="error_explanation">
+    <ul>
+      <% @review.errors.full_messages.each do |msg| %>
+        <li><%= msg.sub("Head","レビュー名").sub("Content","レビュー本文") %></li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>
 <h1>レビュー編集ページ</h1>
 
 <%= form_with(model: @review, local: true) do |f| %>
