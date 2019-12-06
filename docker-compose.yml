@@ -4,16 +4,13 @@ services:
   web:
     build: .
     environment:
-      RAILS_ENV: development
+      RAILS_ENV: production
     volumes:
       - .:/app
       - publics:/app/public
       - tmps:/app/tmp
     ports:
       - "3000:3000"
-      #開発環境のみで使用
-    depends_on:
-      - db
 
   nginx:
     build: containers/nginx
@@ -24,16 +21,6 @@ services:
       - 80:80
     depends_on:
       - web
-
-      #開発環境のみで使用
-  db:
-    image: mysql:5.7
-    environment:
-      MYSQL_ROOT_PASSWORD: password
-    ports:
-      - '3306:3306'
-    volumes:
-      - mysql_data:/var/lib/mysql
 
 volumes:
   mysql_data:

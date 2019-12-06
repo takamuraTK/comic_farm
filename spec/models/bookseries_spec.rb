@@ -19,4 +19,10 @@ RSpec.describe Bookseries, type: :model do
     bookseries.valid?
     expect(bookseries.errors[:title]).to include('はすでに存在します')
   end
+
+  it 'publisherがないときは無効であること' do
+    bookseries = FactoryBot.build(:bookseries, publisher: nil)
+    bookseries.valid?
+    expect(bookseries.errors[:publisher]).to include('を入力してください')
+  end
 end
