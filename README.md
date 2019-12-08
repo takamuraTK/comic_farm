@@ -1,5 +1,8 @@
 # ComicFarm
 
+## 本番環境の構成図
+![構成図](https://github.com/takamuraTK/comic_farm/blob/images/images/comic_farm_map.jpg?raw=true)
+
 ## このアプリについて
 好きな漫画を登録したり、共有したり、感想を言い合ったりできるアプリです。  
 また、気になる漫画の情報を入手することも可能で、例えば登録している漫画の新刊が今月に出るとしたら  
@@ -44,7 +47,4 @@ https://www.comic-farm.net/books
 - 登録漫画管理機能
 - 新刊表示機能
 - 所持している漫画のシリーズで、今月発売のものを表示する機能
-
-## 本番環境の構成図
-![構成図](https://github.com/takamuraTK/comic_farm/blob/images/images/comic_farm_map.jpg?raw=true)
 
