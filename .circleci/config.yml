@@ -1,3 +1,6 @@
+orbs:
+  aws-ecr: circleci/aws-ecr@6.4.0
+  aws-ecs: circleci/aws-ecs@0.0.11
 version: 2 # use CircleCI 2.0
 jobs: # a collection of steps
   test:
@@ -5,7 +8,6 @@ jobs: # a collection of steps
       - image: circleci/ruby:2.5.3-node-browsers 
         environment: 
           RAILS_ENV: test
-          # テスト環境を実行するための環境変数
           BUNDLER_VERSION: 2.0.2
           COMIC_FARM_DATABASE_HOST: 127.0.0.1
           COMIC_FARM_DATABASE_PASSWORD: password
@@ -42,9 +44,50 @@ jobs: # a collection of steps
           command: bundle exec rspec
           
 workflows:
-# 複数のジョブを管理するところ
   version: 2
   workflows:
-    jobs:
-      - test
+    build-and-deploy:
+      jobs:
+        - test
+          filters:
+            branches:
+              only:
+                - master
+        - aws-ecr/build_and_push_image:
+          name: 'build-rails'
+          requires:
+            - test
+          filters:
+            branches:
+              only:
+                - master
+          account-url: "${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com"
+          repo: "${MY_APP_PREFIX_RAILS}"
+          region: ${AWS_DEFAULT_REGION}
+          tag: "${CIRCLE_SHA1}"
+        - aws-ecr/build-and-push-image:
+          name: 'build-nginx'
+          requires:
+            - test
+          filters:
+            branches:
+              only:
+                - master            
+          account-url: "${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com"
+          dockerfile: 'containers/nginx/Dockerfile'
+          path: 'containers/nginx/'
+          repo: "${MY_APP_PREFIX_NGINX}"
+          region: ${AWS_DEFAULT_REGION}
+          tag: "${CIRCLE_SHA1}"
+        - aws-ecs/deploy-service-update:
+          requires:
+            - build-rails
+            - build-nginx
+          filters:
+            branches:
+              only:
+                - master            
+          family: 'alb-service'
+          cluster-name: 'comic-farm-EC2'
+          container-image-name-updates: 'container=comic-farm-rails,tag=${CIRCLE_SHA1},container=comic-farm-nginx,tag=${CIRCLE_SHA1}' 
         
