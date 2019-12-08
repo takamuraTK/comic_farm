@@ -45,7 +45,6 @@ jobs: # a collection of steps
           
 workflows:
   version: 2
-  workflows:
     build-and-deploy:
       jobs:
         - test:
@@ -63,7 +62,7 @@ workflows:
                 - master
           account-url: "${AWS_ECR_ACCOUNT_URL}"
           repo: "${MY_APP_PREFIX_RAILS}"
-          region: "${AWS_DEFAULT_REGION}"
+          region: ${AWS_DEFAULT_REGION}
           tag: "${CIRCLE_SHA1}"
         - aws-ecr/build-and-push-image:
           name: 'build-nginx'
@@ -77,7 +76,7 @@ workflows:
           dockerfile: 'containers/nginx/Dockerfile'
           path: 'containers/nginx/'
           repo: "${MY_APP_PREFIX_NGINX}"
-          region: "${AWS_DEFAULT_REGION}"
+          region: ${AWS_DEFAULT_REGION}
           tag: "${CIRCLE_SHA1}"
         # - aws-ecs/deploy-service-update:
         #   requires:
