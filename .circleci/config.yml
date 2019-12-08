@@ -61,9 +61,9 @@ workflows:
             branches:
               only:
                 - master
-          account-url: "${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com"
+          account-url: "${AWS_ECR_ACCOUNT_URL}"
           repo: "${MY_APP_PREFIX_RAILS}"
-          region: ${AWS_DEFAULT_REGION}
+          region: "${AWS_DEFAULT_REGION}"
           tag: "${CIRCLE_SHA1}"
         - aws-ecr/build-and-push-image:
           name: 'build-nginx'
@@ -73,11 +73,11 @@ workflows:
             branches:
               only:
                 - master
-          account-url: "${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com"
+          account-url: "${AWS_ECR_ACCOUNT_URL}"
           dockerfile: 'containers/nginx/Dockerfile'
           path: 'containers/nginx/'
           repo: "${MY_APP_PREFIX_NGINX}"
-          region: ${AWS_DEFAULT_REGION}
+          region: "${AWS_DEFAULT_REGION}"
           tag: "${CIRCLE_SHA1}"
         # - aws-ecs/deploy-service-update:
         #   requires:
