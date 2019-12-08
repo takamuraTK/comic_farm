@@ -79,15 +79,15 @@ workflows:
           repo: "${MY_APP_PREFIX_NGINX}"
           region: ${AWS_DEFAULT_REGION}
           tag: "${CIRCLE_SHA1}"
-        - aws-ecs/deploy-service-update:
-          requires:
-            - build-rails
-            - build-nginx
-          filters:
-            branches:
-              only:
-                - master
-          family: 'alb-service'
-          cluster-name: 'comic-farm-EC2'
-          container-image-name-updates: 'container=comic-farm-rails,tag=${CIRCLE_SHA1},container=comic-farm-nginx,tag=${CIRCLE_SHA1}'
+        # - aws-ecs/deploy-service-update:
+        #   requires:
+        #     - build-rails
+        #     - build-nginx
+        #   filters:
+        #     branches:
+        #       only:
+        #         - master
+        #   family: 'alb-service'
+        #   cluster-name: 'comic-farm-EC2'
+        #   container-image-name-updates: 'container=comic-farm-rails,tag=${CIRCLE_SHA1},container=comic-farm-nginx,tag=${CIRCLE_SHA1}'
         
