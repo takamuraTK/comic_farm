@@ -1,6 +1,6 @@
-orbs:
-  aws-ecr: circleci/aws-ecr@6.4.0
-  aws-ecs: circleci/aws-ecs@0.0.11
+# orbs:
+#   aws-ecr: circleci/aws-ecr@6.4.0
+#   aws-ecs: circleci/aws-ecs@0.0.11
 version: 2 # use CircleCI 2.0
 jobs: # a collection of steps
   test:
@@ -45,9 +45,10 @@ jobs: # a collection of steps
           
 workflows:
   version: 2
-    build-and-deploy:
-      jobs:
-        - test
+  workflows:
+    jobs:
+      - test
+        
         #   filters:
         #     branches:
         #       only:
