@@ -72,7 +72,7 @@ workflows:
           filters:
             branches:
               only:
-                - master            
+                - master
           account-url: "${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com"
           dockerfile: 'containers/nginx/Dockerfile'
           path: 'containers/nginx/'
@@ -86,8 +86,8 @@ workflows:
           filters:
             branches:
               only:
-                - master            
+                - master
           family: 'alb-service'
           cluster-name: 'comic-farm-EC2'
-          container-image-name-updates: 'container=comic-farm-rails,tag=${CIRCLE_SHA1},container=comic-farm-nginx,tag=${CIRCLE_SHA1}' 
+          container-image-name-updates: 'container=comic-farm-rails,tag=${CIRCLE_SHA1},container=comic-farm-nginx,tag=${CIRCLE_SHA1}'
         
