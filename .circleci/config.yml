@@ -44,49 +44,48 @@ jobs: # a collection of steps
           command: bundle exec rspec
           
 workflows:
-  version: 2
-    build-and-deploy:
-      jobs:
-        - test:
-          filters:
-            branches:
-              only:
-                - master
-        - aws-ecr/build_and_push_image:
-          name: 'build-rails'
-          requires:
-            - test
-          filters:
-            branches:
-              only:
-                - master
-          account-url: "${AWS_ECR_ACCOUNT_URL}"
-          repo: "${MY_APP_PREFIX_RAILS}"
-          region: ${AWS_DEFAULT_REGION}
-          tag: "${CIRCLE_SHA1}"
-        - aws-ecr/build-and-push-image:
-          name: 'build-nginx'
-          requires:
-            - test
-          filters:
-            branches:
-              only:
-                - master
-          account-url: "${AWS_ECR_ACCOUNT_URL}"
-          dockerfile: 'containers/nginx/Dockerfile'
-          path: 'containers/nginx/'
-          repo: "${MY_APP_PREFIX_NGINX}"
-          region: ${AWS_DEFAULT_REGION}
-          tag: "${CIRCLE_SHA1}"
-        # - aws-ecs/deploy-service-update:
-        #   requires:
-        #     - build-rails
-        #     - build-nginx
-        #   filters:
-        #     branches:
-        #       only:
-        #         - master
-        #   family: 'alb-service'
-        #   cluster-name: 'comic-farm-EC2'
-        #   container-image-name-updates: 'container=comic-farm-rails,tag=${CIRCLE_SHA1},container=comic-farm-nginx,tag=${CIRCLE_SHA1}'
+  build-and-deploy:
+    jobs:
+      - test:
+        filters:
+          branches:
+            only:
+              - master
+      - aws-ecr/build_and_push_image:
+        name: 'build-rails'
+        requires:
+          - test
+        filters:
+          branches:
+            only:
+              - master
+        account-url: "${AWS_ECR_ACCOUNT_URL}"
+        repo: "${MY_APP_PREFIX_RAILS}"
+        region: ${AWS_DEFAULT_REGION}
+        tag: "${CIRCLE_SHA1}"
+      - aws-ecr/build-and-push-image:
+        name: 'build-nginx'
+        requires:
+          - test
+        filters:
+          branches:
+            only:
+              - master
+        account-url: "${AWS_ECR_ACCOUNT_URL}"
+        dockerfile: 'containers/nginx/Dockerfile'
+        path: 'containers/nginx/'
+        repo: "${MY_APP_PREFIX_NGINX}"
+        region: ${AWS_DEFAULT_REGION}
+        tag: "${CIRCLE_SHA1}"
+      # - aws-ecs/deploy-service-update:
+      #   requires:
+      #     - build-rails
+      #     - build-nginx
+      #   filters:
+      #     branches:
+      #       only:
+      #         - master
+      #   family: 'alb-service'
+      #   cluster-name: 'comic-farm-EC2'
+      #   container-image-name-updates: 'container=comic-farm-rails,tag=${CIRCLE_SHA1},container=comic-farm-nginx,tag=${CIRCLE_SHA1}'
         
