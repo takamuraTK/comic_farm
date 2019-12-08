@@ -1,7 +1,7 @@
 orbs:
   aws-ecr: circleci/aws-ecr@6.4.0
   aws-ecs: circleci/aws-ecs@0.0.11
-version: 2.1
+version: 2.0
 jobs: # a collection of steps
   test:
     docker: 
@@ -46,37 +46,37 @@ jobs: # a collection of steps
 workflows:
   build-and-deploy:
     jobs:
-      - test:
-        filters:
-          branches:
-            only:
-              - master
-      - aws-ecr/build_and_push_image:
-        name: 'build-rails'
-        requires:
-          - test
-        filters:
-          branches:
-            only:
-              - master
-        account-url: "${AWS_ECR_ACCOUNT_URL}"
-        repo: "${MY_APP_PREFIX_RAILS}"
-        region: ${AWS_DEFAULT_REGION}
-        tag: "${CIRCLE_SHA1}"
-      - aws-ecr/build-and-push-image:
-        name: 'build-nginx'
-        requires:
-          - test
-        filters:
-          branches:
-            only:
-              - master
-        account-url: "${AWS_ECR_ACCOUNT_URL}"
-        dockerfile: 'containers/nginx/Dockerfile'
-        path: 'containers/nginx/'
-        repo: "${MY_APP_PREFIX_NGINX}"
-        region: ${AWS_DEFAULT_REGION}
-        tag: "${CIRCLE_SHA1}"
+      - test
+      #   filters:
+      #     branches:
+      #       only:
+      #         - master
+      # - aws-ecr/build_and_push_image:
+      #   name: 'build-rails'
+      #   requires:
+      #     - test
+      #   filters:
+      #     branches:
+      #       only:
+      #         - master
+      #   account-url: "${AWS_ECR_ACCOUNT_URL}"
+      #   repo: "${MY_APP_PREFIX_RAILS}"
+      #   region: ${AWS_DEFAULT_REGION}
+      #   tag: "${CIRCLE_SHA1}"
+      # - aws-ecr/build-and-push-image:
+      #   name: 'build-nginx'
+      #   requires:
+      #     - test
+      #   filters:
+      #     branches:
+      #       only:
+      #         - master
+      #   account-url: "${AWS_ECR_ACCOUNT_URL}"
+      #   dockerfile: 'containers/nginx/Dockerfile'
+      #   path: 'containers/nginx/'
+      #   repo: "${MY_APP_PREFIX_NGINX}"
+      #   region: ${AWS_DEFAULT_REGION}
+      #   tag: "${CIRCLE_SHA1}"
       # - aws-ecs/deploy-service-update:
       #   requires:
       #     - build-rails
