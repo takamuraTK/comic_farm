@@ -39,5 +39,6 @@ VOLUME /app/tmp
 EXPOSE  3000
 WORKDIR /app/tmp
 RUN mkdir sockets
+WORKDIR $APP_HOME
 
 CMD bundle exec puma 
