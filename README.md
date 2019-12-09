@@ -1,7 +1,7 @@
 # ComicFarm
 
 ## 本番環境の構成図
-![構成図](https://github.com/takamuraTK/comic_farm/blob/images/images/comic_farm_map.jpg?raw=true)
+![構成図](https://github.com/takamuraTK/comic_farm/blob/images/images/2_comic_farm_map.jpg?raw=true)
 
 ## このアプリについて
 好きな漫画を登録したり、共有したり、感想を言い合ったりできるアプリです。  
