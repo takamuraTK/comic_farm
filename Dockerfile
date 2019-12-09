@@ -28,6 +28,10 @@ RUN gem install bundler
 WORKDIR /tmp
 COPY --from=builder /usr/local/bundle /usr/local/bundle
 
+WORKDIR /app/tmp
+RUN mkdir sockets
+RUN mkdir pids
+
 ENV APP_HOME /app
 RUN mkdir -p $APP_HOME
 WORKDIR $APP_HOME
@@ -37,9 +41,5 @@ RUN rm -f tmp/pids/server.pid
 VOLUME /app/public
 VOLUME /app/tmp
 EXPOSE  3000
-WORKDIR /app/tmp
-RUN mkdir sockets
-RUN mkdir pids
-WORKDIR $APP_HOME
 
 CMD bundle exec puma 
