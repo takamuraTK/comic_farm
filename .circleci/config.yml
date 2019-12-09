@@ -87,5 +87,6 @@ workflows:
                 - master            
           family: 'comic-farm-ec2'
           cluster-name: 'comic-farm-EC2'
+          service-name: 'alb-service'
           container-image-name-updates: 'container=comic-farm-rails,tag=${CIRCLE_SHA1},container=comic-farm-nginx,tag=${CIRCLE_SHA1}' 
         
