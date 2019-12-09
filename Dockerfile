@@ -37,5 +37,7 @@ RUN rm -f tmp/pids/server.pid
 VOLUME /app/public
 VOLUME /app/tmp
 EXPOSE  3000
+WORKDIR /app/tmp
+RUN mkdir sockets
 
 CMD bundle exec puma 
