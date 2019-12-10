@@ -15,7 +15,7 @@ module BooksHelper
   def check_results(results)
     results.each do |result|
       book = Book.new(read(result))
-      @books << book unless book.title =~ /コミックカレンダー|(巻|冊|BOX)セット/
+      @books << book unless book.title =~ /カレンダー|(巻|冊|BOX)セット/
     end
     @books
   end
