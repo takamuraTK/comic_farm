@@ -4,7 +4,7 @@ class Book < ApplicationRecord
   before_save :set_series
   validates :title, presence: true
   validate :validate_title
-  validates :author, presence: true
+  validates :author, presence: false
   validates :publisherName, presence: true
   validates :url, presence: true, format: /\A#{URI.regexp(%w[http https])}\z/
   validates :salesDate, presence: true
