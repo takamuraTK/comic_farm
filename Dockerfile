@@ -1,6 +1,6 @@
 # first stage
 FROM ruby:2.5.3-alpine as builder
-RUN apk --update add --virtual=buildings \
+RUN apk --update add --virtual=buildings --no-cache \
     build-base \
     curl-dev \
     mysql-dev \
@@ -18,7 +18,7 @@ RUN apk del buildings
 FROM ruby:2.5.3-alpine
 ENV LANG ja_JP.UTF-8
 ENV TZ=Asia/Tokyo
-RUN apk --update add \
+RUN apk --update add --no-cache \
     bash \
     nodejs \
     mysql-dev \
