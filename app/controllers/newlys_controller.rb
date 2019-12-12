@@ -20,9 +20,8 @@ class NewlysController < ApplicationController
 
   def newfav
     @books = []
-    Time.current.strftime('%Y年%m月')
     current_user.books.group(:series).count.keys.each do |book|
-      comics = Book.where('title LIKE ?', "%#{book}%").where('salesDate LIKE ?', "%#{Time.current.strftime('%Y年%m月')}%")
+      comics = Book.where('series LIKE ?', "%#{book}%").where('salesDate LIKE ?', "%#{Time.current.strftime('%Y年%m月')}%")
       comics.each do |comic|
         @books << comic
       end
