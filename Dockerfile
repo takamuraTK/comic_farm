@@ -5,7 +5,7 @@ RUN apk --no-cache add --virtual=buildings \
     curl-dev=7.64.0-r3 \
     mariadb-connector-c-dev=3.0.8-r0 \
     nodejs=10.14.2-r0 \
-    libxml2-dev=2.9.9-r1
+    libxml2-dev=2.9.9-r2
 RUN gem install bundler:2.0.2
 WORKDIR /tmp
 COPY Gemfile Gemfile
