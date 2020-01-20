@@ -11,8 +11,8 @@ RSpec.describe Book, type: :model do
     expect(FactoryBot.build(:book, title: nil)).to be_invalid
   end
 
-  it 'authorがなければ無効であること' do
-    expect(FactoryBot.build(:book, author: nil)).to be_invalid
+  it 'authorがなくても有効であること' do
+    expect(FactoryBot.build(:book, author: nil)).to be_valid
   end
 
   it 'publisherNameがなければ無効であること' do

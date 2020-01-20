@@ -1,13 +1,12 @@
 # first stage
 FROM ruby:2.5.3-alpine as builder
-RUN apk --update add --virtual=buildings \
-    build-base \
-    curl-dev \
-    mysql-dev \
-    nodejs \
-    libxml2-dev \
-    git
-RUN gem install bundler
+RUN apk --no-cache add --virtual=buildings \
+    build-base=0.5-r1 \
+    curl-dev=7.64.0-r3 \
+    mariadb-connector-c-dev=3.0.8-r0 \
+    nodejs=10.14.2-r0 \
+    libxml2-dev=2.9.9-r1
+RUN gem install bundler:2.0.2
 WORKDIR /tmp
 COPY Gemfile Gemfile
 COPY Gemfile.lock Gemfile.lock
@@ -18,13 +17,13 @@ RUN apk del buildings
 FROM ruby:2.5.3-alpine
 ENV LANG ja_JP.UTF-8
 ENV TZ=Asia/Tokyo
-RUN apk --update add \
-    bash \
-    nodejs \
-    mysql-dev \
-    tzdata \
-    yarn 
-RUN gem install bundler
+RUN apk --no-cache add \
+    bash=4.4.19-r1 \
+    nodejs=10.14.2-r0 \
+    mariadb-connector-c-dev=3.0.8-r0 \
+    tzdata=2019c-r0 \
+    yarn=1.12.3-r0
+RUN gem install bundler:2.0.2
 WORKDIR /tmp
 COPY --from=builder /usr/local/bundle /usr/local/bundle
 
@@ -35,11 +34,15 @@ RUN mkdir pids
 ENV APP_HOME /app
 RUN mkdir -p $APP_HOME
 WORKDIR $APP_HOME
-ADD . $APP_HOME
-ENV RAILS_ENV production
+COPY . $APP_HOME
+ENV RAILS_ENV development
 RUN rm -f tmp/pids/server.pid
 VOLUME /app/public
 VOLUME /app/tmp
 EXPOSE  3000
 
-CMD bundle exec puma 
+#開発環境のみで使用する環境変数2つ
+ENV COMIC_FARM_DATABASE_PASSWORD=password
+ENV COMIC_FARM_DATABASE_HOST=comic_farm_db_1
+
+CMD ["bundle", "exec", "puma"]
