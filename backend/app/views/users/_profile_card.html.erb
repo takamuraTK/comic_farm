@@ -1,0 +1,36 @@
+<div class="card p-1">
+<div class="row no-gutters">
+    <div class="col-lg-5 col-md-12">
+      <% if @user.image? %>
+        <img src="<%= user.image.url %>" style="width:auto; height:250px; max-width:350px;", class="border">
+      <% end %>
+    </div>
+    <div class="col-lg-7">
+      <div class="card-body">
+        
+          <% if @user.admin? %>
+            <b><i class="fa fa-star"></i> 管理者ユーザー</b>
+          <% end %>
+          <div class="row">
+            <span class="col-lg-4 mb-1">名前</span><span class="col-lg-7"><%= user.name %></span>
+          </div>
+          <div class="row">
+            <span class="col-lg-4 mb-1">登録日</span><span class="col-lg-7"><%= user.created_at.strftime('%Y年%m月%d日') %></span>
+          </div>
+          <div class="row">
+            <span class="col-lg-4 mb-1">所持登録数</span><span class="col-lg-7"><%= user.books.count %></span>
+          </div>
+          <div class="row">
+            <span class="col-lg-4 mb-1">お気に入り登録数</span><span class="col-lg-7"><%= user.favbooks.count %></span>
+          </div>
+          <div class="row">
+            <span class="col-lg-4 mb-1">レビュー投稿数</span><span class="col-lg-7"><%= user.reviews.count %></span>
+          </div>
+          <div class="row">
+            <span class="col-lg-4 mb-1">プロフィール文</span><span class="col-lg-7"><%= simple_format(h(@user.profile)) %></span>
+          </div>
+      </div>
+    </div>
+  </div>
+  
+</div>

@@ -1,0 +1,1 @@
+$(".subscribe_book_zone_<%= @book.isbn %>").html("<%= j(render partial: 'sub_button', locals: { isbn: @book.isbn }) %>");

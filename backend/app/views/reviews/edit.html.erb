@@ -1,0 +1,35 @@
+<% if @review.errors.any? %>
+  <div id="error_explanation">
+    <ul>
+      <% @review.errors.full_messages.each do |msg| %>
+        <li><%= msg.sub("Head","レビュー名").sub("Content","レビュー本文") %></li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>
+<h1>レビュー編集ページ</h1>
+
+<%= form_with(model: @review, local: true) do |f| %>
+
+
+  <%= hidden_field_tag :book_id, @review.book.id %>
+  
+  <div class="m-4">
+    <%= f.label :head, 'レビュー名' %>
+    <%= f.text_field :head, class: 'form-control' %>
+  </div>
+  
+  <div class="m-4">
+    <%= f.label :content, 'レビュー本文' %>
+    <%= f.text_area :content, class: 'form-control', size: '20x10' %>
+  </div class="m-2">
+  
+  <div class="m-4">
+    <%= f.label :point, '評価（0~5で評価、小数可）' %>
+    <%= f.number_field :point, step: 0.1, min: 0, max: 5, value: 5, class: 'form-control' %>
+  </div>
+  
+  <%= f.submit '送信する', class: 'btn btn-primary m-4'%>
+<% end %>
+
+<%= link_to '詳細ページに戻る', @review %>

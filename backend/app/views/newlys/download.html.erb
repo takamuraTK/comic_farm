@@ -1,0 +1,47 @@
+<h2 class="mb-5">新刊情報登録</h2>
+<div class="mark mb-3">
+<p>これは管理者用の機能です</p>
+<p>楽天APIから新刊をいちいち検索するのは時間がかかるので、予めここから新刊漫画のデータをDBに登録します。</p>
+</div>
+<%= form_with url: newlys_download_path, method: :get, local: true do |f| %>
+  <div class="form-group row">
+    <%= f.label :publisher_select, '出版社選択', class: "col-lg-2 pt-1" %>
+    <%= f.select :publisher_select, options_for_select(publisher_name_array.map{|c|[c, {}]},params[:publisher_select]),{}, class: 'form-control mb-2 col-lg-10' %>
+  </div>
+  <div class="form-group row">
+    <%= f.label :month, '月選択', class: "col-lg-2 pt-1" %>
+    <% now = Time.current %>
+    <% month_array = [
+      {id: now, name: now.strftime("%Y年%m月")},
+      {id: now.next_month, name: now.next_month.strftime('%Y年%m月')},
+      {id: now.since(2.month), name: now.since(2.month).strftime('%Y年%m月')}
+      ] %>
+    <%= f.select :month, options_for_select(
+      month_array.map{|c|[c[:name], c[:id], {}]},params[:month]),{}, class: 'form-control mb-2 col-lg-10' %>
+    <%= f.submit "DBに登録", class:'btn btn-success btn-block mt-4' %>
+  </div>
+<% end %>
+
+<h3>ダウンロード履歴</h3>
+<% if @downloads.present? %>
+  <ul class="list-group mb-2" >
+  <li class="list-group-item row list-group-item-success" style="width:max">
+    <div class="row">
+      <div class="col-lg-4">出版社名</div>
+      <div class="col-lg-2">月</div>
+      <div class="col-lg-2">冊数</div>
+      <div class="col-lg-4">登録日</div>
+    </div>
+  </li>
+  <% @downloads.each do |download| %>
+      <li class="list-group-item row" style="width:max">
+        <div class="row">
+          <div class="col-lg-4"><%= download.publisherName %></div>
+          <div class="col-lg-2"><%= download.month.in_time_zone.strftime('%Y年%m月') %></div>
+          <div class="col-lg-2"><%= download.counter %>冊</div>
+          <div class="col-lg-4"><%= download.created_at %></div>
+        </div>
+      </li>
+  <% end %>
+  </ul>
+<% end %>

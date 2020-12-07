@@ -1,0 +1,35 @@
+<div class="col-lg-4 col-md-6">
+  <div class="card text-center rounded-0 border-bottom-0 " style="height: 440px; ">
+    <div class="p-0">
+      <h4 class="mt-2"><%= @rank %>位</h4>
+      <% @point = BigDecimal(@book_review_average[book.id].to_s).floor(2).to_f %>
+      <h6 class="text-muted">平均評価 <%= @point %></h6>
+      <%= link_to book_path(book.isbn), target: "_blank" do %>
+        <img src="<%= book.image_url %>" style="width:auto; height:370px; max-width:250px;">
+      <% end %>
+    </div>
+  </div>
+  <div class="card mb-4 rounded-0 border-top-0">
+    <div class="row no-gutters">
+      <div class="card-body w-100">
+          <h5 class="card-title"><%= link_to book.title, book_path(book.isbn), style: 'text-decoration:none;' %></h5>
+          <h6 class="card-subtitle mb-2 text-muted"><%= book.author %></h6>
+          <div class="subscribe_book_zone_<%= book.isbn %>">
+            <%= render 'subscribes/sub_button', isbn: book.isbn %>
+          </div>
+          <div class="favorite_book_zone_<%= book.isbn %>">
+            <%= render 'favorites/fav_button', isbn: book.isbn %>
+          </div>
+          <div class="mt-2">
+            <a href="<%= book.url %>" class="card-link btn-sm btn-dark" target="_blank">楽天</a>
+            <% amazonurl = "http://www.amazon.co.jp/dp/#{change_isbn(book.isbn)}" %>
+            <a href="<%= amazonurl %>" class="card-link btn-sm btn-dark ml-1" target="_blank">Amazon</a>
+            <% unless book.series.nil? %>
+              <%= link_to "検索", {controller: "books", action: "new", title: book.series, sortselect: "+releaseDate"}, class: "card-link btn-sm btn-light border ml-1" %>
+            <% end %>
+          </div>
+      </div>
+    </div>
+  </div>
+</div>
+    

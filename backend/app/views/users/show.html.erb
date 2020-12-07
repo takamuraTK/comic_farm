@@ -1,0 +1,129 @@
+<div class="mb-4"><h2><%= @user.name %>さんのページです</h2></div>
+<%= render 'profile_card', user: @user %>
+<% if @current_user.id == @user.id %>
+  <%= link_to '編集する', edit_user_path %>
+<% end %>
+
+<!--タブボタン部分-->
+<ul class="nav nav-tabs mt-3">
+  <li class="nav-item">
+    <a class="nav-link active text-body" href="#tab1" data-toggle="tab"><i class="fa fa-book"></i> 登録した漫画</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link text-body" href="#tab2" data-toggle="tab"><i class="fa fa-star"></i> お気に入りの漫画</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link text-body" href="#tab3" data-toggle="tab"><i class="fa fa-align-justify"></i> 投稿済みのレビュー</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link text-body" href="#tab4" data-toggle="tab"><i class="fa fa-heart"></i> いいねしたレビュー</a>
+  </li>
+</ul>
+
+<!--タブコンテンツ部分-->
+<div class="tab-content">
+
+  <div id="tab1" class="tab-pane active pt-2">
+  <% if @user.books.present? %>
+  <p>出版社毎に色分けして表示されます。</p>
+  <div class="row">
+    <% @user.books.group(:series).count.sort.each do |comic,count| %>
+      <div class="col-lg-4 col-md-6">
+        <%= form_with url: user_path, method: :get do |f| %>
+          <%= hidden_field_tag :sub_series_title, comic %>
+          <input value="<%= comic %>" type="submit" class="mb-2 btn <%= get_color(comic) %> btn-block text-left d-flex justify-content-between align-items-center" data-toggle="modal" data-target="#Modal">
+        <% end %>
+      </div>
+    <% end %>
+    </div>
+    <% else %>
+      <p>まだ漫画を登録していません。</p>
+    <% end %>
+  </div>
+
+  <div class="modal fade" id="Modal" tabindex="-1" role="dialog" aria-labelledby="Modal" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="Modal">登録漫画</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="閉じる">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p>選択したシリーズで、登録した漫画を表示しています。</p>
+          <p>冊数が多いと、画面の切り替わりに時間がかかる場合があります。</p>
+          <div class="px-3" id="book_series_zone">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">閉じる</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div id="tab2" class="tab-pane pt-2">
+  <% if @user.books.present? %>
+  <p>出版社毎に色分けして表示されます。</p>
+  <div class="row" id="favzone">
+    <% @user.favbooks.group(:series).count.sort.each do |comic,count| %>
+      <div class="col-lg-4 col-md-6">
+        <%= form_with url: user_path, method: :get do |f| %>
+          <%= hidden_field_tag :fav_series_title, comic %>
+          <input value="<%= comic %>" type="submit" class="mb-2 btn <%= get_color(comic) %> btn-block text-left d-flex justify-content-between align-items-center" data-toggle="modal" data-target="#Modalfav">
+        <% end %>
+      </div>
+    <% end %>
+    </div>
+    <% else %>
+      <p>まだ漫画をお気に入り登録していません。</p>
+    <% end %>
+  </div>
+
+  <div class="modal fade" id="Modalfav" tabindex="-1" role="dialog" aria-labelledby="Modal" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="Modal">お気に入り漫画</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="閉じる">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p>選択したシリーズで、お気に入り登録した漫画を表示しています。</p>
+          <p>冊数が多いと、画面の切り替わりに時間がかかる場合があります。</p>
+          <div class="px-3" id="book_series_zone_fav">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">閉じる</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="tab3" class="tab-pane pt-2">
+    <% unless @reviews.empty? %>
+      <% @reviews.each do |review| %>
+        <%= render 'reviews/review_card', review: review %>
+      <% end %>
+    <% else %>
+      <p>まだレビューを書いていません。</p>
+    <% end %>
+  </div>
+
+  <div id="tab4" class="tab-pane pt-2">
+    <% unless @user.favreviews.empty? %>
+    <% favreviews = @user.favreviews.page(params[:page]).per(10) %>
+      <% favreviews.each do |review| %>
+        <%= render 'reviews/review_card', review: review %>
+      <% end %>
+      <%= paginate favreviews %>
+      <% else %>
+      <p>いいねしたレビューはありません。</p>
+    <% end %>
+  </div>
+</div>
+

@@ -1,0 +1,40 @@
+AllCops:
+  # 除外するディレクトリ（自動生成されたファイル）
+  # デフォルト設定にある"vendor/**/*"が無効化されないように記述
+  Exclude:
+    - db/schema.rb
+    - db/migrate/*
+    - vendor/**/*
+    - tmp/**/*
+    - config/environments/*
+    - spec/models/*
+    - app/helpers/users_helper.rb
+
+Rails:
+  Enabled: true
+
+Style/Documentation:
+  Enabled: false
+
+Metrics/LineLength:
+  Enabled: false
+
+# Metrics/ClassLength:
+#   Enabled: false
+
+#日本語コメント許可
+AsciiComments:
+  Enabled: false
+
+# モジュール名::クラス名の許可
+ClassAndModuleChildren:
+  Enabled: false
+
+Metrics/AbcSize:
+  Max: 20
+
+# Windows環境で発生する改行エラーに対応
+# CircleCIでrubocopを利用するときはcrlfをlfに変更しないとエラーが出るらしいので注意
+Layout/EndOfLine:
+  # EnforcedStyle: crlf
+  EnforcedStyle: lf

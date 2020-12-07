@@ -1,0 +1,1 @@
+$(".favorite_book_zone_<%= @book.isbn %>").html("<%= j(render partial: 'fav_button', locals: { isbn: @book.isbn }) %>");

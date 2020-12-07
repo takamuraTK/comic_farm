@@ -1,29 +1,44 @@
 version: '3'
 
 services:
-  web:
-    build: .
+  backend:
+    build: ./backend
     environment:
       RAILS_ENV: development
     volumes:
-      - .:/app
+      - ./backend:/app
       - publics:/app/public
       - tmps:/app/tmp
     ports:
       - "3000:3000"
+    env_file:
+      - ./backend/.env
+    depends_on:
+      - db
+    tty: true
+    stdin_open: true
 
   nginx:
-    build: containers/nginx
+    build: ./nginx
     volumes:
-      - publics:/app/public
+      - ./backend/publics:/app/public
       - tmps:/app/tmp
     ports:
       - 80:80
     depends_on:
-      - web
+      - backend
+
+  db:
+    image: mysql:5.7
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+    ports:
+      - '3306:3306'
+    volumes:
+      - mysql_data:/var/lib/mysql
 
 volumes:
   mysql_data:
   tmps:
   logs:
-  publics: 
+  publics:

@@ -1,0 +1,12 @@
+<% if current_user.checksub?(isbn) %>
+  <% book = Book.find_by(isbn: isbn) %>
+  <%= form_with(model: current_user.subscribes.find_by(book_id: current_user.books.find_by(isbn: book.isbn).id), method: :delete) do |f| %>
+    <%= hidden_field_tag :isbn_id, isbn %>
+    <%= f.submit '所持しています', class: 'btn btn-info w-100 mt-1 mb-1' %>
+  <% end %>
+<% else %>
+  <%= form_with(model: current_user.subscribes.build) do |f| %>
+    <%= hidden_field_tag :isbn_id, isbn %>
+    <%= f.submit '所持登録する', class: 'btn btn-outline-info w-100 mt-1 mb-1' %>
+  <% end %>
+<% end %>

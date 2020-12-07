@@ -9,7 +9,7 @@
 
 # Ignore all logfiles and tempfiles.
 /log/*
-/tmp/*
+tmp/*
 !/log/.keep
 !/tmp/.keep
 
@@ -28,3 +28,8 @@
 
 # Ignore master key for decrypting credentials and more.
 /config/master.key
+
+.env
+
+/publics/*
+/tmps/*

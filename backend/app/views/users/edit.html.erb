@@ -1,0 +1,43 @@
+<h2>プロフィール編集画面</h2>
+<%= form_with model: @user do |f| %>
+  <div class="m-4">
+    <%= f.label :name, '名前' %>
+    <%= f.text_field :name, class: 'form-control' %>
+  </div>
+
+  <div class="m-4">
+    <%= f.label :profile, 'プロフィール文の編集' %>
+    <%= f.text_area :profile, class: 'form-control' %>
+  </div>
+
+  <div class="m-4">
+    <div class="field">
+      <% if @user.image? %>
+        <div class="thumbnail">
+          <%= image_tag @user.image.url, width: '200' %>
+        </div>
+      <% end %><br>
+      <p>サムネイル画像を選択（上限2MB）</p>
+      <%= f.label :image, style: 'display: none' %>
+      <div class="input-group">
+        <label class='input-group-btn'>
+          <span class="btn btn-outline-dark">
+            ファイルを選択
+            <%= f.file_field :image, style: 'display:none' %>
+          </span>
+        </label>
+        <input type="text" class="form-control" readonly="">
+      </div>
+      <script>
+        $(document).on('change', ':file', function() {
+        var input = $(this),
+        numFiles = input.get(0).files ? input.get(0).files.length : 1,
+        label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
+        input.parent().parent().next(':text').val(label);
+        });
+      </script>
+      <%= f.hidden_field :image_cache %>
+    </div>
+    <%= f.submit '更新する', class: 'btn btn-success' %>
+  </div>
+<% end %>
