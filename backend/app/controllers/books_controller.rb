@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class BooksController < ApplicationController
-  before_action :require_sign_in
+  # before_action :require_sign_in
   def new
     @books = []
     @page = params[:pageselect].presence || 1

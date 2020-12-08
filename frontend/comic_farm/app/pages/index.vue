@@ -1,5 +1,5 @@
 <template>
-  <div class="container mt-12">
+  <div class="container">
     ここにコンテンツがきます
   </div>
 </template>
