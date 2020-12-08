@@ -1,22 +1,27 @@
 <template>
-  <div>
-    <h2>subs ranking</h2>
-    <li v-for="book in books.data" :key="book.id">
-      {{ book.title }}
-      {{ book.isbn }}
-      <img class="white--text align-end" height="300px" :src="book.image_url" />
-    </li>
+  <div class="h-full bg-gray-300">
+    <h2 class="text-gray-900 text-base font-extrabold text-xl m-2">登録数ランキング</h2>
+    <div class="flex flex-wrap">
+      <div v-for="book in books.data" :key="book.id" class="m-3">
+        <BookCard :book="book" />
+      </div>
+    </div>
     </li>
   </div>
 </template>
 
 <script>
+import BookCard from "~/components/BookCard.vue";
+
 export default {
   async asyncData({ app }) {
     const books = await app.$axios.$get("http://localhost/ranking/subs");
     return {
       books
     };
+  },
+  components: {
+    BookCard
   }
 };
 </script>
