@@ -34,6 +34,10 @@ class Book < ApplicationRecord
     count || 0
   end
 
+  def get_review_average_point
+    self.reviews.average(:point)
+  end
+
   private
 
   def set_series

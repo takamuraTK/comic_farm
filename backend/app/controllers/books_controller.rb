@@ -24,10 +24,30 @@ class BooksController < ApplicationController
     @book_ranking = Book.where(id: book_subs_ids).order("FIELD(id, #{book_subs_ids.join(',')})").limit(30)
   end
 
+  def api_subs_ranking
+    result = []
+    for book in Book.all do
+      book_hash = book.attributes
+      book_hash["subs"] = book.count_subs
+      result.push(book_hash)
+    end
+    render json: { status: 'SUCCESS', message: 'Loaded subs rankings', data: result }
+  end
+
   def review_ranking
     @book_review_average = Book.joins(:reviews).group(:book_id).average(:point)
     book_review_ids = Hash[@book_review_average.sort_by { |_, v| -v }].keys
     @review_ranking = Book.where(id: book_review_ids).order("FIELD(id, #{book_review_ids.join(',')})").limit(30)
+  end
+
+  def api_review_ranking
+    result = []
+    for book in Book.all do
+      book_hash = book.attributes
+      book_hash["point"] = book.get_review_average_point
+      result.push(book_hash)
+    end
+    render json: { status: 'SUCCESS', message: 'Loaded review rankings', data: result }
   end
 
   private

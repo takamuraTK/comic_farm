@@ -32,4 +32,8 @@ Rails.application.routes.draw do
   get 'newlys/download', to: 'newlys#download'
   get 'newlys', to: 'newlys#search'
   get 'favnews', to: 'newlys#newfav'
+
+  # API routes
+  get 'ranking/subs', to: 'books#api_subs_ranking'
+  get 'ranking/review', to: 'books#api_review_ranking'
 end
