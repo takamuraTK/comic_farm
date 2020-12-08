@@ -1,13 +1,11 @@
 <template>
-  <div class="container">
-    aaa
+  <div class="container mt-12">
+    ここにコンテンツがきます
   </div>
 </template>
 
 <script>
-export default {}
+export default {};
 </script>
 
-<style>
-
-</style>
+<style></style>

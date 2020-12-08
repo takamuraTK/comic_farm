@@ -1,7 +1,7 @@
 <template>
-  <div>
+  <div id="main">
     <TheHeader />
-    <Nuxt />
+    <TheSidebar />
     <TheFooter />
   </div>
 </template>
@@ -9,11 +9,13 @@
 <script>
 import TheHeader from "~/components/TheHeader.vue";
 import TheFooter from "~/components/TheFooter.vue";
+import TheSidebar from "~/components/TheSidebar.vue";
 
 export default {
   components: {
     TheHeader,
-    TheFooter
+    TheFooter,
+    TheSidebar
   }
 };
 </script>
