@@ -13,7 +13,7 @@
 <script>
 export default {
   async asyncData({ app }) {
-    const books = await app.$axios.$get("http://localhost/ranking/review");
+    const books = await app.$axios.$get("/ranking/review");
     return {
       books
     };

@@ -41,6 +41,6 @@ export default {
   },
 
   axios: {
-    baseURL: 'localhost'
+    baseURL: 'http://localhost'
   }
 }

@@ -15,7 +15,7 @@ import BookCard from "~/components/BookCard.vue";
 
 export default {
   async asyncData({ app }) {
-    const books = await app.$axios.$get("http://localhost/ranking/subs");
+    const books = await app.$axios.$get("/ranking/subs");
     return {
       books
     };
