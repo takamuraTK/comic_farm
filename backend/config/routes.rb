@@ -34,6 +34,6 @@ Rails.application.routes.draw do
   get 'favnews', to: 'newlys#newfav'
 
   # API routes
-  get 'ranking/subs', to: 'books#api_subs_ranking'
-  get 'ranking/review', to: 'books#api_review_ranking'
+  get 'v1/ranking/subs', to: 'books#api_subs_ranking'
+  get 'v1/ranking/review', to: 'books#api_review_ranking'
 end
