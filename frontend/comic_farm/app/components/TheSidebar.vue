@@ -34,7 +34,7 @@
             </a>
           </li>
           <li class="mr-3 flex-1">
-            <router-link
+            <nuxt-link
               to="/ranking/subs"
               class="block py-1 md:py-3 pl-1 align-middle text-white no-underline hover:text-white border-b-2 border-blue-600"
             >
@@ -43,10 +43,10 @@
                 class="pb-1 md:pb-0 text-xs md:text-base text-white md:text-white block md:inline-block"
                 >SubsRanking</span
               >
-            </router-link>
+            </nuxt-link>
           </li>
           <li class="mr-3 flex-1">
-            <router-link
+            <nuxt-link
               to="/ranking/review"
               class="block py-1 md:py-3 pl-1 align-middle text-white no-underline hover:text-white border-b-2 border-blue-600"
             >
@@ -55,7 +55,7 @@
                 class="pb-1 md:pb-0 text-xs md:text-base text-gray-600 md:text-gray-400 block md:inline-block"
                 >ReviewRanking</span
               >
-            </router-link>
+            </nuxt-link>
           </li>
         </ul>
       </div>
