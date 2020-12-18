@@ -47,7 +47,7 @@ export default {
   },
 
   axios: {
-    baseURL: 'http://localhost/v1'
+    baseURL: 'http://localhost:3000/v1'
   },
 
   auth: {

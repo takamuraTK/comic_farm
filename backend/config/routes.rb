@@ -38,6 +38,8 @@ Rails.application.routes.draw do
   get 'v1/ranking/review', to: 'books#api_review_ranking'
 
   namespace :v1 do
-    mount_devise_token_auth_for 'User', at: 'auth'
+    mount_devise_token_auth_for 'User', at: 'auth', controllers: {
+      confirmations:  'overrides/confirmations'
+    }
   end
 end

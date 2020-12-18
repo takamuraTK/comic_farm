@@ -42,15 +42,30 @@
         >
           <ul
             class="list-reset flex justify-between flex-1 md:flex-none items-center"
+            v-if="$auth.loggedIn"
           >
             <li class="flex-1 md:flex-none md:mr-3">
               <a
                 class="inline-block text-gray-600 no-underline hover:text-gray-200 hover:text-underline py-2 px-4"
                 href="#"
-                v-if="$auth.loggedIn"
                 @click="$auth.logout()"
                 >ログアウト</a
               >
+            </li>
+          </ul>
+          <ul
+            class="list-reset flex justify-between flex-1 md:flex-none items-cente"
+            v-else
+          >
+            <li class="flex-1 md:flex-none md:mr-3">
+              <nuxt-link to="/users/signin" class="text-gray-600">
+                ログイン
+              </nuxt-link>
+            </li>
+            <li class="flex-1 md:flex-none md:mr-3">
+              <nuxt-link to="/users/signup" class="text-gray-600">
+                新規登録
+              </nuxt-link>
             </li>
           </ul>
         </div>
