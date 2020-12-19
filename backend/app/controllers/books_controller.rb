@@ -3,12 +3,32 @@
 class BooksController < ApplicationController
   # before_action :require_sign_in
   def new
-    @books = []
     @page = params[:pageselect].presence || 1
     return unless params[:title].present?
 
     view_context.search_books(params[:title], params[:sortselect], @page)
     @no_results = '漫画は見つかりませんでした。' if @books.blank?
+  end
+
+  def api_new
+    @books = []
+
+    sort = params[:sort].presence || 'standard'
+    page = params[:pageselect].presence || 1
+
+    return unless params[:title].present?
+
+    view_context.search_books(params[:title], sort, page)
+    unless @books.blank?
+      render json: {
+        success: true,
+        data: @books.as_json
+      }
+    else
+      render json: {
+        success: false
+      }, status: 401
+    end
   end
 
   def show

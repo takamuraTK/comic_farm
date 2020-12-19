@@ -36,6 +36,7 @@ Rails.application.routes.draw do
   # API routes
   get 'v1/ranking/subs', to: 'books#api_subs_ranking'
   get 'v1/ranking/review', to: 'books#api_review_ranking'
+  get 'v1/books', to: 'books#api_new'
 
   namespace :v1 do
     mount_devise_token_auth_for 'User', at: 'auth', controllers: {
