@@ -1,21 +1,21 @@
 <template>
   <div id="main">
-    <TheHeader />
-    <TheSidebar />
-    <TheFooter />
+    <Header />
+    <Sidebar />
+    <Footer />
   </div>
 </template>
 
 <script>
-import TheHeader from "~/components/TheHeader.vue";
-import TheFooter from "~/components/TheFooter.vue";
-import TheSidebar from "~/components/TheSidebar.vue";
+import Header from "~/components/header/Header.vue";
+import Footer from "~/components/footer/Footer.vue";
+import Sidebar from "~/components/sidebar/Sidebar.vue";
 
 export default {
   components: {
-    TheHeader,
-    TheFooter,
-    TheSidebar
-  }
+    Header,
+    Footer,
+    Sidebar,
+  },
 };
 </script>

@@ -3,7 +3,7 @@
     <h2 class="text-gray-900 text-base font-extrabold text-xl m-2">登録数ランキング</h2>
     <div class="flex flex-wrap">
       <div v-for="book in books.data" :key="book.id" class="m-3">
-        <BookCard :book="book" />
+        <Card :book="book" />
       </div>
     </div>
     </li>
@@ -11,7 +11,7 @@
 </template>
 
 <script>
-import BookCard from "~/components/BookCard.vue";
+import Card from "~/components/cards/Card.vue";
 
 export default {
   async asyncData({ app }) {
@@ -21,7 +21,7 @@ export default {
     };
   },
   components: {
-    BookCard
+    Card
   }
 };
 </script>
