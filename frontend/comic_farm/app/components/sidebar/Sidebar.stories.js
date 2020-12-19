@@ -1,15 +1,15 @@
-import Footer from './Footer'
+import Sidebar from './Sidebar'
 
 export default {
-  title: 'Footer',
-  component: Footer,
+  title: 'Sidebar',
+  component: Sidebar,
   parameters: { actions: { argTypesRegex: '.*' } }
 }
 
 const Template = (args, { argTypes }) => ({
   props: Object.keys(argTypes),
-  components: { Footer },
-  template: `<Footer/>`
+  components: { Sidebar },
+  template: `<Sidebar/>`
 })
 
 export const Default = Template.bind({})

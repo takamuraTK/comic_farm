@@ -23,7 +23,7 @@
               placeholder="Search"
               class="w-full bg-gray-900 text-white transition border border-transparent focus:outline-none focus:border-gray-400 rounded py-3 px-2 pl-10 appearance-none leading-normal"
             />
-            <div class="absolute search-icon" style="top: 1rem; left: .8rem;">
+            <div class="absolute search-icon" style="top: 1rem; left: 0.8rem;">
               <svg
                 class="fill-current pointer-events-none text-white w-4 h-4"
                 xmlns="http://www.w3.org/2000/svg"
@@ -42,7 +42,7 @@
         >
           <ul
             class="list-reset flex justify-between flex-1 md:flex-none items-center"
-            v-if="$auth.loggedIn"
+            v-if="this.isLoggedIn"
           >
             <li class="flex-1 md:flex-none md:mr-3">
               <a
@@ -73,3 +73,9 @@
     </nav>
   </div>
 </template>
+
+<script>
+export default {
+  props: ["isLoggedIn"],
+};
+</script>
