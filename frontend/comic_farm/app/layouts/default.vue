@@ -1,6 +1,6 @@
 <template>
   <div id="main">
-    <Header :is-logged-in="$auth.loggedIn" />
+    <Header :is-logged-in="$auth.loggedIn" @logout="$auth.logout()" />
     <Sidebar />
     <Footer />
   </div>

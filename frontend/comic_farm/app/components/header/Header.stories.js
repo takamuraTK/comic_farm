@@ -3,7 +3,11 @@ import Header from './Header'
 export default {
   title: 'Header',
   component: Header,
-  parameters: { actions: { argTypesRegex: '.*' } }
+  argTypes: {
+    logout: {
+      action: 'logout'
+    }
+  }
 }
 
 const Template = (args, { argTypes }) => ({
@@ -11,6 +15,7 @@ const Template = (args, { argTypes }) => ({
   components: { Header },
   template: `
     <Header
+      @logout="logout"
       v-bind="$props"
     />
   `
